@@ -274,6 +274,7 @@ event ObjectDraw
 
 		DrawSpriteScreenFX(23, FX_SCALE, screen.xcenter, screen.ycenter)		
 		object.scale = 2048
+		object.scale += 2
 	end if
 
 

@@ -989,7 +989,7 @@ event ObjectMain
 	
 	if PlayerHealth < 3
 		object.value12++
-		if object.value12 == 350
+		if object.value12 == 450
 			PlayerHealth += 1
 			object.value12 = 0
 		end if	
@@ -1063,6 +1063,16 @@ event ObjectMain
 		end if
 		
 	
+		// Gravity of 0.125 per frame
+		SSSonic.YVelocity -= 0x1800
+		
+		SSSonic.YPos += SSSonic.YVelocity
+		
+		// Touched the ground?
+		if SSSonic.YPos < 0
+			SSSonic.YPos = 0
+			
+		end if
 		
 
 		
@@ -1563,7 +1573,7 @@ event ObjectMain
 		PlayerHealth -= 1
 		PlaySfx(SfxName[Hurt], 0)
 		SSonic.invulnerable = 80
-		SSSonic.State     = SSONIC_IDLE
+		
 
 		// Gravity of 0.125 per frame
 		SSSonic.YVelocity -= 0x1800
@@ -1585,6 +1595,7 @@ event ObjectMain
 		
 		end if
 
+		SSSonic.State     = SSONIC_IDLE
 
 
 	break

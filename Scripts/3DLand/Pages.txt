@@ -12,6 +12,9 @@ private alias Object.Value4 : Object.ScreenXPos // Difference from the center of
 private alias Object.Value5 : Object.ScreenDepth
 private alias Object.Value6 : Object.PositionZ
 
+private alias Object.Value8 : Object.DoesExist
+
+
 // HUD Alias
 private alias Object.Value0 : HUD.PageCount       // Initially set via a loop in the UFO script
 private alias Object.Value1 : HUD.TimeSeconds     // Displayed time
@@ -92,6 +95,8 @@ event ObjectMain
 			end if
 		end if
 	next
+
+
 
 
 end event
@@ -176,6 +181,16 @@ event ObjectStartup
 			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
 			
 			Object[4].Value0++
+	
+			if Object[4].Value0 >= 6
+				rand(checkResult, 2)
+				if checkResult <= 0
+					object[ArrayPos0].type = TypeName[Blank Object]
+				else
+					Object[4].Value0--
+				end if
+			end if	
+			
 		
 		end if
 		

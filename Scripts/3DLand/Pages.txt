@@ -13,7 +13,7 @@ private alias Object.Value5 : Object.ScreenDepth
 private alias Object.Value6 : Object.PositionZ
 
 // HUD Alias
-private alias Object.Value0 : HUD.UFOsCount       // Initially set via a loop in the UFO script
+private alias Object.Value0 : HUD.PageCount       // Initially set via a loop in the UFO script
 private alias Object.Value1 : HUD.TimeSeconds     // Displayed time
 private alias Object.Value3 : HUD.Rings
 private alias Object.Value4 : HUD.LastUFOType     // Used by UFOs for ring streak bonus
@@ -41,13 +41,8 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
-public value PlayerHealth = 3;
 
 event ObjectMain
-
-	if PlayerHealth == 0
-		object.type = TypeName[Blank Object]
-	end if
 	
 	// Check player interaction in this (rather lengthy) process
 	
@@ -78,99 +73,25 @@ event ObjectMain
 	Object.ScreenDepth = temp2
 	Object.ScreenDepth += temp3
 	Object.ScreenDepth >>= 9
-	
-	//hunting code
-
-	Object.XPos += Object.XVelocity
-	Object.ZPos += Object.ZVelocity
 
 
-	if Object[20].Type == TypeName[Blank Object]	
-
-	// Long list of checks for the hitbox detection
-	
-	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
-
-		CheckGreater(object.xpos, object[arrayPos2].xpos)
-		temp0 = checkResult
-		if temp0 == 1		//right
-			if Object.XVelocity > 0
-				Object.XVelocity -= 0x2000	//right
-				if Object.XVelocity > 0x30000
-				Object.XVelocity = 0x30000
-				end if
-			else
-				Object.XVelocity -= 0x1500	//left?? i have no clue
-				if Object.XVelocity > 0x30000
-				Object.XVelocity = 0x30000
-				end if			
-			end if
-		else	//left
-			if Object.XVelocity < 0
-				Object.XVelocity += 0x2000
-				if Object.XVelocity > 0x30000
-				Object.XVelocity = 0x30000
-				end if		
-			else
-				Object.XVelocity += 0x1500
-				if Object.XVelocity > 0x30000
-				Object.XVelocity = 0x30000
-				end if								
-			end if
-		end if
-	
-
-
-		CheckGreater(object.ZPos, object[arrayPos2].Value0)
-		temp0 = checkResult
-		if temp0 == 1		//right
-			if Object.ZVelocity > 0
-				Object.ZVelocity -= 0x2000	//right
-				if Object.ZVelocity > 0x30000
-				Object.ZVelocity = 0x30000
-				end if
-			else
-				Object.ZVelocity -= 0x1500	//left?? i have no clue
-				if Object.ZVelocity > 0x30000
-				Object.ZVelocity = 0x30000
-				end if			
-			end if
-		else	//left
-			if Object.ZVelocity < 0
-				Object.ZVelocity += 0x2000
-				if Object.ZVelocity > 0x30000
-				Object.ZVelocity = 0x30000
-				end if		
-			else
-				Object.ZVelocity += 0x1500
-				if Object.ZVelocity > 0x30000
-				Object.ZVelocity = 0x30000
-				end if								
-			end if
-		end if
-
-		
 		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
 		if Object.ScreenDepth < 0x18C8
 			if Object.ScreenDepth > 0x1094
-
+				
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 				if Object.ScreenXPos > -0x2000
 					if Object.ScreenXPos < 0x2000
-
-						if object[2].value13 <= 0
-							object[2].state = 14
-						end if
-
+						object[2].speed = 10000
 					end if
 				end if
 			end if
 		end if
 	next
 
-	end if
+
 end event
 
 
@@ -179,7 +100,7 @@ event ObjectDraw
 		
 		// Do some maths to find the position & scale the UFO should be at
 		
-		Object.Scale = 0xC00000
+		Object.Scale = 0x2000000
 		Object.Scale /= Object.ScreenDepth
 		
 		temp0 = 768
@@ -207,7 +128,7 @@ event ObjectDraw
 		temp1 += 128
 		
 		// Draw the UFO now
-		DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
+		
 		
 		// Find the ground position
 		temp1 = TileLayer[0].YPos
@@ -216,11 +137,12 @@ event ObjectDraw
 		temp1 /= Object.ScreenDepth
 		temp1 += 128
 		
-		// Draw the shadow on the ground
 		DrawSpriteScreenFX(3, FX_SCALE, temp0, temp1)
 		
-	end if
 
+		DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+		
+	end if
 	
 end event
 
@@ -231,27 +153,27 @@ event ObjectStartup
 	
 	// UFO Frames
 	
-	// 0 - SLENDERMAN!!
-	SpriteFrame(-30, -82, 63, 112, 339, 1)
+	// 0 - 10 Rings Variant
+	SpriteFrame(-40, -110, 80, 112, 258, 1)
 	
 	// 1 - Speed Shoes Variant
-	SpriteFrame(-40, -28, 80, 56, 82, 1)
+	SpriteFrame(-15	, -28, 32, 32, 257, 181)
 	
 	// 2 - Extra Time Variant
 	SpriteFrame(-40, -28, 80, 56, 163, 1)
 	
 	// 3 - UFO Shadow Frame
 	SpriteFrame(-40, -8, 80, 16, 1, 117)
-
-	
 	
 	// Cycle through all UFO objects in the scene and set them up
 	ArrayPos0 = 32
 	while ArrayPos0 < 1056
-		if Object[ArrayPos0].Type == TypeName[UFO]
+		if Object[ArrayPos0].Type == TypeName[Pages]
 			
 			// Set the UFO to always be active
 			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
+			
+			Object[4].Value0++
 		
 		end if
 		

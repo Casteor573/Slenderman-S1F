@@ -42,6 +42,8 @@ private alias 1 : PRIORITY_ACTIVE
 // Tile Layer Types
 private alias 4 : LAYER_3DSKY
 
+reserve function Freakyness
+
 
 event ObjectMain
 	scene3D.vertexCount = 0
@@ -53,7 +55,7 @@ event ObjectMain
 	if Oscillation == 512
 		Oscillation = 0
 	end if
-	
+
 end event
 
 
@@ -99,7 +101,7 @@ event ObjectStartup
 	// -> This way, it'll render in high-quality mode if possible, as opposed to the "3d Floor" type
 	TileLayer[0].Type = 3
 	
-	
+
 	Stage.PauseEnabled = false
 	
 	// Origins changed this up a bit - before, Time would always be disabled, but Origins makes it enabled for standard play
@@ -129,7 +131,11 @@ event ObjectStartup
 		ArrayPos0++
 	loop
 	
-	
+
+	scene3D.projectionX = 216
+	scene3D.projectionY = 216
+	scene3D.fogStrength = 80
+	scene3D.fogColor = 0	
 	
 end event
 

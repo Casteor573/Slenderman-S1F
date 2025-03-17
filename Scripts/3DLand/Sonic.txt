@@ -959,13 +959,7 @@ event ObjectMain
 	end if
 
 
-	if PlayerHealth < 3
-		object.value2++
-		if object.value2 == 300
-			PlayerHealth += 1
-			object.value2 = 0
-		end if	
-	end if
+
 
 
 	if SSonic.invulnerable > 0
@@ -993,6 +987,14 @@ event ObjectMain
 	end if
 
 	
+	if PlayerHealth < 3
+		object.value12++
+		if object.value12 == 350
+			PlayerHealth += 1
+			object.value12 = 0
+		end if	
+	end if
+
 	switch SSSonic.State
 	case SSSONIC_INTROPOSE
 		CallFunction(Sonic_ProcessAnimation)
@@ -1665,6 +1667,7 @@ event ObjectDraw
 
 		DrawSpriteScreenXY(3, Screen.xcenter, temp0)		
 	end if
+
 end event
 
 
@@ -1732,6 +1735,7 @@ event ObjectStartup
 	SpriteFrame(-30, -32, 63, 112, 339, 1)
 
 	SpriteFrame(-24, -30, 88, 88, 0, 413) //33	
+
 
 end event
 

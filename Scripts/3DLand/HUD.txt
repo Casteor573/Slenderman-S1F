@@ -14,7 +14,10 @@ private alias 1 : PRIORITY_ACTIVE
 
 public value UseFlashlight = 0;
 public value MouseEnabled = 0;
-public value FlashBattery = 6000;
+public value FlashBattery = 5000;
+
+
+private alias Object.Value0 : Object.PageCount 
 
 private alias object.value2 : bg.scroll
 
@@ -91,6 +94,7 @@ event ObjectDraw
 			if inputdown[2].buttonY == 0
 				DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
 			else
+			
 				if inputpress[2].buttonY == 1
 					PlaySfx(SfxName[Flashlight], 0)
 				end if
@@ -222,6 +226,30 @@ event ObjectDraw
 	end if
 
 
+
+	// Find the initial X Position to draw the HUD elements
+	temp1 = Screen.xcenter
+	temp1 -= 108
+	
+	// Draw the "UFO" graphic
+	DrawSpriteScreenXY(10, temp1, 20)
+	
+	// Draw the first digit of the UFOs counter
+	temp0 = Object.PageCount
+	temp0 /= 10
+	temp1 += 24
+	DrawSpriteScreenXY(temp0, temp1, 21)
+	
+	// Draw the second digit of the UFOs counter
+	temp0 = Object.PageCount
+	temp0 %= 10
+	temp1 += 8
+	DrawSpriteScreenXY(temp0, temp1, 21)
+
+	music.volume = 35
+
+	
+
 	//jumpscare
 
 	if object[2].state == 13
@@ -246,12 +274,8 @@ event ObjectDraw
 
 		DrawSpriteScreenFX(23, FX_SCALE, screen.xcenter, screen.ycenter)		
 		object.scale = 2048
-		
-	
-
 	end if
 
-	music.volume = 25
 
 
 end event
@@ -272,6 +296,8 @@ event ObjectStartup
 	
 	
 	SetMusicTrack("ambience.ogg", 0, false)
+	SetMusicTrack("RobloxHorror.ogg", 1, false)
+
 
 	// 0-9 - Numbers 0-9
 	SpriteFrame(0, 0, 8, 13, 206, 84)
@@ -323,7 +349,7 @@ event ObjectStartup
 
 
 	// 23 - SLENDERMAN!!
-	SpriteFrame(-30, -32, 63, 112, 339, 1)
+	SpriteFrame(-30, -24, 63, 112, 339, 1)
 
 
 	SpriteFrame(-34, -30, 68, 30, 0, 412) //107 Static

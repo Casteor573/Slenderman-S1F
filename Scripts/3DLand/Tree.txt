@@ -173,20 +173,7 @@ event ObjectStartup
 			// Set the UFO to always be active
 			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
 			
-			if Object[ArrayPos0].PropertyValue < 2
-				
-				// Increase the UFO count
-				HUD[4].UFOsCount++
-				
-			else
-				
-				// Bonus UFO Spawn point, delete the UFO for right now and store its EntityPos into the HUD value
-				// (We need to make sure the Time UFO is spawned in the correct slot because of its Nodes)
-				
-				Object[ArrayPos0].Type = TypeName[Blank Object]
-				HUD[4].BonusUFONo = ArrayPos0
-				
-			end if
+		
 		end if
 		
 		ArrayPos0++

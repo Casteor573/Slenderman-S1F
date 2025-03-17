@@ -610,20 +610,39 @@ function Sonic_HandleTileInteractions
 	Get16x16TileInfo(CheckResult, temp0, temp1, TILEINFO_ANGLEA)
 	switch CheckResult
 	case 1
-	
+		// Offroad tile, slow down Sonic and kick up some dust
+		Object[3].Type = TypeName[Dust Puff]
+		
+		// Note that we're giving it a Draw Order of 4, not only does this make it draw above Sonic but
+		//  more importantly this makes it so that it won't be treated as a 3d object
+		Object[3].DrawOrder = 4
+		
+		if HUD[4].SpeedShoes == 0
+			if SSSonic.Speed > 0x28000
+				// While on dust without speed shoes, the maximum speed is 2.5 px per frame
+				SSSonic.Speed = 0x28000
+			end if
+		else
+			if SSSonic.Speed > 0x50000
+				// While on dust *with* speed shoes, the maximum speed is now bumped up to 5 px per frame
+				SSSonic.Speed = 0x50000
+			end if
+		end if
 		break
 		
 	case 2
 		// Water tile, slow down the player and make a splash
-		Object[3].Type = TypeName[Dust Puff]
+		Object[3].Type = TypeName[WaterSplash]
 		Object[3].DrawOrder = 4
 		
 		// Give the water splash a Z Pos of just a tad bit lower than Sonic, in order to make it draw behind him
 		Object[3].ScreenDepth = 0x57FE
 		
-		if SSSonic.Speed > 0x50000
-			// While on dust *with* speed shoes, the maximum speed is now bumped up to 5 px per frame
-			SSSonic.Speed = 0x50000
+		if HUD[4].SpeedShoes > 0
+			if SSSonic.Speed > 0x50000
+				// If Sonic has speed shoes, then enforce a max speed of 5px per frame
+				SSSonic.Speed = 0x50000
+			end if
 		end if
 		break
 		
@@ -956,15 +975,6 @@ event ObjectMain
 	// Update Speed Shoes, the value's stored within the HUD object for whatever reason
 	if HUD[4].SpeedShoes > 0
 		HUD[4].SpeedShoes--
-	end if
-
-
-	if PlayerHealth < 3
-		object.value2++
-		if object.value2 == 300
-			PlayerHealth += 1
-			object.value2 = 0
-		end if	
 	end if
 
 

@@ -183,13 +183,46 @@ event ObjectDraw
 		DrawSpriteScreenXY(22, screen.xcenter, screen.ycenter)
 	end if	
 
-	if PlayerHealth == 3
+	//HEALTH
 
+	temp1 = screen.xcenter
+	temp1 -= 0x90
+	temp2 = screen.ycenter
+	temp2 -= 0x50
+
+	DrawSpriteScreenXY(35, temp1, temp2)
+
+	if PlayerHealth >= 3
+		DrawSpriteScreenXY(34, temp1, temp2)
 	end if
 
+	temp1 += 0x18
+
+	DrawSpriteScreenXY(35, temp1, temp2)
+
+	if PlayerHealth >= 2
+		DrawSpriteScreenXY(34, temp1, temp2)
+	end if
+
+	temp1 += 0x18
+
+	DrawSpriteScreenXY(35, temp1, temp2)
+
+	if PlayerHealth >= 1
+		DrawSpriteScreenXY(34, temp1, temp2)
+	end if
+
+
+
+
+
+	//touch controls
 	if saved.mobile == 1
 		CallFunction(TouchControls)
 	end if
+
+
+	//jumpscare
 
 	if object[2].state == 13
 
@@ -308,8 +341,8 @@ event ObjectStartup
 
 
 	// lazy filler
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//34
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//35
+	SpriteFrame(-48, -24, 20, 24, 52, 59) //34 ring
+	SpriteFrame(-48, -23, 20, 22, 83, 180) //35 ring
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//36
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//37
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//38

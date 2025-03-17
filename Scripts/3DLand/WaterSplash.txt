@@ -20,7 +20,49 @@ private alias 6 : TILEINFO_ANGLEA
 
 
 event ObjectDraw
-
+	if SSSonic[2].YPos > 0
+		// If Sonic's in the air, he certainly isn't splashing around anymore so unload
+		ResetObjectEntity(3, TypeName[Blank Object], 0, 0, 0)
+	else
+		
+		// Find the player's truncated X and Z pos
+		
+		temp0 = SSSonic.XPos
+		temp0 >>= 16
+		
+		temp1 = SSSonic[-1].ZPos
+		temp1 >>= 16
+		
+		// Get the tile type Sonic's currently standing on
+		Get16x16TileInfo(CheckResult, temp0, temp1, TILEINFO_ANGLEA)
+		
+		// Is it a water tile?
+		if CheckResult == 2
+			
+			if Object.Frame == 0
+			
+				
+		
+			end if
+			
+			// Animate the object
+			Object.Frame++
+			if Object.Frame == 40
+				Object.Frame = 28
+			end if
+			
+			// Get the frame it should draw
+			temp0 = Object.Frame
+			temp0 >>= 2
+			
+			// Draw the sprite around the center of the screen
+			DrawSpriteScreenXY(temp0, Screen.xcenter, 224)
+			
+		else
+			// Sonic's not on a water tile, erase the Water Splash object
+			ResetObjectEntity(3, TypeName[Blank Object], 0, 0, 0)
+		end if
+	end if
 	
 end event
 

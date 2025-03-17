@@ -84,7 +84,9 @@ event ObjectMain
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 				if Object.ScreenXPos > -0x2000
 					if Object.ScreenXPos < 0x2000
-						object[2].speed = 10000
+						Object[4].Value0--
+						playsfx(SfxName[Page Collect], 0)
+						object.type = TypeName[Blank Object]
 					end if
 				end if
 			end if

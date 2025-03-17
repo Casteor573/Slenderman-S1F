@@ -63,7 +63,7 @@ event ObjectDraw
 	loop	
 
 	object.InkEffect = INK_ALPHA
-	object.alpha = 128
+	object.alpha = 96
 
 	
 end event

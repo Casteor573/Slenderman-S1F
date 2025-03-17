@@ -187,7 +187,7 @@ event ObjectDraw
 
 	end if
 
-	if saved.mobile == 0
+	if saved.mobile == 1
 		CallFunction(TouchControls)
 	end if
 

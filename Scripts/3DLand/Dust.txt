@@ -1,0 +1,61 @@
+//------------------Sonic CD DustPuff Script------------------//
+//--------Scripted by Christian Whitehead 'The Taxman'--------//
+//-------Unpacked By Rubberduckycooly's Script Unpacker-------//
+
+// Aliases
+private alias Object.Value0 : Object.Timer
+
+// Property Values
+private alias 0 : DUSTPUFF_SPAWNER
+private alias 1 : DUSTPUFF_CHILD
+
+// Player aliases
+private alias object.XPos   : SSSonic.XPos
+private alias object.ypos   : SSSonic.YPos
+private alias Object.Value0 : SSSonic.ZPos
+
+// Stage SFX
+private alias 0 : SFX_S_GRITTYGROUND
+
+// Tile Info
+private alias 6 : TILEINFO_ANGLEA
+
+
+event ObjectMain
+	ResetObjectEntity(3, TypeName[Blank Object], 0, 0, 0)
+end event
+
+
+event ObjectDraw
+end event
+
+
+event ObjectStartup
+	
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	
+	// Dust Puff Frames
+	SpriteFrame(-5, -4, 10, 8, 27, 58)
+	SpriteFrame(-5, -4, 11, 8, 10, 58)
+	SpriteFrame(-4, -4, 8, 8, 1, 58)
+	
+end event
+
+
+// ========================
+// Editor events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	SpriteFrame(-5, -4, 10, 8, 27, 58)
+	
+	// Although it's used by the Object, it's not to be set from the editor
+	// (This Object shouldn't be placed into a scene directly at all, really...)
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

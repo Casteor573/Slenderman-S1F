@@ -1,0 +1,61 @@
+//----------------Sonic CD WaterSplash Script-----------------//
+//--------Scripted by Christian Whitehead 'The Taxman'--------//
+//-------Unpacked By Rubberduckycooly's Script Unpacker-------//
+
+// Aliases
+
+// HUD Alias
+private alias Object.Value7 : HUD.WaterTimer
+
+// Player Alises
+private alias object.XPos : SSSonic.XPos
+private alias object.ypos : SSSonic.YPos
+private alias Object.Value0 : SSSonic.ZPos
+
+// Stage SFX
+private alias 1 : SFX_S_WATERSPLASH
+
+// Tile Info
+private alias 6 : TILEINFO_ANGLEA
+
+
+event ObjectDraw
+
+	
+end event
+
+
+event ObjectStartup
+	
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	
+	// Water Splash Frames
+	SpriteFrame(-20, -32, 40, 32, 1, 84)
+	SpriteFrame(-20, -32, 40, 32, 42, 84)
+	SpriteFrame(-20, -32, 40, 32, 83, 84)
+	SpriteFrame(-20, -48, 40, 48, 124, 58)
+	SpriteFrame(-20, -64, 40, 64, 165, 58)
+	SpriteFrame(-20, -8, 40, 8, 124, 107)
+	SpriteFrame(-20, -8, 40, 8, 124, 116)
+	SpriteFrame(-20, -32, 40, 32, 42, 84)
+	SpriteFrame(-20, -32, 40, 32, 83, 84)
+	SpriteFrame(-20, -32, 40, 32, 1, 84)
+	
+end event
+
+
+// ========================
+// Editor events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	SpriteFrame(-20, -32, 40, 32, 42, 84)
+
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

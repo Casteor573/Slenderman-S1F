@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<game xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <title name="Sonic 1 Forever" />
+  <palette />
+  <objects />
+  <variables>
+    <variable name="slemderman" value="0" />
+  </variables>
+  <sounds>
+    <soundfx name="Flashlight" path="Global/fnaf_flashlight.wav" />
+    <soundfx name="Error" path="Global/error.wav" />
+    <soundfx name="NULL" path="Global/NullEnd.wav" />	
+  </sounds>
+  <players />
+  <presentationStages />
+  <regularStages />
+  <specialStages />
+  <bonusStages>
+    <stage name="SLENDERMAN" folder="SS1" id="0" highlight="true" />
+  </bonusStages>
+</game>

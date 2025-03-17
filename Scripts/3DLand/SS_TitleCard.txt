@@ -114,7 +114,7 @@ event ObjectDraw
 	case TITLECARD_DISPLAY
 		// Hold for a moment to let the Player see what a nice Title Card this is
 		
-		if Object.Timer == 100
+		if Object.Timer == 200
 			// Time's up, start sliding out!
 			Object.State = TITLECARD_SLIDEOUT
 		else

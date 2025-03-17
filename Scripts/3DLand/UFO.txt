@@ -97,7 +97,7 @@ event ObjectMain
 		temp0 = checkResult
 		if temp0 == 1		//right
 			if Object.XVelocity > 0
-				Object.XVelocity -= 0x2000	//right
+				Object.XVelocity -= 0x3000	//right
 				if Object.XVelocity > 0x30000
 				Object.XVelocity = 0x30000
 				end if
@@ -109,7 +109,7 @@ event ObjectMain
 			end if
 		else	//left
 			if Object.XVelocity < 0
-				Object.XVelocity += 0x2000
+				Object.XVelocity += 0x3000
 				if Object.XVelocity > 0x30000
 				Object.XVelocity = 0x30000
 				end if		
@@ -127,7 +127,7 @@ event ObjectMain
 		temp0 = checkResult
 		if temp0 == 1		//right
 			if Object.ZVelocity > 0
-				Object.ZVelocity -= 0x2000	//right
+				Object.ZVelocity -= 0x3000	//right
 				if Object.ZVelocity > 0x30000
 				Object.ZVelocity = 0x30000
 				end if
@@ -139,7 +139,7 @@ event ObjectMain
 			end if
 		else	//left
 			if Object.ZVelocity < 0
-				Object.ZVelocity += 0x2000
+				Object.ZVelocity += 0x3000
 				if Object.ZVelocity > 0x30000
 				Object.ZVelocity = 0x30000
 				end if		
@@ -171,6 +171,10 @@ event ObjectMain
 	next
 
 	end if
+
+
+
+
 end event
 
 

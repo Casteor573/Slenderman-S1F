@@ -9,10 +9,9 @@
   <sounds>
     <soundfx name="Flashlight" path="Global/fnaf_flashlight.wav" />
     <soundfx name="Error" path="Global/error.wav" />
-    <soundfx name="NULL" path="Global/NullEnd.wav" />	
-
-    <soundfx name="Ambience" path="Global/ambience.wav" />	
-    <soundfx name="Creepy" path="Global/creepy_sound.wav" />	        
+    <soundfx name="NULL" path="Global/NullEnd.wav" />
+    <soundfx name="Ambience" path="Global/ambience.wav" />
+    <soundfx name="Creepy" path="Global/creepy_sound.wav" />
   </sounds>
   <players />
   <presentationStages />

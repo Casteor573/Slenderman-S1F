@@ -42,6 +42,11 @@ private alias 1 : PRIORITY_ACTIVE
 // Tile Layer Types
 private alias 4 : LAYER_3DSKY
 
+public value MBZSetup_value31 = 0;
+public value MBZSetup_value30 = 0;
+public value MBZSetup_value29 = 0;
+public value MBZSetup_value28 = 0;
+
 reserve function Freakyness
 
 
@@ -54,6 +59,36 @@ event ObjectMain
 	Oscillation++
 	if Oscillation == 512
 		Oscillation = 0
+	end if
+
+
+	MBZSetup_value31++
+	
+	if MBZSetup_value31 == MBZSetup_value30 
+		MBZSetup_value29 = 16
+		PlaySfx(SfxName[Thunder], 0)
+		MBZSetup_value31 = 0		
+		Rand(MBZSetup_value30, 1000)
+		MBZSetup_value30 += 200
+	end if
+		
+	temp1 = 0
+	if MBZSetup_value29 > 0
+		MBZSetup_value29--
+		temp0 = MBZSetup_value29
+		temp0 /= 4
+		temp0 %= 2
+		if temp0 == 0
+			temp1 = 1
+		end if
+	end if
+	
+	if temp1 == 1
+		//lightning colours
+		CopyPalette(0, 154, 0, 208, 4)
+	else
+		//regular colours
+		CopyPalette(0, 213, 0, 208, 4)
 	end if
 
 end event
@@ -87,6 +122,8 @@ event ObjectDraw
 		
 		temp0++
 	loop
+
+	
 	
 end event
 
@@ -114,6 +151,10 @@ event ObjectStartup
 	Object[23].Type = TypeName[Special Setup]
 	Object[23].Priority = PRIORITY_ACTIVE
 	
+
+	Rand(MBZSetup_value30, 1000)
+	MBZSetup_value30 += 200
+
 	// Give it a draw order lower right before the primary one, to make sure it can sort all the upcoming 3d entities correctly
 	Object[23].DrawOrder = 2
 	

@@ -1,0 +1,106 @@
+//---------------Sonic CD Special Setup Script----------------//
+//--------Scripted by Christian Whitehead 'The Taxman'--------//
+//-------Unpacked By Rubberduckycooly's Script Unpacker-------//
+
+// Aliases
+
+// Universal
+private alias Object.Value5 : Object.ScreenDepth
+
+// HUD Alias
+private alias Object.Value0 : HUD.UFOsCount
+private alias Object.Value1 : HUD.TimeSeconds
+private alias Object.Value2 : HUD.TimeFrames
+private alias Object.Value6 : HUD.BonusUFONo // "No" akin to Entity No, not as in "is there no UFO?"
+private alias Object.Value7 : HUD.WaterTimer
+
+// UFO Alias
+private alias Object.YPos : Object.ZPos
+
+private alias Object.Value3 : rain.scroll
+// SSSonic Aliases
+private alias object.controlmode : SSSonic.ControlMode
+
+// ControlMode Aliases
+private alias -1 : CONTROLMODE_NONE
+
+// Stage Finish State Aliases
+private alias 9 : STAGEFINISH_LOADLEVELSELECT
+
+// Game Mode Aliases
+private alias 2 : MODE_TIMEATTACK
+
+// Stage SFX
+private alias 5 : SFX_S_TIMEUFO
+private alias 7 : SFX_S_DROWNALERT
+
+// Soundtrack
+private alias 0 : OST_JP
+
+// Priority
+private alias 1 : PRIORITY_ACTIVE
+
+// Tile Layer Types
+private alias 4 : LAYER_3DSKY
+
+
+event ObjectMain
+
+end event
+
+
+event ObjectDraw
+	rain.scroll++
+	rain.scroll &= 31
+	temp0 = rain.scroll
+	while temp0 < screen.ysize
+		temp1 = 0
+		while temp1 < screen.xsize
+			DrawSpriteScreenFX(0, FX_INK, temp1, temp0)
+			temp1 += 64		
+		loop
+		temp0 += 64
+	loop	
+
+	object.InkEffect = INK_ALPHA
+	object.alpha = 128
+
+	
+end event
+
+
+event ObjectStartup
+	
+	// Despite not having any SpriteFrames to draw with, go ahead and load the Special Stage objects sheet anyway
+	// (It doesn't make much of a difference but hey, may as well anyway!)
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	
+	// 1 - Standing Frame
+	SpriteFrame(-20, -24, 64, 64, 447, 190)
+
+	Object[32].Type = TypeName[Rain Effect]
+	Object[32].Priority = PRIORITY_ACTIVE
+
+
+	// Give it a draw order lower right before the primary one, to make sure it can sort all the upcoming 3d entities correctly
+	Object[32].DrawOrder = 4
+
+	
+end event
+
+
+// ========================
+// Editor events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143) // "Script" Box
+
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

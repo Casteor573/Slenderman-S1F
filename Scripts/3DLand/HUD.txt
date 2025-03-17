@@ -218,7 +218,7 @@ event ObjectDraw
 
 	end if
 
-	
+	music.volume = 40
 
 
 end event
@@ -238,6 +238,8 @@ event ObjectStartup
 	Object[4].DrawOrder = 6
 	
 	
+	SetMusicTrack("ambience.ogg", 0, false)
+
 	// 0-9 - Numbers 0-9
 	SpriteFrame(0, 0, 8, 13, 206, 84)
 	SpriteFrame(0, 0, 8, 13, 215, 84)

@@ -1693,7 +1693,18 @@ event ObjectDraw
 	if object.visible == 1
 		DrawSpriteScreenXY(2, Screen.xcenter, temp0)	
 
-		DrawSpriteScreenXY(3, Screen.xcenter, temp0)		
+		switch stage.playerlistpos
+		case 1
+			temp1 = 4
+		break
+		case 2
+			temp1 = 5
+		break				
+		default
+			temp1 = 3
+		break			
+		end switch	
+		DrawSpriteScreenXY(temp1, Screen.xcenter, temp0)		
 	end if
 
 end event
@@ -1759,10 +1770,11 @@ event ObjectStartup
 	// 3 - flash hand
 	SpriteFrame(-160, 140, 96, 97, 98, 415)	
 
-	// 23 - SLENDERMAN!!
-	SpriteFrame(-30, -32, 63, 112, 339, 1)
+	// 4 tails hand
+	SpriteFrame(-160, 140, 96, 97, 1, 317)	
 
-	SpriteFrame(-24, -30, 88, 88, 0, 413) //33	
+	// 5 knux
+	SpriteFrame(-160, 130, 96, 109, 98, 305)	
 
 
 end event

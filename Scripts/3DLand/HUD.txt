@@ -83,8 +83,8 @@ end function
 
 
 event ObjectDraw
-
-
+//Not Dead
+if object[2].state != 13
 
 	//FLASHLIGHT
 	UseFlashlight = 1
@@ -162,6 +162,8 @@ event ObjectDraw
 
 		DrawSpriteScreenXY(16, touchscreen[0].xpos, touchscreen[0].ypos)
 	end if
+
+
 
 	//BATTERY
 	DrawSpriteScreenXY(17, screen.xcenter, screen.ycenter)
@@ -246,36 +248,15 @@ event ObjectDraw
 	temp1 += 8
 	DrawSpriteScreenXY(temp0, temp1, 21)
 
+else	
+	//Dead
+	DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 224)
 
-
-	
+end if
 
 	//jumpscare
 
-	if object[2].state == 13
 
-		bg.scroll++
-		bg.scroll &= 127
-		temp0 = bg.scroll
-		FlipSign(temp0)
-		while temp0 < screen.ysize
-			temp1 = bg.scroll
-			FlipSign(temp1)
-			while temp1 < screen.xsize
-				DrawSpriteScreenFX(33, FX_INK, temp1, temp0)
-				temp1 += 16		
-			loop
-			temp0 += 16
-		loop	
-
-		object.InkEffect = INK_ALPHA
-		object.alpha = 255
-
-
-		DrawSpriteScreenFX(23, FX_SCALE, screen.xcenter, screen.ycenter)		
-		object.scale = 2048
-		object.scale += 2
-	end if
 
 
 

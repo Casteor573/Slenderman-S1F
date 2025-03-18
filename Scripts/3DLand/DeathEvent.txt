@@ -43,27 +43,45 @@ private alias 1 : PRIORITY_ACTIVE
 // Tile Layer Types
 private alias 4 : LAYER_3DSKY
 
+private alias object.value2 : bg.scroll
+
 
 event ObjectMain
-
+	if object[2].state == 13
+		object.value0++
+		if object.value0 >= 300
+			object.alpha += 2
+		end if
+	end if
 end event
 
 
 event ObjectDraw
-	rain.scroll++
-	rain.scroll &= 31
-	temp0 = rain.scroll
-	while temp0 < screen.ysize
-		temp1 = 0
-		while temp1 < screen.xsize
-			DrawSpriteScreenFX(0, FX_INK, temp1, temp0)
-			temp1 += 64		
-		loop
-		temp0 += 64
-	loop	
 
-	object.InkEffect = INK_ALPHA
-	object.alpha = 128
+	if object[2].state == 13
+		object[2].visible = 0
+		bg.scroll++
+		bg.scroll &= 127
+		temp0 = bg.scroll
+		FlipSign(temp0)
+		while temp0 < screen.ysize
+			temp1 = bg.scroll
+			FlipSign(temp1)
+			while temp1 < screen.xsize
+				DrawSpriteScreenFX(10, FX_INK, temp1, temp0)
+				temp1 += 16		
+			loop
+			temp0 += 16
+		loop	
+
+		object.InkEffect = INK_ALPHA
+		
+
+
+		DrawSpriteScreenFX(0, FX_SCALE, screen.xcenter, screen.ycenter)		
+		object.scale = 2048
+		object.scale += 2
+	end if
 
 end event
 
@@ -74,15 +92,30 @@ event ObjectStartup
 	// (It doesn't make much of a difference but hey, may as well anyway!)
 	LoadSpriteSheet("3D_Test/Objects.gif")
 	
-	// 1 - Standing Frame
-	SpriteFrame(-20, -24, 64, 64, 447, 190)
+	// 0 - SLENDERMAN!!
+	SpriteFrame(-30, -24, 63, 112, 339, 1)
 
-	Object[32].Type = TypeName[Rain Effect]
-	Object[32].Priority = PRIORITY_ACTIVE
+
+	SpriteFrame(-34, -30, 68, 30, 0, 412) //1 Static
+	SpriteFrame(-34, -30, 68, 30, 0, 442)//25
+	SpriteFrame(-34, -30, 68, 30, 0, 472)//26
+	SpriteFrame(-34, -30, 68, 30, 68, 412)//27
+	SpriteFrame(-34, -30, 68, 30, 68, 442)//28
+	SpriteFrame(-34, -30, 68, 30, 68, 472)//29
+	SpriteFrame(-34, -30, 68, 30, 136, 412)//30
+	SpriteFrame(-34, -30, 68, 30, 136, 442)//31
+	SpriteFrame(-34, -30, 68, 30, 136, 472)//32
+
+
+	SpriteFrame(-24, -30, 64, 64, 0, 413) //33
+
+
+	Object[35].Type = TypeName[Death Event]
+	Object[35].Priority = PRIORITY_ACTIVE
 
 
 	// Give it a draw order lower right before the primary one, to make sure it can sort all the upcoming 3d entities correctly
-	Object[32].DrawOrder = 4
+	Object[35].DrawOrder = 6
 
 	
 end event

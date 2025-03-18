@@ -1589,7 +1589,7 @@ event ObjectMain
 
 		PlayerHealth -= 1
 		PlaySfx(SfxName[Hurt], 0)
-		SSonic.invulnerable = 80
+		SSonic.invulnerable = 120
 		
 
 		// Gravity of 0.125 per frame
@@ -1646,8 +1646,8 @@ event ObjectMain
 	// X/Z movement
 	Sin(TileLayer[0].XPos, TileLayer[0].Angle)
 	Cos(TileLayer[0].ZPos, TileLayer[0].Angle)
-	TileLayer[0].XPos *= -0xA00
-	TileLayer[0].ZPos *= -0xA00
+	TileLayer[0].XPos *= -0x400
+	TileLayer[0].ZPos *= -0x400
 	TileLayer[0].XPos += SSSonic.XPos
 	TileLayer[0].ZPos += SSSonic.ZPos
 	

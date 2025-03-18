@@ -214,7 +214,8 @@ function Sonic_ProcessPlayer
 					break
 				end switch
 			end if
-			CheckTouchRect(screen.xcenter, 96, screen.xsize, 240)
+			temp2 = screen.xsize
+			CheckTouchRect(screen.xcenter, 96, temp2, 240)
 			if checkResult > -1
 				inputDown.buttonA = 1
 			end if
@@ -241,7 +242,7 @@ function Sonic_ProcessPlayer
 			temp0 -= 37
 			temp1 = screen.xsize
 			temp1 -= 95
-			CheckTouchRect(temp0, 0, temp1, 40)				
+			CheckTouchRect(temp0, 50, temp1, 90)				
 			if checkResult > -1
 				inputDown.buttonY = 1
 			end if
@@ -1604,15 +1605,9 @@ event ObjectMain
 		
 				SSSonic.State     = SSSONIC_WALKING
 				
-				SSSonic.Frame     = ANI_WALKING_START
-				SSSonic.FrameLoop = ANI_WALKING_LOOP
-				SSSonic.FrameEnd  = ANI_WALKING_END
-				
-				SSSonic.FrameTimer = 0
-		
 		end if
 
-		SSSonic.State     = SSONIC_IDLE
+		SSSonic.State     = SSSONIC_WALKING
 
 
 	break

@@ -43,6 +43,7 @@ function TouchControls
 
 	DrawSpriteScreenXY(56, 0, temp0, 8) //pause
 
+	//movement
 	
 	temp0 -= 10
 	if inputDown.Left==1
@@ -59,7 +60,7 @@ function TouchControls
 	endif
 	
 	temp0 += 15	
-
+	//jump
 	if inputDown.buttonA==1
 		DrawSpriteScreenXY(55,  temp0, 163)	
 	else
@@ -67,11 +68,11 @@ function TouchControls
 	endif
 
 	temp0 -= 50
-
+	//flashlight
 	if inputDown.buttonY==1
-		DrawSpriteScreenXY(58,  temp0, 6)	
+		DrawSpriteScreenXY(58,  temp0, 54)	
 	else
-		DrawSpriteScreenXY(57,  temp0, 6)
+		DrawSpriteScreenXY(57,  temp0, 54)
 	endif	
 
 	temp0 += 80
@@ -225,6 +226,7 @@ if object[2].state != 13
 	//touch controls
 	if saved.mobile == 1
 		CallFunction(TouchControls)
+		DrawSpriteScreenXY(16, touchscreen[0].xpos, touchscreen[0].ypos)
 	end if
 
 

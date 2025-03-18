@@ -50,7 +50,7 @@ end event
 
 
 event ObjectDraw
-	rain.scroll += 4
+	rain.scroll += 3
 	rain.scroll &= 31
 	temp0 = rain.scroll
 	while temp0 < screen.ysize

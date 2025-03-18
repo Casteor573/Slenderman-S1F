@@ -123,7 +123,7 @@ event ObjectDraw
 		temp0++
 	loop
 
-	
+	music.volume = 50
 	
 end event
 
@@ -138,6 +138,9 @@ event ObjectStartup
 	// -> This way, it'll render in high-quality mode if possible, as opposed to the "3d Floor" type
 	TileLayer[0].Type = 3
 	
+
+	SetMusicTrack("ambience.ogg", 0, 1)
+	SetMusicTrack("RobloxHorror.ogg", 1, false)
 
 	Stage.PauseEnabled = false
 	

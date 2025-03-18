@@ -186,7 +186,6 @@ event ObjectStartup
 				rand(checkResult, 2)
 				if checkResult <= 0
 					object[ArrayPos0].type = TypeName[Blank Object]
-				else
 					Object[4].Value0--
 				end if
 			end if	

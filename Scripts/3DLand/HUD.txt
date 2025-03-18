@@ -246,7 +246,7 @@ event ObjectDraw
 	temp1 += 8
 	DrawSpriteScreenXY(temp0, temp1, 21)
 
-	music.volume = 35
+
 
 	
 
@@ -296,8 +296,7 @@ event ObjectStartup
 	Object[4].DrawOrder = 6
 	
 	
-	SetMusicTrack("ambience.ogg", 0, false)
-	SetMusicTrack("RobloxHorror.ogg", 1, false)
+
 
 
 	// 0-9 - Numbers 0-9

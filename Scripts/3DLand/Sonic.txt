@@ -1579,7 +1579,12 @@ event ObjectMain
 		SSSonic.YPos = 0x500000
 
 		if object.value8 == 620
-			CallNativeFunction(ExitGame)	
+			
+			stage.activeList = PRESENTATION_STAGE
+			stage.listPos = 6
+			LoadStage()			
+			//restore later
+			//CallNativeFunction(ExitGame)	
 		end if
 
 

@@ -252,6 +252,14 @@ event ObjectStartup
 	SpriteFrame(-40, -8, 80, 16, 1, 117)
 
 	
+	// Place a Sonic object into reserved object slot 2 and initialise its values
+	Object[6].Type = TypeName[UFO]
+	
+	// Make Sonic always active
+	Object[6].Priority = PRIORITY_ACTIVE
+	
+	Object[6].DrawOrder = 5
+
 	
 	// Cycle through all UFO objects in the scene and set them up
 	ArrayPos0 = 32

@@ -85,6 +85,7 @@ event ObjectMain
 				if Object.ScreenXPos > -0x2000
 					if Object.ScreenXPos < 0x2000
 						object[2].speed = 20000
+						object[6].speed = 20000	//slow the slender down!
 					end if
 				end if
 			end if

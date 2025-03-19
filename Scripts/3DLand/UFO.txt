@@ -92,67 +92,69 @@ event ObjectMain
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
-
+		//if player isnt hurt
 		if object[2].state != 14
 
-		CheckGreater(object.xpos, object[arrayPos2].xpos)
-		temp0 = checkResult
-		if temp0 == 1		//right
-			if Object.XVelocity > 0
-				Object.XVelocity -= 0x3000	//right
-				if Object.XVelocity > 0x24000
-				Object.XVelocity = 0x24000
+			CheckGreater(object.xpos, object[arrayPos2].xpos)
+			temp0 = checkResult
+			if temp0 == 1		//right
+				if Object.XVelocity > 0
+					Object.XVelocity -= 0x3000	//right
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if
+				else
+					Object.XVelocity -= 0x1500	//left?? i have no clue
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if			
 				end if
-			else
-				Object.XVelocity -= 0x1500	//left?? i have no clue
-				if Object.XVelocity > 0x24000
-				Object.XVelocity = 0x24000
-				end if			
-			end if
-		else	//left
-			if Object.XVelocity < 0
-				Object.XVelocity += 0x3000
-				if Object.XVelocity > 0x24000
-				Object.XVelocity = 0x24000
-				end if		
-			else
-				Object.XVelocity += 0x1500
-				if Object.XVelocity > 0x24000
-				Object.XVelocity = 0x24000
-				end if								
-			end if
-		end if
-	
-
-
-		CheckGreater(object.ZPos, object[arrayPos2].Value0)
-		temp0 = checkResult
-		if temp0 == 1		//right
-			if Object.ZVelocity > 0
-				Object.ZVelocity -= 0x3000	//right
-				if Object.ZVelocity > 0x24000
-				Object.ZVelocity = 0x24000
+			else	//left
+				if Object.XVelocity < 0
+					Object.XVelocity += 0x3000
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if		
+				else
+					Object.XVelocity += 0x1500
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if								
 				end if
-			else
-				Object.ZVelocity -= 0x1500	//left?? i have no clue
-				if Object.ZVelocity > 0x24000
-				Object.ZVelocity = 0x24000
-				end if			
 			end if
-		else	//left
-			if Object.ZVelocity < 0
-				Object.ZVelocity += 0x3000
-				if Object.ZVelocity > 0x24000
-				Object.ZVelocity = 0x24000
-				end if		
-			else
-				Object.ZVelocity += 0x1500
-				if Object.ZVelocity > 0x24000
-				Object.ZVelocity = 0x24000
-				end if								
-			end if
-		end if
+		
 
+
+			CheckGreater(object.ZPos, object[arrayPos2].Value0)
+			temp0 = checkResult
+			if temp0 == 1		//right
+				if Object.ZVelocity > 0
+					Object.ZVelocity -= 0x3000	//right
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if
+				else
+					Object.ZVelocity -= 0x1500	//left?? i have no clue
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if			
+				end if
+			else	//left
+				if Object.ZVelocity < 0
+					Object.ZVelocity += 0x3000
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if		
+				else
+					Object.ZVelocity += 0x1500
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if								
+				end if
+			end if
+		else
+			Object.ZVelocity = 0x1500
+			Object.XVelocity = 0x1500
 		end if
 
 		
@@ -258,16 +260,14 @@ event ObjectStartup
 	// Make Sonic always active
 	Object[6].Priority = PRIORITY_ACTIVE
 	
-	Object[6].DrawOrder = 5
-
 	
 	// Cycle through all UFO objects in the scene and set them up
 	ArrayPos0 = 32
 	while ArrayPos0 < 1056
 		if Object[ArrayPos0].Type == TypeName[UFO]
 			
-			// Set the UFO to always be active
-			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
+
+			ResetObjectEntity(ArrayPos0, TypeName[Blank Object], 0, 0, 0)
 		
 		end if
 		

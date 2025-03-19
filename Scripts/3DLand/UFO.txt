@@ -93,30 +93,32 @@ event ObjectMain
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
 
+		if object[2].state != 14
+
 		CheckGreater(object.xpos, object[arrayPos2].xpos)
 		temp0 = checkResult
 		if temp0 == 1		//right
 			if Object.XVelocity > 0
 				Object.XVelocity -= 0x3000	//right
-				if Object.XVelocity > 0x26000
-				Object.XVelocity = 0x26000
+				if Object.XVelocity > 0x24000
+				Object.XVelocity = 0x24000
 				end if
 			else
 				Object.XVelocity -= 0x1500	//left?? i have no clue
-				if Object.XVelocity > 0x26000
-				Object.XVelocity = 0x26000
+				if Object.XVelocity > 0x24000
+				Object.XVelocity = 0x24000
 				end if			
 			end if
 		else	//left
 			if Object.XVelocity < 0
 				Object.XVelocity += 0x3000
-				if Object.XVelocity > 0x26000
-				Object.XVelocity = 0x26000
+				if Object.XVelocity > 0x24000
+				Object.XVelocity = 0x24000
 				end if		
 			else
 				Object.XVelocity += 0x1500
-				if Object.XVelocity > 0x26000
-				Object.XVelocity = 0x26000
+				if Object.XVelocity > 0x24000
+				Object.XVelocity = 0x24000
 				end if								
 			end if
 		end if
@@ -128,27 +130,29 @@ event ObjectMain
 		if temp0 == 1		//right
 			if Object.ZVelocity > 0
 				Object.ZVelocity -= 0x3000	//right
-				if Object.ZVelocity > 0x26000
-				Object.ZVelocity = 0x26000
+				if Object.ZVelocity > 0x24000
+				Object.ZVelocity = 0x24000
 				end if
 			else
 				Object.ZVelocity -= 0x1500	//left?? i have no clue
-				if Object.ZVelocity > 0x26000
-				Object.ZVelocity = 0x26000
+				if Object.ZVelocity > 0x24000
+				Object.ZVelocity = 0x24000
 				end if			
 			end if
 		else	//left
 			if Object.ZVelocity < 0
 				Object.ZVelocity += 0x3000
-				if Object.ZVelocity > 0x26000
-				Object.ZVelocity = 0x26000
+				if Object.ZVelocity > 0x24000
+				Object.ZVelocity = 0x24000
 				end if		
 			else
 				Object.ZVelocity += 0x1500
-				if Object.ZVelocity > 0x26000
-				Object.ZVelocity = 0x26000
+				if Object.ZVelocity > 0x24000
+				Object.ZVelocity = 0x24000
 				end if								
 			end if
+		end if
+
 		end if
 
 		

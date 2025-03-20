@@ -41,8 +41,13 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
+public value PlayerHealth = 3;
 
 event ObjectMain
+
+	if PlayerHealth == 0
+		object.type = TypeName[Blank Object]
+	end if
 	
 	// Check player interaction in this (rather lengthy) process
 	
@@ -80,149 +85,102 @@ event ObjectMain
 	Object.ZPos += Object.ZVelocity
 
 
-	
+	if Object[20].Type == TypeName[Blank Object]	
 
 	// Long list of checks for the hitbox detection
 	
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
+		//if player isnt hurt
+		if object[2].state != 14
 
-		CheckGreater(object.xpos, object[arrayPos2].xpos)
-		temp0 = checkResult
-		if temp0 == 1		//right
-			if Object.XVelocity > 0
-				Object.XVelocity -= 0x2000	//right
-				if Object.XVelocity > 0x99999
-				Object.XVelocity = 0x99999
+			CheckGreater(object.xpos, object[arrayPos2].xpos)
+			temp0 = checkResult
+			if temp0 == 1		//right
+				if Object.XVelocity > 0
+					Object.XVelocity -= 0x3000	//right
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if
+				else
+					Object.XVelocity -= 0x1500	//left?? i have no clue
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if			
 				end if
-			else
-				Object.XVelocity -= 0x1500	//left?? i have no clue
-				if Object.XVelocity > 0x99999
-				Object.XVelocity = 0x99999
-				end if			
-			end if
-		else	//left
-			if Object.XVelocity < 0
-				Object.XVelocity += 0x2000
-				if Object.XVelocity > 0x99999
-				Object.XVelocity = 0x99999
-				end if		
-			else
-				Object.XVelocity += 0x1500
-				if Object.XVelocity > 0x99999
-				Object.XVelocity = 0x99999
-				end if								
-			end if
-		end if
-
-
-
-		CheckGreater(object.ZPos, object[arrayPos2].Value0)
-		temp0 = checkResult
-		if temp0 == 1		//right
-			if Object.ZVelocity > 0
-				Object.ZVelocity -= 0x2000	//right
-				if Object.ZVelocity > 0x99999
-				Object.ZVelocity = 0x99999
+			else	//left
+				if Object.XVelocity < 0
+					Object.XVelocity += 0x3000
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if		
+				else
+					Object.XVelocity += 0x1500
+					if Object.XVelocity > 0x24000
+					Object.XVelocity = 0x24000
+					end if								
 				end if
-			else
-				Object.ZVelocity -= 0x1500	//left?? i have no clue
-				if Object.ZVelocity > 0x99999
-				Object.ZVelocity = 0x99999
-				end if			
 			end if
-		else	//left
-			if Object.ZVelocity < 0
-				Object.ZVelocity += 0x2000
-				if Object.ZVelocity > 0x99999
-				Object.ZVelocity = 0x99999
-				end if		
-			else
-				Object.ZVelocity += 0x1500
-				if Object.ZVelocity > 0x99999
-				Object.ZVelocity = 0x99999
-				end if								
+		
+
+
+			CheckGreater(object.ZPos, object[arrayPos2].Value0)
+			temp0 = checkResult
+			if temp0 == 1		//right
+				if Object.ZVelocity > 0
+					Object.ZVelocity -= 0x3000	//right
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if
+				else
+					Object.ZVelocity -= 0x1500	//left?? i have no clue
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if			
+				end if
+			else	//left
+				if Object.ZVelocity < 0
+					Object.ZVelocity += 0x3000
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if		
+				else
+					Object.ZVelocity += 0x1500
+					if Object.ZVelocity > 0x24000
+					Object.ZVelocity = 0x24000
+					end if								
+				end if
 			end if
+		else
+			Object.ZVelocity = 0x1500
+			Object.XVelocity = 0x1500
 		end if
-
-
 
 		
-			// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
-			if Object.ScreenDepth < 0x58C8
-				if Object.ScreenDepth > 0x5094
-					
-					// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
-					if Object.ScreenXPos > -0x2000
-						if Object.ScreenXPos < 0x2000
-							
-							// All those checks passed, let's destroy this UFO!
-							
-							temp0 = Object.ScreenXPos
-							temp0 *= 192
-							temp0 /= Object.ScreenDepth
-							temp0 += Screen.xcenter
-							temp0 <<= 16
-							
-							temp1 = TileLayer[0].YPos
-							temp1 >>= 8
-							temp1 -= 0x6000
-							temp1 *= 96
-							temp1 /= Object.ScreenDepth
-							temp1 += 128
-							temp1 <<= 16
-							
-							// Play the ring SFX
-							PlaySfx(SfxName[Explosion], 0)
-							switch Object.PropertyValue
-							case UFO_CONTENTS_RINGS
-								// Decrease the UFO count and give some bonus rings
-								HUD[4].UFOsCount--
-								if HUD[4].LastUFOType == Object.PropertyValue
-									// If the last UFO caught was a rings variant too, then double the player's rings rather than adding 20
-									HUD[4].Rings <<= 1
-								else
-									HUD[4].Rings += 20
-								end if
-								break
-								
-							case UFO_CONTENTS_SPEEDSHOES
-								// Decrease the UFO count and give the player some new faster shoes
-								HUD[4].UFOsCount--
-								HUD[4].SpeedShoesTimer = 600
-								break
-								
-							case UFO_CONTENTS_TIME
-								// Aadd some time to the clock
-								// (Not decreasing the UFO count because time UFOs don't count towards the whole)
-								HUD[4].TimeSeconds += 30
-								break
-								
-							end switch
-							
-							HUD[4].LastUFOType = Object.PropertyValue
-							
-							// Create the UFO powerup icon
-							CreateTempObject(TypeName[UFO PowerUp], Object.PropertyValue, temp0, temp1)
-							Rand(UFOPowerUp[TempObjectPos].ExplosionDir, 100)
-							UFOPowerUp[TempObjectPos].ExplosionXVel = temp0
-							UFOPowerUp[TempObjectPos].ExplosionYVel = temp1
-							UFOPowerUp[TempObjectPos].YVelocity = -0x40000
-							UFOPowerUp[TempObjectPos].ScreenDepth = 0x58C8
-							
-					
-							// Blank this UFO object since it's been
-							ResetObjectEntity(Object.entityPos, TypeName[Blank Object], 0, 0, 0)
-							
-							// And now, close a whole lotta end if's...
-							
+		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
+		if Object.ScreenDepth < 0x8C8
+			if Object.ScreenDepth > 0x094
+
+				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
+
+						if object[2].value13 <= 0
+							object[2].state = 14
 						end if
+
 					end if
 				end if
-	
-	end if
+			end if
+		end if
 	next
+
+	end if
+
+
+
+
 end event
 
 
@@ -259,7 +217,7 @@ event ObjectDraw
 		temp1 += 128
 		
 		// Draw the UFO now
-		DrawSpriteScreenFX(Object.PropertyValue, FX_SCALE, temp0, temp1)
+		DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
 		
 		// Find the ground position
 		temp1 = TileLayer[0].YPos
@@ -272,6 +230,7 @@ event ObjectDraw
 		DrawSpriteScreenFX(3, FX_SCALE, temp0, temp1)
 		
 	end if
+
 	
 end event
 
@@ -282,8 +241,8 @@ event ObjectStartup
 	
 	// UFO Frames
 	
-	// 0 - 10 Rings Variant
-	SpriteFrame(-40, -28, 80, 56, 1, 1)
+	// 0 - SLENDERMAN!!
+	SpriteFrame(-30, -82, 63, 112, 339, 1)
 	
 	// 1 - Speed Shoes Variant
 	SpriteFrame(-40, -28, 80, 56, 82, 1)
@@ -293,29 +252,23 @@ event ObjectStartup
 	
 	// 3 - UFO Shadow Frame
 	SpriteFrame(-40, -8, 80, 16, 1, 117)
+
+	
+	// Place a Sonic object into reserved object slot 2 and initialise its values
+	Object[6].Type = TypeName[UFO]
+	
+	// Make Sonic always active
+	Object[6].Priority = PRIORITY_ACTIVE
+	
 	
 	// Cycle through all UFO objects in the scene and set them up
 	ArrayPos0 = 32
 	while ArrayPos0 < 1056
 		if Object[ArrayPos0].Type == TypeName[UFO]
 			
-			// Set the UFO to always be active
-			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
-			
-			if Object[ArrayPos0].PropertyValue < 2
-				
-				// Increase the UFO count
-				HUD[4].UFOsCount++
-				
-			else
-				
-				// Bonus UFO Spawn point, delete the UFO for right now and store its EntityPos into the HUD value
-				// (We need to make sure the Time UFO is spawned in the correct slot because of its Nodes)
-				
-				Object[ArrayPos0].Type = TypeName[Blank Object]
-				HUD[4].BonusUFONo = ArrayPos0
-				
-			end if
+
+			ResetObjectEntity(ArrayPos0, TypeName[Blank Object], 0, 0, 0)
+		
 		end if
 		
 		ArrayPos0++

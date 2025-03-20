@@ -3,8 +3,7 @@
 //-------Unpacked By Rubberduckycooly's Script Unpacker-------//
 
 // Aliases
-private alias Object.YPos : Object.ZPos
-private alias Object.Value0 : Object.TargetNode
+private alias Object.Value0 : Object.ZPos
 private alias Object.Value1 : Object.XVelocity
 private alias Object.Value2 : Object.ZVelocity
 private alias Object.Value3 : Object.Timer
@@ -83,11 +82,13 @@ event ObjectMain
 
 	Object.XPos += Object.XVelocity
 	Object.ZPos += Object.ZVelocity
+	Object.YPos += Object.Yvel
 
-
+	//title card gone?
 	if Object[20].Type == TypeName[Blank Object]	
 
 	// Long list of checks for the hitbox detection
+
 	
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
@@ -266,6 +267,9 @@ event ObjectStartup
 	while ArrayPos0 < 1056
 		if Object[ArrayPos0].Type == TypeName[UFO]
 			
+			// Due to the difference between editor and game, turn YPos into ZPos here
+			Object[6].ZPos = Object[ArrayPos0].YPos
+
 
 			ResetObjectEntity(ArrayPos0, TypeName[Blank Object], 0, 0, 0)
 		

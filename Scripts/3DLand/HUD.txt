@@ -145,6 +145,8 @@ if object[2].state != 13
 				end if
 			end if		
 		end if		
+	else
+		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 96)	
 	end if	
 
 	MouseEnabled = 0

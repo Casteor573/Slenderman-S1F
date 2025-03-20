@@ -151,10 +151,10 @@ end event
 event ObjectStartup
 	
 	// Setup stage bounds
-	Stage.curXBoundary1 = 0x3800000  // 896 pixels to the left
-	Stage.curXBoundary2 = 0xC800000  // 3200 pixels to the right
-	Stage.curYBoundary1 = 0x3800000  // 896 pixels upwards
-	Stage.curYBoundary2 = 0xC800000  // 3200 pixels downwards
+	Stage.curXBoundary1 = 0x3000000  // 896 pixels to the left
+	Stage.curXBoundary2 = 0xD000000  // 3200 pixels to the right
+	Stage.curYBoundary1 = 0x3000000  // 896 pixels upwards
+	Stage.curYBoundary2 = 0xD000000  // 3200 pixels downwards
 	
 	// Set the initial BG position
 	

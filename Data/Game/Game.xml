@@ -12,7 +12,7 @@
     <soundfx name="NULL" path="Global/NullEnd.wav" />
     <soundfx name="Ambience" path="Global/ambience.wav" />
     <soundfx name="Creepy" path="Global/creepy_sound.wav" />
-    <soundfx name="Page Collect" path="Global/pagecollect.wav" />       
+    <soundfx name="Page Collect" path="Global/pagecollect.wav" />
   </sounds>
   <players />
   <presentationStages />

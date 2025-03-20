@@ -47,6 +47,8 @@ public value MBZSetup_value30 = 0;
 public value MBZSetup_value29 = 0;
 public value MBZSetup_value28 = 0;
 
+public value ThunderActive = 0;
+
 reserve function Freakyness
 
 
@@ -86,9 +88,11 @@ event ObjectMain
 	if temp1 == 1
 		//lightning colours
 		CopyPalette(0, 154, 0, 208, 4)
+		ThunderActive = 1
 	else
 		//regular colours
 		CopyPalette(0, 213, 0, 208, 4)
+		ThunderActive = 0
 	end if
 
 end event
@@ -137,6 +141,8 @@ event ObjectStartup
 	// Set the ground to the "3d Sky" layer type
 	// -> This way, it'll render in high-quality mode if possible, as opposed to the "3d Floor" type
 	TileLayer[0].Type = 3
+
+	ThunderActive = 0
 	
 
 	SetMusicTrack("ambience.ogg", 0, 1)

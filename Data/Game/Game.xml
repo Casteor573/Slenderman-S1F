@@ -20,5 +20,6 @@
   <specialStages />
   <bonusStages>
     <stage name="SLENDERMAN" folder="SS1" id="0" highlight="true" />
+    <stage name="SLENDERMENU" folder="SlendMenu" id="0" highlight="true" />
   </bonusStages>
 </game>

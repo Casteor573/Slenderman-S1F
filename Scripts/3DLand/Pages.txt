@@ -182,13 +182,15 @@ event ObjectStartup
 			
 			Object[4].Value0++
 	
-			if Object[4].Value0 >= 6
-				rand(checkResult, 2)
-				if checkResult <= 0
-					object[ArrayPos0].type = TypeName[Blank Object]
-					Object[4].Value0--
-				end if
-			end if	
+			if options.gameMode == 1
+				if Object[4].Value0 >= 6
+					rand(checkResult, 2)
+					if checkResult <= 0
+						object[ArrayPos0].type = TypeName[Blank Object]
+						Object[4].Value0--
+					end if
+				end if	
+			end if
 			
 		
 		end if

@@ -63,6 +63,8 @@ event ObjectMain
 		Oscillation = 0
 	end if
 
+CheckCurrentStageFolder("SS1")
+if checkResult == 1
 
 	MBZSetup_value31++
 	
@@ -94,7 +96,7 @@ event ObjectMain
 		CopyPalette(0, 213, 0, 208, 4)
 		ThunderActive = 0
 	end if
-
+end if
 end event
 
 

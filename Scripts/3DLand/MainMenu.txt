@@ -21,6 +21,7 @@ public alias saveRAM[296]: saved.transmobile
 
 private alias Object.Value0 : Object.Timer 
 private alias Object.Value1 : Logo.Xpos
+private alias Object.Value2 : Object.MenuChoose
 
 
 private alias object.value6 : object.extraoffset
@@ -28,64 +29,18 @@ private alias object.value7 : object.extratarget
 
 private alias 5 : ST.xspeed
 
+private alias 0 : STARTGAME
+private alias 1 : ENDLESSMODE
+private alias 2 : RETURNTOMENU
 
 
-reserve function TouchControls
-
-function TouchControls
-	object.inkEffect = INK_ALPHA
-
-	temp0 = screen.xsize
-	temp0 -= 44
-	DrawSpriteScreenXY(49,  26,1 49) //dpad
-	temp0 -= 39
-
-	DrawSpriteScreenXY(56, 0, temp0, 8) //pause
-
-	//movement
-	
-	temp0 -= 10
-	if inputDown.Left==1
-		DrawSpriteScreenXY(52,  26, 151)
-	endif
-	if inputDown.Down==1
-		DrawSpriteScreenXY(51,  26, 189)
-	end if
-	if inputDown.Right==1
-		DrawSpriteScreenXY(53,  64, 151)
-	endif
-	if inputDown.Up==1
-		DrawSpriteScreenXY(50,  26, 151)
-	endif
-	
-	temp0 += 15	
-	//jump
-	if inputDown.buttonA==1
-		DrawSpriteScreenXY(55,  temp0, 163)	
-	else
-		DrawSpriteScreenXY(54,  temp0, 163)
-	endif
-
-	temp0 -= 50
-	//flashlight
-	if inputDown.buttonY==1
-		DrawSpriteScreenXY(58,  temp0, 54)	
-	else
-		DrawSpriteScreenXY(57,  temp0, 54)
-	endif	
-
-	temp0 += 80
-	DrawSpriteScreenXY(59,  temp0, 6)
-
-
-end function
 
 event ObjectMain
 	switch object.state
 	case 0	//setup
 		object.timer = 255
 		Logo.Xpos = screen.xcenter
-			
+		
 		object.state++
 	//	PlayMusic(0)	
 	break
@@ -97,6 +52,8 @@ event ObjectMain
 		end if
 		SetClassicFade(0, 0, 0, Object.Timer)
 		if object.timer == 0
+			music.volume = 100
+			PlayMusic(0)	
 			object.state++
 		end if
 	break
@@ -104,10 +61,34 @@ event ObjectMain
 		object.timer++
 		if object.timer == 47
 			object.timer = 0
+			Object.MenuChoose = 0
 			object.state++
 		end if	
 	break
 	case 3
+
+
+
+
+
+	if inputpress.down == 1
+		if Object.MenuChoose > 2
+			Object.MenuChoose = 0
+		else	
+			Object.MenuChoose++
+		end if
+		PlaySfx(SfxName[Score Add], 0)			
+	end if
+
+	if inputpress.up == 1
+		if Object.MenuChoose < 0
+			Object.MenuChoose = 2
+		else	
+			Object.MenuChoose--
+		end if
+		PlaySfx(SfxName[Score Add], 0)			
+	end if
+
 
 	break
 	end switch
@@ -119,6 +100,7 @@ event ObjectDraw
 	//Not Dead
 	DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 128)
 
+	//SLIDING STUFF
 
 	temp0 = object.extraoffset	
 	temp0 -= object.extratarget
@@ -177,7 +159,7 @@ event ObjectStartup
 
 	SpriteFrame(128, 0, 67, 45, 376, 59)		//1
 	
-	SetMusicTrack("RobloxHorror.ogg", 0, false)
+	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 
 	// Place the HUD object into reserved object slot 4 and initialise its values
 	Object[4].Type = TypeName[Main Menu]

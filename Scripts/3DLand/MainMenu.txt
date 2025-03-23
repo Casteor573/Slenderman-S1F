@@ -34,16 +34,25 @@ private alias 1 : ENDLESSMODE
 private alias 2 : RETURNTOMENU
 
 
+private alias 0 : MENU_STARTUP
+private alias 1 : MENU_LOWFADEIN
+private alias 2 : MENU_LOGOMOVEIN
+private alias 3 : MENU_MAINCARD
+private alias 4 : MENU_GOTOCHARSEL
+private alias 5 : MENU_CHARASEL
+private alias 6 : MENU_LOWFADEOUTCHARASEL
+
+private alias 8 : MENU_FADEINTOMAINCARD
 
 event ObjectMain
 	switch object.state
-	case 0	//setup
+	case MENU_STARTUP	//setup
 		object.timer = 255
 		Logo.Xpos = screen.xcenter
 		object.state++
 	//	PlayMusic(0)	
 	break
-	case 1	//fade in
+	case MENU_LOWFADEIN	//fade in
 		if object.timer > -1
 			object.timer -= 4
 		else
@@ -56,18 +65,18 @@ event ObjectMain
 			object.state++
 		end if
 	break
-	case 2	//logo move in
+	case MENU_LOGOMOVEIN	//logo move in
 		object.timer++
-		
+		object.alpha += 8
 		if object.timer == 47
 			object.timer = 0
 			Object.MenuChoose = 0
 			object.state++
 		end if	
 	break
-	case 3
+	case MENU_MAINCARD
 	//Controls
-		object.alpha += 8
+		
 		if inputpress.down == 1
 			if Object.MenuChoose > 1
 				Object.MenuChoose = 0
@@ -89,15 +98,46 @@ event ObjectMain
 	if inputPress.start == 1
 		PlaySfx(SfxName[Lamp Post], 0)
 		switch Object.MenuChoose
+		case 0	//lol
+			object.timer = 0
+			object.state = 4
+		break		
 		case 2	//lol
 			object.state = 99
 		break
 		end switch
 	end if	
-		
-
 	break
-	case 99
+	case MENU_GOTOCHARSEL	//transition to next thing
+		object.alpha -= 16
+		if object.alpha <= 0
+			object.state++
+		end if
+	break
+	case MENU_CHARASEL
+		if object.alpha < 256
+			object.alpha += 8
+		end if
+
+		if inputPress.buttonB == 1
+			PlaySfx(SfxName[Skidding], 0)
+			object.state = 6	//exiting what fun
+		end if			
+	break
+	case MENU_LOWFADEOUTCHARASEL
+		object.alpha -= 16
+		if object.alpha <= 0
+			object.state = 8
+		end if
+	break
+	//screw 7 for some reason
+	case MENU_FADEINTOMAINCARD
+		object.alpha += 16
+		if object.alpha >= 255
+			object.state = MENU_MAINCARD
+		end if
+	break
+	case 99	//exit
 		music.volume -= 32
 		object.timer += 8
 		SetClassicFade(0, 0, 0, Object.Timer)
@@ -109,6 +149,16 @@ event ObjectMain
 		end if
 	break
 	end switch
+
+	//Techinal Stuff
+
+	TileLayer[0].Angle = -32
+
+
+	// Just take Sonic's Y Position, smooth it out a bit, and offset it by 88 pixels
+	TileLayer[0].YPos = object.YPos
+	TileLayer[0].YPos /= 3
+	TileLayer[0].YPos += 0x1280000	
 
 end event
 
@@ -132,6 +182,7 @@ event ObjectDraw
 			object.extraoffset -= ST.xspeed	//go right
 		end if
 	end if
+	object.InkEffect = INK_ALPHA
 	switch object.state
 		case 2
 			object.extratarget = screen.xsize
@@ -141,49 +192,67 @@ event ObjectDraw
 			temp3 = 426
 			temp3 -= object.extraoffset
 			//LOGO
-			DrawSpriteScreenFX(0, FX_ROTATE, temp3, screen.ycenter)	
+			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
 			//BUTTONS
-			DrawSpriteScreenFX(1, FX_ROTATE, temp3, screen.ycenter)	
+			DrawSpriteScreenFX(1, FX_INK, temp3, screen.ycenter)	
+
+			temp3 -= 16
+			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)
 		break
 		case 3
-		case 99
+		case 8
+		case 99	//exit
 			//dont move
 			object.extratarget = 0
 			//LOGO
-			DrawSpriteScreenFX(0, FX_ROTATE, temp3, screen.ycenter)	
+			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
 			//BUTTONS
-			DrawSpriteScreenFX(1, FX_ROTATE, temp3, screen.ycenter)	
+			DrawSpriteScreenFX(1, FX_INK, temp3, screen.ycenter)	
 
 
 				switch Object.MenuChoose
 					case STARTGAME
-						DrawSpriteScreenFX(2, FX_ROTATE, temp3, screen.ycenter)	
+						DrawSpriteScreenFX(2, FX_INK, temp3, screen.ycenter)	
 						temp4 = screen.ycenter
 					
 						temp3 -= 20
-						DrawSpriteScreenFX(5, FX_ROTATE, temp3, temp4)		
+						DrawSpriteScreenFX(5, FX_INK, temp3, temp4)		
 					break
 					case ENDLESSMODE
-						DrawSpriteScreenFX(3, FX_ROTATE, temp3, screen.ycenter)	
+						DrawSpriteScreenFX(3, FX_INK, temp3, screen.ycenter)	
 						temp4 = screen.ycenter
 						temp4 += 23
 						temp3 -= 20
-						DrawSpriteScreenFX(5, FX_ROTATE, temp3, temp4)		
+						DrawSpriteScreenFX(5, FX_INK, temp3, temp4)		
 					break					
 					case RETURNTOMENU
-						DrawSpriteScreenFX(4, FX_ROTATE, temp3, screen.ycenter)	
+						DrawSpriteScreenFX(4, FX_INK, temp3, screen.ycenter)	
 						temp4 = screen.ycenter
 						temp4 += 46
 						temp3 -= 20
-						DrawSpriteScreenFX(5, FX_ROTATE, temp3, temp4)							
+						DrawSpriteScreenFX(5, FX_INK, temp3, temp4)							
 					break						
 				end switch
-			object.InkEffect = INK_ALPHA
+			
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)		
-				
-			
-			
 			break
+		case 4
+			object.extratarget = 0
+			//LOGO
+			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
+			//BUTTONS
+			DrawSpriteScreenFX(1, FX_INK, temp3, screen.ycenter)	
+			//render
+
+			temp3 -= 20
+			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)	
+		break		
+		case 5
+		case 6
+			object.extratarget = 0
+			temp3 = screen.xcenter
+			DrawSpriteScreenFX(7, FX_INK, temp3, screen.ycenter)	
+		break	
 		default
 			object.extratarget = 0
 			break
@@ -226,6 +295,8 @@ event ObjectStartup
 	//render
 	SpriteFrame(-150, -64, 178, 147, 79, 1)		//6
 
+	//choose
+	SpriteFrame(-80, -84, 166, 11, 345, 117)		//7
 	
 	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 

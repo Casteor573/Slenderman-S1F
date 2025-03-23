@@ -123,8 +123,6 @@ event ObjectMain
 					end if								
 				end if
 			end if
-		
-
 
 			CheckGreater(object.ZPos, object[arrayPos2].Value0)
 			temp0 = checkResult

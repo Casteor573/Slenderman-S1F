@@ -16,19 +16,19 @@ public value UseFlashlight = 0;
 public value MouseEnabled = 0;
 public value FlashBattery = 5000;
 
-private alias Object.Value0 : Object.Timer 
-
-private alias object.value2 : bg.scroll
-
 public alias saveRAM[295]: saved.mobile
 public alias saveRAM[296]: saved.transmobile
 
+private alias Object.Value0 : Object.Timer 
+private alias Object.Value1 : Logo.Xpos
 
-private alias object.value11 : touchoffset
-private alias object.value12 : pauseoffset
 
-private alias object.value33 : touch.fade
-private alias object.value34 : buttonoffset
+private alias object.value6 : object.extraoffset
+private alias object.value7 : object.extratarget
+
+private alias 5 : ST.xspeed
+
+
 
 reserve function TouchControls
 
@@ -82,15 +82,32 @@ end function
 
 event ObjectMain
 	switch object.state
-	case 0
+	case 0	//setup
 		object.timer = 255
+		Logo.Xpos = screen.xcenter
+			
 		object.state++
+	//	PlayMusic(0)	
 	break
-	case 1
+	case 1	//fade in
 		if object.timer > -1
-			object.timer -= 2
+			object.timer -= 4
+		else
+			object.timer = 0	
 		end if
 		SetClassicFade(0, 0, 0, Object.Timer)
+		if object.timer == 0
+			object.state++
+		end if
+	break
+	case 2	//logo move in
+		object.timer++
+		if object.timer == 47
+			object.timer = 0
+			object.state++
+		end if	
+	break
+	case 3
 
 	break
 	end switch
@@ -99,25 +116,53 @@ end event
 
 
 event ObjectDraw
-//Not Dead
-DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 128)
+	//Not Dead
+	DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 128)
 
 
-
-
-TileLayer[0].Angle = -32
-
-
-// Just take Sonic's Y Position, smooth it out a bit, and offset it by 88 pixels
-TileLayer[0].YPos = object.YPos
-TileLayer[0].YPos /= 3
-TileLayer[0].YPos += 0x1280000
-
+	temp0 = object.extraoffset	
+	temp0 -= object.extratarget
+	Abs(temp0)
+	if temp0 < ST.xspeed // if object.extraoffset is less then ST.xspeed/15
+		object.extraoffset = object.extratarget 	// offset = target
+	else	// if its not
+		if object.extraoffset < object.extratarget // if offset is less then target
+			object.extraoffset += ST.xspeed	//go left
+		end if
+		if object.extraoffset > object.extratarget // if offset is greater then target
+			object.extraoffset -= ST.xspeed	//go right
+		end if
+	end if
 	switch object.state
-	case 0
-		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 255)
-	break
+		case 2
+			object.extratarget = screen.xsize
+			object.extratarget += 20
+
+			temp3 = screen.xcenter	
+			temp3 = 426
+			temp3 -= object.extraoffset
+			DrawSpriteScreenFX(0, FX_ROTATE, temp3, screen.ycenter)	
+
+			DrawSpriteScreenFX(1, FX_ROTATE, temp3, screen.ycenter)	
+
+		break
+		case 3
+			DrawSpriteScreenFX(0, FX_ROTATE, temp3, screen.ycenter)	
+
+			DrawSpriteScreenFX(1, FX_ROTATE, temp3, screen.ycenter)	
+			object.extratarget = 0
+			break
 	end switch
+
+	//Techinal Stuff
+
+	TileLayer[0].Angle = -32
+
+
+	// Just take Sonic's Y Position, smooth it out a bit, and offset it by 88 pixels
+	TileLayer[0].YPos = object.YPos
+	TileLayer[0].YPos /= 3
+	TileLayer[0].YPos += 0x1280000
 
 
 end event
@@ -125,8 +170,15 @@ end event
 
 event ObjectStartup
 	
-	LoadSpriteSheet("3D_Test/Objects.gif")
+	LoadSpriteSheet("3D_Test/Objects2.gif")
 	
+	//logo
+	SpriteFrame(16, -96, 184, 57, 327, 1)	//0
+
+	SpriteFrame(128, 0, 67, 45, 376, 59)		//1
+	
+	SetMusicTrack("RobloxHorror.ogg", 0, false)
+
 	// Place the HUD object into reserved object slot 4 and initialise its values
 	Object[4].Type = TypeName[Main Menu]
 	
@@ -137,108 +189,6 @@ event ObjectStartup
 	Object[4].DrawOrder = 6
 	
 	
-
-
-
-	// 0-9 - Numbers 0-9
-	SpriteFrame(0, 0, 8, 13, 206, 84)
-	SpriteFrame(0, 0, 8, 13, 215, 84)
-	SpriteFrame(0, 0, 8, 13, 224, 84)
-	SpriteFrame(0, 0, 8, 13, 233, 84)
-	SpriteFrame(0, 0, 8, 13, 242, 84)
-	SpriteFrame(0, 0, 8, 13, 206, 98)
-	SpriteFrame(0, 0, 8, 13, 215, 98)
-	SpriteFrame(0, 0, 8, 13, 224, 98)
-	SpriteFrame(0, 0, 8, 13, 233, 98)
-	SpriteFrame(0, 0, 8, 13, 242, 98)
-	
-	// 10 - UFO Counter Graphic
-	SpriteFrame(0, 0, 24, 16, 206, 58)
-	
-	// 11 - Time Graphic
-	SpriteFrame(0, 0, 24, 8, 231, 58)
-	
-	// 12 - Rings Graphic
-	SpriteFrame(0, 0, 31, 8, 206, 75)
-	
-	// 13 - Single Tick Graphic
-	SpriteFrame(0, 0, 8, 13, 224, 112)
-	
-	// 14 - Double Tick Graphic
-	SpriteFrame(0, 0, 8, 13, 233, 112)
-
-
-	//15
-	SpriteFrame(-128,-128,256,256,256,256)	
-
-
-	// 16 - Double Tick Graphic
-	SpriteFrame(0, 0, 12, 21, 245, 1)
-
-
-	// 17 - battery bar
-	SpriteFrame(-200, -32, 64, 64, 257, 116)
-
-
-	// 18 - battery bar
-	SpriteFrame(-194, -22, 24, 8, 322, 116)
-	SpriteFrame(-194, -12, 24, 8, 322, 126)//19
-	SpriteFrame(-194, -2, 24, 8, 322, 136)	//20
-	SpriteFrame(-194,  8, 24, 8, 322, 146)	//21
-	SpriteFrame(-194,  18, 24, 8, 322, 156)	//22
-
-
-
-	// 23 - SLENDERMAN!!
-	SpriteFrame(-30, -24, 63, 112, 339, 1)
-
-
-	SpriteFrame(-34, -30, 68, 30, 0, 412) //107 Static
-	SpriteFrame(-34, -30, 68, 30, 0, 442)//25
-	SpriteFrame(-34, -30, 68, 30, 0, 472)//26
-	SpriteFrame(-34, -30, 68, 30, 68, 412)//27
-	SpriteFrame(-34, -30, 68, 30, 68, 442)//28
-	SpriteFrame(-34, -30, 68, 30, 68, 472)//29
-	SpriteFrame(-34, -30, 68, 30, 136, 412)//30
-	SpriteFrame(-34, -30, 68, 30, 136, 442)//31
-	SpriteFrame(-34, -30, 68, 30, 136, 472)//32
-
-
-	SpriteFrame(-24, -30, 64, 64, 0, 413) //33
-
-
-	// lazy filler
-	SpriteFrame(-48, -24, 20, 24, 52, 59) //34 ring
-	SpriteFrame(-48, -23, 20, 22, 83, 180) //35 ring
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//36
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//37
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//38
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//39
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//40
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//41
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//42
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//43
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//44
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//45
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//46
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//47
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//48	
-
-	SpriteFrame(0,0,64,66,126,257) //49 DPAD
-	SpriteFrame(26,0,12,25,242,321) //50 DPAD up press
-	SpriteFrame(26,0,12,26,242,359) //51 DPAD down press
-	SpriteFrame(0,25,26,13,215,358) //52 DPAD left press
-	SpriteFrame(0,25,26,13,215,372) //53 DPAD right press
-	SpriteFrame(0,0,48,48,191,257) //54 A button
-	SpriteFrame(0,0,48,48,191,306) //55 A button down
-
-	SpriteFrame(32,0,16,16,174,325) // 56 Pause Button
-
-	SpriteFrame(0,0,33,33,123,325) // 57 Super Button - Mobile
-
-	SpriteFrame(0,0,33,33,89,325) // 58 Super Button - Mobile
-
-	SpriteFrame(0,0,16,16,174,325) // 59 Pause Button again
 
 end event
 

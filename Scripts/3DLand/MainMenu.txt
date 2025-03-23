@@ -22,7 +22,7 @@ public alias saveRAM[296]: saved.transmobile
 private alias Object.Value0 : Object.Timer 
 private alias Object.Value1 : Logo.Xpos
 private alias Object.Value2 : Object.MenuChoose
-
+private alias Object.Value3 : Object.ZPos
 
 private alias object.value6 : object.extraoffset
 private alias object.value7 : object.extratarget
@@ -152,13 +152,25 @@ event ObjectMain
 
 	//Techinal Stuff
 
-	TileLayer[0].Angle = -32
+	TileLayer[0].Angle = 128
+
+
+	// X/Z movement
+	Sin(TileLayer[0].XPos, TileLayer[0].Angle)
+	Cos(TileLayer[0].ZPos, TileLayer[0].Angle)
+	TileLayer[0].XPos *= 0x12800
+	TileLayer[0].ZPos *= 0x12800
+	TileLayer[0].XPos += object.xpos
+	TileLayer[0].ZPos += object.zpos
 
 
 	// Just take Sonic's Y Position, smooth it out a bit, and offset it by 88 pixels
 	TileLayer[0].YPos = object.YPos
 	TileLayer[0].YPos /= 3
 	TileLayer[0].YPos += 0x1280000	
+
+	
+
 
 end event
 
@@ -258,16 +270,6 @@ event ObjectDraw
 			break
 	end switch
 
-	//Techinal Stuff
-
-	TileLayer[0].Angle = -32
-
-
-	// Just take Sonic's Y Position, smooth it out a bit, and offset it by 88 pixels
-	TileLayer[0].YPos = object.YPos
-	TileLayer[0].YPos /= 3
-	TileLayer[0].YPos += 0x1280000
-
 
 end event
 
@@ -299,7 +301,7 @@ event ObjectStartup
 	SpriteFrame(-80, -84, 166, 11, 345, 117)		//7
 
 
-	
+
 	
 	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 
@@ -312,7 +314,20 @@ event ObjectStartup
 	// Make the HUD draw ontop of all other sprites, too
 	Object[4].DrawOrder = 6
 	
-	
+	// Cycle through all UFO objects in the scene and set them up
+	ArrayPos0 = 32
+	while ArrayPos0 < 1056
+		if Object[ArrayPos0].Type == TypeName[Main Menu]
+			
+			// Due to the difference between editor and game, turn YPos into ZPos here
+			Object[4].ZPos = Object[ArrayPos0].YPos
+
+			ResetObjectEntity(ArrayPos0, TypeName[Blank Object], 0, 0, 0)
+		
+		end if
+		
+		ArrayPos0++
+	loop
 
 end event
 

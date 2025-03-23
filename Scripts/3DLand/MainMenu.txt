@@ -293,10 +293,13 @@ event ObjectStartup
 	SpriteFrame(130, 0, 15, 11, 360, 59)		//5
 
 	//render
-	SpriteFrame(-150, -64, 178, 147, 79, 1)		//6
+	SpriteFrame(-150, -64, 178, 147, 1, 1)		//6
 
 	//choose
 	SpriteFrame(-80, -84, 166, 11, 345, 117)		//7
+
+
+	
 	
 	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 

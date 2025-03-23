@@ -40,7 +40,6 @@ event ObjectMain
 	case 0	//setup
 		object.timer = 255
 		Logo.Xpos = screen.xcenter
-		
 		object.state++
 	//	PlayMusic(0)	
 	break
@@ -59,6 +58,7 @@ event ObjectMain
 	break
 	case 2	//logo move in
 		object.timer++
+		
 		if object.timer == 47
 			object.timer = 0
 			Object.MenuChoose = 0
@@ -66,30 +66,47 @@ event ObjectMain
 		end if	
 	break
 	case 3
-
-
-
-
-
-	if inputpress.down == 1
-		if Object.MenuChoose > 2
-			Object.MenuChoose = 0
-		else	
-			Object.MenuChoose++
+	//Controls
+		object.alpha += 8
+		if inputpress.down == 1
+			if Object.MenuChoose > 1
+				Object.MenuChoose = 0
+			else	
+				Object.MenuChoose++
+			end if
+			PlaySfx(SfxName[Score Add], 0)			
 		end if
-		PlaySfx(SfxName[Score Add], 0)			
-	end if
 
-	if inputpress.up == 1
-		if Object.MenuChoose < 0
-			Object.MenuChoose = 2
-		else	
-			Object.MenuChoose--
+		if inputpress.up == 1
+			if Object.MenuChoose < 1
+				Object.MenuChoose = 2
+			else	
+				Object.MenuChoose--
+			end if
+			PlaySfx(SfxName[Score Add], 0)			
 		end if
-		PlaySfx(SfxName[Score Add], 0)			
-	end if
 
+	if inputPress.start == 1
+		PlaySfx(SfxName[Lamp Post], 0)
+		switch Object.MenuChoose
+		case 2	//lol
+			object.state = 99
+		break
+		end switch
+	end if	
+		
 
+	break
+	case 99
+		music.volume -= 32
+		object.timer += 8
+		SetClassicFade(0, 0, 0, Object.Timer)
+		if object.timer >= 255
+			StopMusic()
+			stage.activeList = PRESENTATION_STAGE
+			stage.listPos = 6
+			LoadStage()				
+		end if
 	break
 	end switch
 
@@ -123,15 +140,51 @@ event ObjectDraw
 			temp3 = screen.xcenter	
 			temp3 = 426
 			temp3 -= object.extraoffset
+			//LOGO
 			DrawSpriteScreenFX(0, FX_ROTATE, temp3, screen.ycenter)	
-
+			//BUTTONS
 			DrawSpriteScreenFX(1, FX_ROTATE, temp3, screen.ycenter)	
-
 		break
 		case 3
+		case 99
+			//dont move
+			object.extratarget = 0
+			//LOGO
 			DrawSpriteScreenFX(0, FX_ROTATE, temp3, screen.ycenter)	
-
+			//BUTTONS
 			DrawSpriteScreenFX(1, FX_ROTATE, temp3, screen.ycenter)	
+
+
+				switch Object.MenuChoose
+					case STARTGAME
+						DrawSpriteScreenFX(2, FX_ROTATE, temp3, screen.ycenter)	
+						temp4 = screen.ycenter
+					
+						temp3 -= 20
+						DrawSpriteScreenFX(5, FX_ROTATE, temp3, temp4)		
+					break
+					case ENDLESSMODE
+						DrawSpriteScreenFX(3, FX_ROTATE, temp3, screen.ycenter)	
+						temp4 = screen.ycenter
+						temp4 += 23
+						temp3 -= 20
+						DrawSpriteScreenFX(5, FX_ROTATE, temp3, temp4)		
+					break					
+					case RETURNTOMENU
+						DrawSpriteScreenFX(4, FX_ROTATE, temp3, screen.ycenter)	
+						temp4 = screen.ycenter
+						temp4 += 46
+						temp3 -= 20
+						DrawSpriteScreenFX(5, FX_ROTATE, temp3, temp4)							
+					break						
+				end switch
+			object.InkEffect = INK_ALPHA
+			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)		
+				
+			
+			
+			break
+		default
 			object.extratarget = 0
 			break
 	end switch
@@ -156,8 +209,23 @@ event ObjectStartup
 	
 	//logo
 	SpriteFrame(16, -96, 184, 57, 327, 1)	//0
+	//buttons
+	SpriteFrame(128, 0, 67, 57, 376, 59)		//1
 
-	SpriteFrame(128, 0, 67, 45, 376, 59)		//1
+	//HIGHLIGHTED
+	//Start
+	SpriteFrame(156, 0, 39, 11, 472, 59)		//2
+	//Endless
+	SpriteFrame(140, 23, 55, 11, 456, 82)		//3
+	//Start
+	SpriteFrame(130, 46, 65, 11, 446, 105)		//4
+
+	//page icon
+	SpriteFrame(130, 0, 15, 11, 360, 59)		//5
+
+	//render
+	SpriteFrame(-150, -64, 178, 147, 79, 1)		//6
+
 	
 	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 

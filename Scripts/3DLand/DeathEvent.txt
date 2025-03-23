@@ -93,7 +93,7 @@ event ObjectStartup
 	LoadSpriteSheet("3D_Test/Objects.gif")
 	
 	// 0 - SLENDERMAN!!
-	SpriteFrame(-30, -24, 63, 112, 339, 1)
+	SpriteFrame(-32, -24, 63, 112, 339, 1)
 
 
 	SpriteFrame(-34, -30, 68, 30, 0, 412) //1 Static

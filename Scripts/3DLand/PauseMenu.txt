@@ -275,31 +275,13 @@ event ObjectMain
 						break
 					case 1
 						object.state = 3
-						lampPostID = 0
 						break
 					case 2
 						object.state = 3
 						break					
 					case 3
-						stage.listPos = 6
-						if options.gameMode == 2
-							if stage.activeList == BONUS_STAGE
-								recGoggles = 102
-							else
-								stage.listPos = 8
-							end if
-						end if
-						if options.gameMode == 3
-							saveRAM[630] = player.score
-							temp0 = stage.playerListPos
-							temp0++
-							saveRAM[640] = temp0
-							stage.listPos = 3
-						end if
-						if options.gameMode == 5
-							stage.listPos = 11
-						end if						
-						stage.activeList = PRESENTATION_STAGE
+						stage.listPos = 3
+						stage.activeList = BONUS_STAGE
 						object.state = 3
 						lampPostID = 0
 						break

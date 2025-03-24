@@ -44,6 +44,9 @@ private alias 5 : MENU_CHARASEL
 private alias 6 : MENU_LOWFADEOUTCHARASEL
 private alias 7 : MENU_FADEINTOCHARSEL	//wow what good ordering
 private alias 8 : MENU_FADEINTOMAINCARD
+private alias 9 : MENU_STARTGAME
+
+
 
 event ObjectMain
 	switch object.state
@@ -142,6 +145,14 @@ event ObjectMain
 			PlaySfx(SfxName[Score Add], 0)			
 		end if
 
+		if inputpress.start == 1
+			StopMusic()
+			PlaySfx(SfxName[Thunder], 0)
+			PlaySfx(SfxName[Lamp Post], 0)
+			options.gamemode = 0
+			object.timer = 0
+			object.state = MENU_STARTGAME
+		end if
 
 		if inputPress.buttonB == 1
 			PlaySfx(SfxName[Skidding], 0)
@@ -171,6 +182,27 @@ event ObjectMain
 			object.state = MENU_MAINCARD
 		end if
 	break
+
+	case MENU_STARTGAME
+		object.timer += 4
+		object.alpha -= 8
+
+		options.gamemode = 0
+		object.scale += 64
+		if object.timer >= 400
+			if Object.PlayerSelection < 3
+				stage.playerlistpos = Object.PlayerSelection
+			else
+				stage.playerlistpos = 5
+			end if	
+			stage.activeList = BONUS_STAGE
+			stage.listPos = 2
+			LoadStage()
+		end if
+
+	break
+
+
 	case 99	//exit
 		music.volume -= 32
 		object.timer += 8
@@ -260,7 +292,6 @@ event ObjectDraw
 					case STARTGAME
 						DrawSpriteScreenFX(2, FX_INK, temp3, screen.ycenter)	
 						temp4 = screen.ycenter
-					
 						temp3 -= 20
 						DrawSpriteScreenFX(5, FX_INK, temp3, temp4)		
 					break
@@ -315,20 +346,59 @@ event ObjectDraw
 		
 			switch Object.PlayerSelection
 			case 0	//Sonic!
+				DrawSpriteScreenFX(15, FX_INK, temp3, screen.ycenter)	
 				DrawSpriteScreenFX(8, FX_INK, temp3, screen.ycenter)	
 			break
 			case 1	//Tails!
+				DrawSpriteScreenFX(14, FX_INK, temp3, screen.ycenter)	
 				DrawSpriteScreenFX(9, FX_INK, temp3, screen.ycenter)	
 			break			
 			case 2	//Knuckles!
+				DrawSpriteScreenFX(16, FX_INK, temp3, screen.ycenter)	
 				DrawSpriteScreenFX(10, FX_INK, temp3, screen.ycenter)	
 			break			
 			case 3	//Amy!
+				DrawSpriteScreenFX(17, FX_INK, temp3, screen.ycenter)	
 				DrawSpriteScreenFX(11, FX_INK, temp3, screen.ycenter)	
 			break			
 			end switch	
 		
+
+			DrawSpriteScreenFX(13, FX_INK, temp3, screen.ycenter)	
+			temp3 += 200
+			DrawSpriteScreenFX(12, FX_INK, temp3, screen.ycenter)	
 		break	
+		case MENU_STARTGAME
+			object.extratarget = 0
+		
+			DrawSpriteScreenFX(7, FX_INK, screen.xcenter, screen.ycenter)	
+
+			temp3 = screen.xcenter	
+
+			DrawSpriteScreenFX(13, FX_INK, temp3, screen.ycenter)	
+			temp3 += 200
+			DrawSpriteScreenFX(12, FX_INK, temp3, screen.ycenter)	
+
+			temp3 -= 200
+
+			switch Object.PlayerSelection
+			case 0	//Sonic!
+				DrawSpriteScreenFX(8, FX_SCALE, temp3, screen.ycenter)	
+			break
+			case 1	//Tails!
+				DrawSpriteScreenFX(9, FX_SCALE, temp3, screen.ycenter)	
+			break			
+			case 2	//Knuckles!
+				DrawSpriteScreenFX(10, FX_SCALE, temp3, screen.ycenter)	
+			break			
+			case 3	//Amy!
+				DrawSpriteScreenFX(11, FX_SCALE, temp3, screen.ycenter)	
+			break			
+			end switch	
+		
+
+
+		break		
 		default
 			object.extratarget = 0
 			break
@@ -374,7 +444,20 @@ event ObjectStartup
 	//Amy Render
 	SpriteFrame(-64, -44, 130, 149, 130, 363)		//11
 
+	//Arrow Left
+	SpriteFrame(-120, 0, 32, 32, 396, 153)		//12
+	//Arrow Right
+	SpriteFrame(-120, 0, 32, 32, 429, 153)		//13
 
+
+	//Easy
+	SpriteFrame(-16, -72, 31, 11, 471, 155)		//14
+	//Normal
+	SpriteFrame(-22, -72, 47, 11, 463, 171)		//15
+	//Hard
+	SpriteFrame(-16, -72, 31, 11, 471, 187)		//16
+	//Extreme
+	SpriteFrame(-26, -72, 57, 11, 454, 201)		//17	
 	
 	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 

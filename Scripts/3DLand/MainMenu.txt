@@ -23,6 +23,7 @@ private alias Object.Value0 : Object.Timer
 private alias Object.Value1 : Logo.Xpos
 private alias Object.Value2 : Object.MenuChoose
 private alias Object.Value3 : Object.ZPos
+private alias Object.Value4 : Object.PlayerSelection
 
 private alias object.value6 : object.extraoffset
 private alias object.value7 : object.extratarget
@@ -41,7 +42,7 @@ private alias 3 : MENU_MAINCARD
 private alias 4 : MENU_GOTOCHARSEL
 private alias 5 : MENU_CHARASEL
 private alias 6 : MENU_LOWFADEOUTCHARASEL
-
+private alias 7 : MENU_FADEINTOCHARSEL	//wow what good ordering
 private alias 8 : MENU_FADEINTOMAINCARD
 
 event ObjectMain
@@ -95,29 +96,52 @@ event ObjectMain
 			PlaySfx(SfxName[Score Add], 0)			
 		end if
 
-	if inputPress.start == 1
-		PlaySfx(SfxName[Lamp Post], 0)
-		switch Object.MenuChoose
-		case 0	//lol
-			object.timer = 0
-			object.state = 4
-		break		
-		case 2	//lol
-			object.state = 99
-		break
-		end switch
-	end if	
+		if inputPress.start == 1
+			PlaySfx(SfxName[Lamp Post], 0)
+			switch Object.MenuChoose
+			case 0	//lol
+				object.timer = 0
+				object.state = MENU_GOTOCHARSEL
+			break		
+			case 2	//lol
+				object.state = 99
+			break
+			end switch
+		end if	
 	break
 	case MENU_GOTOCHARSEL	//transition to next thing
-		object.alpha -= 16
+		object.alpha -= 8
 		if object.alpha <= 0
-			object.state++
+			object.alpha = 0
+			Object.PlayerSelection = 0
+			object.state = MENU_FADEINTOCHARSEL
 		end if
 	break
 	case MENU_CHARASEL
-		if object.alpha < 256
-			object.alpha += 8
+		if object.alpha <= 255
+			object.alpha += 8			
 		end if
+
+
+
+		if inputpress.right == 1
+			if Object.PlayerSelection > 2
+				Object.PlayerSelection = 0
+			else	
+				Object.PlayerSelection++
+			end if
+			PlaySfx(SfxName[Score Add], 0)			
+		end if
+
+		if inputpress.left == 1
+			if Object.PlayerSelection < 1
+				Object.PlayerSelection = 3
+			else	
+				Object.PlayerSelection--
+			end if
+			PlaySfx(SfxName[Score Add], 0)			
+		end if
+
 
 		if inputPress.buttonB == 1
 			PlaySfx(SfxName[Skidding], 0)
@@ -127,12 +151,22 @@ event ObjectMain
 	case MENU_LOWFADEOUTCHARASEL
 		object.alpha -= 16
 		if object.alpha <= 0
+			object.alpha = 0
 			object.state = 8
 		end if
 	break
-	//screw 7 for some reason
+	case MENU_FADEINTOCHARSEL
+		if object.alpha < 255
+			object.alpha += 8		
+		end if
+		object.timer++
+		if object.timer == 44
+			object.timer = 0
+			object.state = MENU_CHARASEL	
+		end if	
+	break
 	case MENU_FADEINTOMAINCARD
-		object.alpha += 16
+		object.alpha += 8
 		if object.alpha >= 255
 			object.state = MENU_MAINCARD
 		end if
@@ -196,7 +230,7 @@ event ObjectDraw
 	end if
 	object.InkEffect = INK_ALPHA
 	switch object.state
-		case 2
+		case MENU_LOGOMOVEIN
 			object.extratarget = screen.xsize
 			object.extratarget += 20
 
@@ -211,8 +245,8 @@ event ObjectDraw
 			temp3 -= 16
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)
 		break
-		case 3
-		case 8
+		case MENU_MAINCARD
+		case MENU_FADEINTOMAINCARD
 		case 99	//exit
 			//dont move
 			object.extratarget = 0
@@ -248,7 +282,7 @@ event ObjectDraw
 			
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)		
 			break
-		case 4
+		case MENU_GOTOCHARSEL
 			object.extratarget = 0
 			//LOGO
 			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
@@ -259,11 +293,41 @@ event ObjectDraw
 			temp3 -= 20
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)	
 		break		
-		case 5
-		case 6
+		case MENU_FADEINTOCHARSEL
+			DrawSpriteScreenFX(7, FX_INK, screen.xcenter, screen.ycenter)	
+
+			object.extratarget = screen.xsize
+			object.extratarget += 20
+
+			temp3 = screen.xcenter	
+			temp3 = 426
+			temp3 -= object.extraoffset
+
+			DrawSpriteScreenFX(8, FX_INK, temp3, screen.ycenter)	
+		break
+		case MENU_CHARASEL
+		case MENU_LOWFADEOUTCHARASEL
 			object.extratarget = 0
-			temp3 = screen.xcenter
-			DrawSpriteScreenFX(7, FX_INK, temp3, screen.ycenter)	
+		
+			DrawSpriteScreenFX(7, FX_INK, screen.xcenter, screen.ycenter)	
+
+			temp3 = screen.xcenter	
+		
+			switch Object.PlayerSelection
+			case 0	//Sonic!
+				DrawSpriteScreenFX(8, FX_INK, temp3, screen.ycenter)	
+			break
+			case 1	//Tails!
+				DrawSpriteScreenFX(9, FX_INK, temp3, screen.ycenter)	
+			break			
+			case 2	//Knuckles!
+				DrawSpriteScreenFX(10, FX_INK, temp3, screen.ycenter)	
+			break			
+			case 3	//Amy!
+				DrawSpriteScreenFX(11, FX_INK, temp3, screen.ycenter)	
+			break			
+			end switch	
+		
 		break	
 		default
 			object.extratarget = 0
@@ -298,8 +362,17 @@ event ObjectStartup
 	SpriteFrame(-150, -64, 178, 147, 1, 1)		//6
 
 	//choose
-	SpriteFrame(-80, -84, 166, 11, 345, 117)		//7
+	SpriteFrame(-80, -102, 166, 11, 345, 117)		//7
 
+	//char renders
+	//Sonic Render
+	SpriteFrame(-56, -42, 103, 148, 1, 229)		//8
+	//Tails Render
+	SpriteFrame(-84, -32, 160, 116, 105, 247)		//9
+	//Knux Render
+	SpriteFrame(-64, -42, 129, 134, 0, 378)		//10
+	//Amy Render
+	SpriteFrame(-64, -44, 130, 149, 130, 363)		//11
 
 
 	

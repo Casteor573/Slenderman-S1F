@@ -111,6 +111,10 @@ event ObjectMain
 			break
 			end switch
 		end if	
+
+		if inputpress.buttonB == 1
+			object.state = 99
+		end if
 	break
 	case MENU_GOTOCHARSEL	//transition to next thing
 		object.alpha -= 8
@@ -124,8 +128,6 @@ event ObjectMain
 		if object.alpha <= 255
 			object.alpha += 8			
 		end if
-
-
 
 		if inputpress.right == 1
 			if Object.PlayerSelection > 2
@@ -208,6 +210,7 @@ event ObjectMain
 		object.timer += 8
 		SetClassicFade(0, 0, 0, Object.Timer)
 		if object.timer >= 255
+			music.volume = 0
 			StopMusic()
 			stage.activeList = PRESENTATION_STAGE
 			stage.listPos = 6

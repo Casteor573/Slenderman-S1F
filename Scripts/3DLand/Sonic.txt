@@ -990,9 +990,12 @@ event ObjectMain
 		end if
 	end if
 
+	if inputPress.buttonX == 1
+		Object[4].Value0 = 0
+	end if	
 
 	if inputPress.buttonZ == 1
-		SSsonic.state = SSSONIC_HURT
+		Object[6].type = TypeName[Blank Object]
 	end if
 
 	if PlayerHealth == 0

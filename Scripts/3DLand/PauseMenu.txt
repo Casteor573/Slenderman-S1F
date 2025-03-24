@@ -26,6 +26,9 @@ private alias 23 : TYPE_MUSICEVENT
 	reserve function RestartSFX
 // Static Values
 
+public value PlayerHealth = 3;
+
+
 // Tables
 
 function RestartSFX
@@ -280,10 +283,16 @@ event ObjectMain
 						object.state = 3
 						break					
 					case 3
+					if PlayerHealth > 1
 						stage.listPos = 3
 						stage.activeList = BONUS_STAGE
 						object.state = 3
 						lampPostID = 0
+					else
+						PlayerHealth = 0
+						stage.state = STAGE_RUNNING
+						ResetObjectEntity(object.entityPos, TypeName[Blank Object], 0, 0, 0)
+					end if	
 						break
 				end switch
 			end if

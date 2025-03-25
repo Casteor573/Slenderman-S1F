@@ -41,6 +41,7 @@ private alias 2 : UFO_CONTENTS_TIME
 private alias 1 : PRIORITY_ACTIVE
 
 public value PlayerHealth = 3;
+public value Crafting.State = 0;
 
 event ObjectMain
 
@@ -80,12 +81,17 @@ event ObjectMain
 	
 	//hunting code
 
+
+
+switch object.state
+case 0	//Page Collecting
+if Object[4].Value0 != 0
+	//title card gone?
+	if Object[20].Type == TypeName[Blank Object]	
+
 	Object.XPos += Object.XVelocity
 	Object.ZPos += Object.ZVelocity
 	Object.YPos += Object.Yvel
-
-	//title card gone?
-	if Object[20].Type == TypeName[Blank Object]	
 
 	// Long list of checks for the hitbox detection
 
@@ -176,7 +182,24 @@ event ObjectMain
 	next
 
 	end if
+else
+	object.state++
+end if
+break
+case 1	//blank
+	if crafting.state >= 6
+		object.state++
+	end if
+break
+case 2
+	temp0 = 1984	//sonlvl positions work
+	temp0 <<= 16
+	Abs(temp0)
 
+	Object.XPos = temp0
+	Object.ZPos =  Object[2].zpos
+break
+end switch
 
 
 
@@ -184,6 +207,7 @@ end event
 
 
 event ObjectDraw
+if object.state != 1
 	if Object.ScreenDepth > 256 // Don't draw if the UFO is too close to the screen
 		
 		// Do some maths to find the position & scale the UFO should be at
@@ -229,7 +253,7 @@ event ObjectDraw
 		DrawSpriteScreenFX(3, FX_SCALE, temp0, temp1)
 		
 	end if
-
+end if
 	
 end event
 

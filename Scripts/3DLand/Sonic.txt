@@ -952,7 +952,7 @@ event ObjectMain
 
 	if inputPress.buttonX == 1
 		Object[4].Value0 = 0
-		Object[6].type = TypeName[Blank Object]
+		Object[6].state = 1
 	end if	
 
 	if PlayerHealth == 0

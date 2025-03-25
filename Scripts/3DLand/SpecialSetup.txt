@@ -148,6 +148,7 @@ event ObjectStartup
 
 	SetMusicTrack("ambience.ogg", 0, 1)
 	SetMusicTrack("RobloxHorror.ogg", 1, false)
+	SetMusicTrack("ThisIsA.ogg", 2, 1)
 
 	Stage.PauseEnabled = false
 	

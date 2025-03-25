@@ -148,20 +148,23 @@ if Object[4].value0 == 0	//no more pages?
 
 		DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
 		
-		if Object.ScreenDepth < 0x38C8
-			if Object.ScreenDepth > 0x1094
+		if Crafting.State < 1
 
-				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
-				if Object.ScreenXPos > -0x2000
-					if Object.ScreenXPos < 0x2000
+			if Object.ScreenDepth < 0x58C8
+				if Object.ScreenDepth > 0x4094
 
-					DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+					// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+					if Object.ScreenXPos > -0x2000
+						if Object.ScreenXPos < 0x2000
 
+						DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+
+						end if
 					end if
 				end if
 			end if
-		end if
 
+		end if
 
 	end if
 end if
@@ -187,11 +190,17 @@ event ObjectStartup
 	SpriteFrame(-40, -8, 80, 16, 1, 117)
 	
 	// Cycle through all UFO objects in the scene and set them up
+
+	// Place a Sonic object into reserved object slot 2 and initialise its values
+	Object[12].Type = TypeName[Crafting Table]
+	
+	// Make Sonic always active
+	Object[12].Priority = PRIORITY_ACTIVE
+
 	ArrayPos0 = 32
 	while ArrayPos0 < 1056
 		if Object[ArrayPos0].Type == TypeName[Crafting Table]
-			
-			// Set the UFO to always be active
+		
 			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
 			
 		

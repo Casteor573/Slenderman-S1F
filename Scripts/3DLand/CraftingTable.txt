@@ -41,6 +41,7 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
+public value IsCrafting = 0;
 
 event ObjectMain
 if Object[4].value0 == 0	//no more pages?	
@@ -78,21 +79,24 @@ if Object[4].value0 == 0	//no more pages?
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
 		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
-		if Object.ScreenDepth < 0x8C8
-			if Object.ScreenDepth > 0x094
+		if Object.ScreenDepth < 0x38C8
+			if Object.ScreenDepth > 0x1094
 
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
-				if Object.ScreenXPos > -0x2000
-					if Object.ScreenXPos < 0x2000
-						object[2].speed = 20000
-						object[6].speed = 40000	//slow the slender down!
+				if Object.ScreenXPos > -0x1000
+					if Object.ScreenXPos < 0x1000
+						if inputpress[2].buttonZ == 1
+							object[2].controlMode = -1
+							object[2].speed = 0
+							MouseEnabled = 1
+							IsCrafting = 1
+						end if
 					end if
 				end if
 			end if
 		end if
 	next
 end if
-
 end event
 
 
@@ -144,6 +148,21 @@ if Object[4].value0 == 0	//no more pages?
 
 		DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
 		
+		if Object.ScreenDepth < 0x38C8
+			if Object.ScreenDepth > 0x1094
+
+				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
+
+					DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+
+					end if
+				end if
+			end if
+		end if
+
+
 	end if
 end if
 end event
@@ -159,7 +178,7 @@ event ObjectStartup
 	SpriteFrame(-32, -64, 67, 74, 348, 114)
 	
 	// 1 - Speed Shoes Variant
-	SpriteFrame(-40, -28, 80, 56, 82, 1)
+	SpriteFrame(-8, -84, 18, 18, 178, 513)
 	
 	// 2 - Extra Time Variant
 	SpriteFrame(-40, -28, 80, 56, 163, 1)

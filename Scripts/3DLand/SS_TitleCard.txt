@@ -12,9 +12,6 @@ private alias Object.Value5			:	Object.FadeG
 private alias Object.Value6			:	Object.FadeB
 private alias Object.Value7			:	Object.CharPos
 
-// SS Sonic aliases
-private alias object[2].controlmode		:	SSSonic.ControlMode
-
 // HUD Alias
 private alias Object.Value1			:	HUD.TimeSeconds
 private alias Object.Value2			:	HUD.TimeFrames
@@ -75,8 +72,7 @@ event ObjectDraw
 
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 255)
 		
-		// Lock Sonic's control
-		SSSonic.ControlMode = CONTROLMODE_NONE
+	
 		break
 		
 	case TITLECARD_SLIDEIN
@@ -144,7 +140,7 @@ event ObjectDraw
 			
 		else
 
-			SSSonic.ControlMode = CONTROLMODE_NORMAL
+			object[2].controlMode = CONTROLMODE_NORMAL
 
 			// The Title Card's job is done, despawn it
 			ResetObjectEntity(20, TypeName[Blank Object], 0, 0, 0)

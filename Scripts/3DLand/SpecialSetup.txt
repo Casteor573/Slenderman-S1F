@@ -135,7 +135,6 @@ end event
 
 
 event ObjectStartup
-	
 	// Despite not having any SpriteFrames to draw with, go ahead and load the Special Stage objects sheet anyway
 	// (It doesn't make much of a difference but hey, may as well anyway!)
 	LoadSpriteSheet("3D_Test/Objects.gif")

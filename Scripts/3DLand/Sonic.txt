@@ -163,6 +163,8 @@ private alias 1 : STAGEFINISH_T_STONEOBTAINED
 
 public value PlayerHealth = 3;
 
+public value IsCrafting = 0;
+
 
 function Sonic_ProcessPlayer
 	
@@ -223,16 +225,7 @@ function Sonic_ProcessPlayer
 				inputPress.buttonA |= inputDown.buttonA
 			end if
 			touchJump = inputDown.buttonA
-			if stage.debugMode == 1
-				CheckTouchRect(0, 0, 122, 56)
-				if checkResult > -1
-					inputDown.buttonB = 1
-				end if
-				if touchDebug == 0
-					inputPress.buttonB |= inputDown.buttonB
-				end if
-				touchDebug = inputDown.buttonB
-			end if
+	
 			temp0=screen.xsize
 			temp0-=90
 			CheckTouchRect(temp0, 0, screen.xsize, 40)
@@ -377,42 +370,12 @@ end function
 
 function Sonic_HandleMovement
 	
-	// Update Sonic's tilt based on what directions the player is currently holding
-	// Left takes priority over right, similarly to the maingame
 	if object.Left == true
-		SSSonic.Tilt--
-		
-		// Min tilt of -8
-		if SSSonic.Tilt < -8
-			SSSonic.Tilt = -8
-		end if
-	else
-		if object.Right == true
-			SSSonic.Tilt++
-			
-			// Max tilt of 8
-			if SSSonic.Tilt > 8
-				SSSonic.Tilt = 8
-			end if
-		else
-			// Neither left nor right are held, restore Sonic's tilt to neutral position
-			
-			if SSSonic.Tilt > 0
-				SSSonic.Tilt--
-			end if
-			
-			if SSSonic.Tilt < 0
-				SSSonic.Tilt++
-			end if
-		end if
-	end if
-	
-	if object.Left == true
-		SSSonic.Angle += 8
+		SSSonic.Angle += 6
 	end if
 	
 	if object.Right == true
-		SSSonic.Angle -= 8
+		SSSonic.Angle -= 6
 	end if
 	
 	if SSSonic.Angle < 0
@@ -593,13 +556,13 @@ end function
 function Sonic_HandleTileInteractions
 	
 	// Get the player's truncated XPos and ZPos for tile collision purposes
-	temp0 = SSSonic.XPos
-	temp0 >>= 16
-	temp1 = SSSonic.ZPos
-	temp1 >>= 16
+//	temp0 = SSSonic.XPos
+//	temp0 >>= 16
+//	temp1 = SSSonic.ZPos
+//	temp1 >>= 16
 	
 	// Pass the results over to the bumper function for bumping interations
-	CallFunction(Sonic_HandleBumperInteraction)
+//	CallFunction(Sonic_HandleBumperInteraction)
 	
 	// Get the player's truncated XPos and ZPos for tile collision purposes (again)
 	temp0 = SSSonic.XPos
@@ -977,9 +940,6 @@ event ObjectMain
 	end if
 
 
-
-
-
 	if SSonic.invulnerable > 0
 		SSonic.invulnerable--
 		GetBit(temp0, SSonic.invulnerable, 2)
@@ -992,11 +952,8 @@ event ObjectMain
 
 	if inputPress.buttonX == 1
 		Object[4].Value0 = 0
-	end if	
-
-	if inputPress.buttonZ == 1
 		Object[6].type = TypeName[Blank Object]
-	end if
+	end if	
 
 	if PlayerHealth == 0
 		
@@ -1007,13 +964,17 @@ event ObjectMain
 	
 	end if
 
-	
 	if PlayerHealth < 3
 		object.value12++
 		if object.value12 == 600
 			PlayerHealth += 1
 			object.value12 = 0
 		end if	
+	end if
+
+
+	if IsCrafting == 1
+		SSSonic.State = SSSONIC_INTROPOSE
 	end if
 
 	switch SSSonic.State
@@ -1062,13 +1023,15 @@ event ObjectMain
 				SSSonic.Speed = 0x42000
 			end if
 		end if	//else slow down
-		if inputdown.down == 1
+
+		if inputdown.down == 1	//if holding up, move
 			if SSSonic.Speed > -0x42000
 				SSSonic.Speed -= 0x1500
 			else
 				SSSonic.Speed = -0x42000
 			end if
-		end if
+		end if	//else slow down
+
 
 		CheckEqual(inputdown.up, 0)
 		temp1 = checkResult
@@ -1132,14 +1095,6 @@ event ObjectMain
 	case SSSONIC_JUMPING
 		CallFunction(Sonic_ProcessPlayer)
 
-		if inputdown[1].Down == true
-			SSSonic.Speed -= 0x0C00
-			
-			if SSSonic.Speed < 0x1E000
-				SSSonic.Speed = 0x1E000
-			end if
-		end if
-		
 		if object.JumpHold == false
 			if SSSonic.YVelocity > 0x2A000
 				SSSonic.YVelocity = 0x2A000
@@ -1534,7 +1489,11 @@ event ObjectMain
 		CallFunction(Sonic_HandleMovement)
 
 
-		if inputDown.up == 1
+		CheckEqual(inputdown.up, 1)
+		temp1 = checkResult
+		CheckEqual(inputdown.down, 1)
+		temp1 |= checkResult		
+		if temp1 == 1
 			// Fully turned around now and ready to go!
 			SSSonic.Timer = 0
 
@@ -1609,10 +1568,8 @@ event ObjectMain
 		// Touched the ground?
 		if SSSonic.YPos < 0
 			SSSonic.YPos = 0
-			
-		
-				SSSonic.State     = SSSONIC_WALKING
-				
+			SSSonic.speed = 0
+			SSSonic.State     = SSSONIC_WALKING
 		end if
 
 		SSSonic.State     = SSSONIC_WALKING

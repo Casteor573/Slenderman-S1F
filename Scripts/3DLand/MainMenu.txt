@@ -249,7 +249,6 @@ event ObjectDraw
 	DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 128)
 
 	//SLIDING STUFF
-
 	temp0 = object.extraoffset	
 	temp0 -= object.extratarget
 	Abs(temp0)
@@ -270,13 +269,12 @@ event ObjectDraw
 			object.extratarget += 20
 
 			temp3 = screen.xcenter	
-			temp3 = 426
+			temp3 = screen.xsize
 			temp3 -= object.extraoffset
 			//LOGO
 			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
 			//BUTTONS
 			DrawSpriteScreenFX(1, FX_INK, temp3, screen.ycenter)	
-
 			temp3 -= 16
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)
 		break
@@ -334,7 +332,7 @@ event ObjectDraw
 			object.extratarget += 20
 
 			temp3 = screen.xcenter	
-			temp3 = 426
+			temp3 = screen.xsize
 			temp3 -= object.extraoffset
 
 			DrawSpriteScreenFX(8, FX_INK, temp3, screen.ycenter)	

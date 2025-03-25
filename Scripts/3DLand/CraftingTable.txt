@@ -79,12 +79,12 @@ if Object[4].value0 == 0	//no more pages?
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
 		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
-		if Object.ScreenDepth < 0x38C8
-			if Object.ScreenDepth > 0x1094
+		if Object.ScreenDepth < 0x58C8
+			if Object.ScreenDepth > 0x4094
 
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
-				if Object.ScreenXPos > -0x1000
-					if Object.ScreenXPos < 0x1000
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
 						if inputpress[2].buttonZ == 1
 							object[2].controlMode = -1
 							object[2].speed = 0
@@ -103,7 +103,7 @@ end event
 event ObjectDraw
 if Object[4].value0 == 0	//no more pages?
 	if Object.ScreenDepth > 256 // Don't draw if the UFO is too close to the screen
-		
+	
 		// Do some maths to find the position & scale the UFO should be at
 		
 		Object.Scale = 0x800000

@@ -939,7 +939,6 @@ event ObjectMain
 		HUD[4].SpeedShoes--
 	end if
 
-
 	if SSonic.invulnerable > 0
 		SSonic.invulnerable--
 		GetBit(temp0, SSonic.invulnerable, 2)

@@ -108,23 +108,44 @@ function CraftingUI
 
 			DrawSpriteScreenXY(43, touchscreen[0].xpos, touchscreen[0].ypos)
 		
+			CheckTouchRect(202, 170, 234, 202)
+			if checkResult > -1
+				PlaySfx(SfxName[Score Add], 0)	
+				crafting.state++
+			end if		
+
+
+
+		
+		
+		break
+		case 6
+			temp3 = screen.xcenter
+			temp3 += 72
+			DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
+			DrawSpriteScreenXY(39, temp3, screen.ycenter)//the reciepe book open
+
+			DrawSpriteScreenXY(44, temp3, screen.ycenter)//recipe
+
+			temp3 -= 72
+			DrawSpriteScreenXY(45, temp3, screen.ycenter)//recipe
+
+
+
 			object.timer++
 			if object.timer == 100
 				object.timer = 0
 				StopMusic()
 				crafting.state++
-			end if		
-		
-		break
-		case 6
-	
+			end if
+
 		break
 		end switch
 	
 		//NUMBERS
 		
 		if crafting.state > 1
-			if crafting.state < 6
+			if crafting.state < 7
 				temp1 = screen.xcenter
 				if Crafting.State >= 3
 					temp1 += 16
@@ -170,7 +191,7 @@ function MainHUD
 							temp5*=Object.Scale
 							temp5>>=9
 
-							temp1=213
+							temp1=screen.xcenter
 							temp1-=temp0
 
 							temp2=temp1
@@ -466,7 +487,7 @@ event ObjectStartup
 	SpriteFrame(-53, -66, 116, 54, 347, 513)	//42 the thing sob
 	SpriteFrame(0, 0, 18, 18, 464, 513)	//43 paper chainsaw
 	SpriteFrame(-53, -66, 116, 54, 347, 568)	//44 the thing sob
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//45
+	SpriteFrame(0, 0, 16, 16, 8, 680)	//45 chainsaw slotted
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//46
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//47
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//48	

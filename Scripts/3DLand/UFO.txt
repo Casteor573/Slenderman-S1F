@@ -187,7 +187,7 @@ else
 end if
 break
 case 1	//blank
-	if crafting.state >= 6
+	if crafting.state >= 7
 		object.state++
 	end if
 break
@@ -197,7 +197,12 @@ case 2
 	Abs(temp0)
 
 	Object.XPos = temp0
-	Object.ZPos =  Object[2].zpos
+
+	temp1 = 2112	//sonlvl positions work
+	temp1 <<= 16
+	Abs(temp1)
+
+	Object.ZPos = temp1
 break
 end switch
 

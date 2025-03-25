@@ -396,7 +396,7 @@ function Sonic_HandleMovement
 	temp0 *= SSSonic.Speed
 	temp0 >>= 9
 	SSSonic.ZPos += temp0
-	
+
 end function
 
 

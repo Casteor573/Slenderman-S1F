@@ -119,7 +119,7 @@ event ObjectDraw
 	temp3 = screen.xcenter
 	temp3 -= object.charamount	
 	temp3 -= arrayPos0
-	temp3 -= 130
+	temp3 -= 138
 
 	object.drawX = temp3
 	object.drawY = 115

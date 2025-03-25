@@ -3,8 +3,7 @@
 //-------Unpacked By Rubberduckycooly's Script Unpacker-------//
 
 // Aliases
-private alias Object.YPos : Object.ZPos
-private alias Object.Value0 : Object.TargetNode
+private alias Object.Value0 : Object.ZPos
 private alias Object.Value1 : Object.XVelocity
 private alias Object.Value2 : Object.ZVelocity
 private alias Object.Value3 : Object.Timer
@@ -83,11 +82,13 @@ event ObjectMain
 
 	Object.XPos += Object.XVelocity
 	Object.ZPos += Object.ZVelocity
+	Object.YPos += Object.Yvel
 
-
+	//title card gone?
 	if Object[20].Type == TypeName[Blank Object]	
 
 	// Long list of checks for the hitbox detection
+
 	
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
@@ -100,55 +101,53 @@ event ObjectMain
 			if temp0 == 1		//right
 				if Object.XVelocity > 0
 					Object.XVelocity -= 0x3000	//right
-					if Object.XVelocity > 0x24000
-					Object.XVelocity = 0x24000
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
 					end if
 				else
 					Object.XVelocity -= 0x1500	//left?? i have no clue
-					if Object.XVelocity > 0x24000
-					Object.XVelocity = 0x24000
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
 					end if			
 				end if
 			else	//left
 				if Object.XVelocity < 0
 					Object.XVelocity += 0x3000
-					if Object.XVelocity > 0x24000
-					Object.XVelocity = 0x24000
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
 					end if		
 				else
 					Object.XVelocity += 0x1500
-					if Object.XVelocity > 0x24000
-					Object.XVelocity = 0x24000
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
 					end if								
 				end if
 			end if
-		
-
 
 			CheckGreater(object.ZPos, object[arrayPos2].Value0)
 			temp0 = checkResult
 			if temp0 == 1		//right
 				if Object.ZVelocity > 0
 					Object.ZVelocity -= 0x3000	//right
-					if Object.ZVelocity > 0x24000
-					Object.ZVelocity = 0x24000
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
 					end if
 				else
 					Object.ZVelocity -= 0x1500	//left?? i have no clue
-					if Object.ZVelocity > 0x24000
-					Object.ZVelocity = 0x24000
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
 					end if			
 				end if
 			else	//left
 				if Object.ZVelocity < 0
 					Object.ZVelocity += 0x3000
-					if Object.ZVelocity > 0x24000
-					Object.ZVelocity = 0x24000
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
 					end if		
 				else
 					Object.ZVelocity += 0x1500
-					if Object.ZVelocity > 0x24000
-					Object.ZVelocity = 0x24000
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
 					end if								
 				end if
 			end if
@@ -266,6 +265,9 @@ event ObjectStartup
 	while ArrayPos0 < 1056
 		if Object[ArrayPos0].Type == TypeName[UFO]
 			
+			// Due to the difference between editor and game, turn YPos into ZPos here
+			Object[6].ZPos = Object[ArrayPos0].YPos
+
 
 			ResetObjectEntity(ArrayPos0, TypeName[Blank Object], 0, 0, 0)
 		

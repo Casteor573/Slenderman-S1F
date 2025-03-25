@@ -52,6 +52,22 @@ function TextDrawing
 
 			//ASCII Table required!
 			switch object.letter
+				case 42
+					// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
+					
+
+					DrawSpriteScreenFX(27, FX_INK, object.drawX, object.drawY)
+					
+
+					// Move to the next letter
+					ArrayPos0++
+					
+					// And decrease the remaining letter count, as well
+					object.charamount--
+					
+					// Each letter should be spaced 8 pixels apart
+					object.drawX += 0x8
+					break
 				case 64	//@	LINE SKIPPER
 					object.drawY += 16
 					object.drawX -= 200
@@ -100,11 +116,33 @@ event ObjectMain
 		object.alpha += 8
 		object.timer++
 		if object.timer == 100
+			object.timer = 0
 			object.state++
 		end if
 	break
 	case 2
-		object.alpha -= 8
+		if object.alpha > -1
+			object.alpha -= 8
+		end if
+
+		if crafting.state == 1
+			object.state++
+		end if
+	break
+	case 3
+		object.timer++
+		object.alpha += 8
+		Object.index = 1
+
+		if object.timer == 120
+			object.timer = 0
+			object.state = 4
+		end if
+	break
+	case 4
+		if object.alpha > -1
+			object.alpha -= 8
+		end if
 	break
 	end switch
 end event
@@ -114,17 +152,22 @@ event ObjectDraw
 
 	ArrayPos0 = 0	//starting letter
 
+	temp1 = screen.xcenter
+	temp1 += 0x68
+	DrawRect(60, 12,  temp1, 80, color7	, color7, color7, object.alpha)
 
+	temp0 = screen.xcenter
+	temp0 += 0x60
+	DrawRect(64, 16,  temp0, 72, 0x00, 0x00, 0x00, object.alpha)
 
 	temp3 = screen.xcenter
 	temp3 -= object.charamount	
 	temp3 -= arrayPos0
 	temp3 -= 138
-
 	object.drawX = temp3
-	object.drawY = 115
+	object.drawY = 35
 
-
+	
 
 	CallFunction(TextDrawing)
 
@@ -157,6 +200,11 @@ event ObjectStartup
 		loop
 		temp1 += 17
 	loop
+
+	//undertale
+	SpriteFrame(-3, -6, 8, 16, 513, 100) //27
+
+
 	
 	
 	// Place the HUD object into reserved object slot 4 and initialise its values

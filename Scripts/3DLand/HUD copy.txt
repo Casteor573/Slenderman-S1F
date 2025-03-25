@@ -17,10 +17,10 @@ public value MouseEnabled = 0;
 public value FlashBattery = 5000;
 public value HUDEnabled = 0;
 public value IsCrafting = 0;
-public value Crafting.State = 0;
+public value OpenBook = 0;
 
 private alias Object.Value0 : Object.PageCount 
-private alias object.value2 : Object.Timer
+
 private alias object.value2 : bg.scroll
 
 public alias saveRAM[295]: saved.mobile
@@ -41,35 +41,14 @@ function CraftingUI
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
 
 		//THE BOOKS
-		switch Crafting.State
+		switch object.state
 		case 0
-			crafting.state++
-		break
-		case 1
-			object.timer++
-			if object.timer == 300
-				object.timer = 0
-				crafting.state++
-			end if
-		break
-		case 2	//first open
 			temp3 = screen.xcenter
 			DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
 
-			CheckTouchRect(128, 64, 160, 96)
-			if checkResult > -1
-				temp1 = screen.xcenter
-				temp1 -= 77
-				temp2 = screen.ycenter
-				temp2 -= 48
-				DrawSpriteScreenXY(37, temp1, temp2)
-				Crafting.State++
-
-			PlaySfx(SfxName[Score Add], 0)				
-			end if
 
 		break
-		case 3	//opened book
+		case 1
 			temp3 = screen.xcenter
 			temp3 += 72
 			DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
@@ -77,38 +56,40 @@ function CraftingUI
 
 			CheckTouchRect(52, 72, 82, 96)
 			if checkResult > -1
-				PlaySfx(SfxName[Score Add], 0)	
-				Crafting.State++			
+				OpenBook = 2
+				PlaySfx(SfxName[Score Add], 0)				
 			end if
-		break
-		case 4
-
-			temp3 = screen.xcenter
-			temp3 += 72
-			DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
-			DrawSpriteScreenXY(39, temp3, screen.ycenter)//the reciepe book open
 
 		break
 		end switch
 	
+
+
+
 		//NUMBERS
-		
-		if crafting.state > 1
+		if OpenBook < 2
 			temp1 = screen.xcenter
-			if Crafting.State >= 3
+			if OpenBook >= 1
 				temp1 += 16
 			else
 				temp1 -= 56
 			end if
 			temp2 = screen.ycenter
 			temp2 += 69
-			if Crafting.State < 4	//12	
-				DrawSpriteScreenXY(40, temp1, temp2)
-			else
-				DrawSpriteScreenXY(41, temp1, temp2)
-			end if
-		end if	
+			DrawSpriteScreenXY(40, temp1, temp2)
+		end if
 
+		
+
+
+
+		if OpenBook == 1
+			CheckTouchRect(52, 72, 82, 96)
+			if checkResult > -1
+				OpenBook = 2
+				PlaySfx(SfxName[Score Add], 0)				
+			end if
+		end if
 
 end function
 
@@ -430,7 +411,7 @@ event ObjectStartup
 	SpriteFrame(0, 0, 0, 0, 0, 0)	//38
 	SpriteFrame(-240, -82, 147, 166, 199, 513)	//39	Reciepe UI
 	SpriteFrame(0, 0, 18, 7, 178, 615)	//40 12x
-	SpriteFrame(0, 0, 18, 7, 178, 623)	//41 12x
+	SpriteFrame(0, 0, 12, 21, 245, 1)	//41
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//42
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//43
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//44

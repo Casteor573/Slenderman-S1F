@@ -17,6 +17,7 @@ public value MouseEnabled = 0;
 public value FlashBattery = 5000;
 public value HUDEnabled = 0;
 public value IsCrafting = 0;
+public value OpenBook = 0;
 
 private alias Object.Value0 : Object.PageCount 
 
@@ -237,15 +238,37 @@ if HUDEnabled == 1
 else
 	if IsCrafting == 1
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
-		DrawSpriteScreenXY(36, screen.xcenter, screen.ycenter)//the board
+		if OpenBook == 0
+			temp3 = screen.xcenter
+		else
+			temp3 = screen.xcenter
+			temp3 += 72
 
-		CheckTouchRect(128, 64, 158, 96)
-		if checkResult > -1
-			temp1 = screen.xcenter
-			temp1 -= 55
-			temp2 = screen.ycenter
-			temp2 += 62
-			DrawSpriteScreenXY(37, temp1, temp2)
+			
+		end if
+		DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
+
+		if OpenBook == 1
+			DrawSpriteScreenXY(39, temp3, screen.ycenter)//the board
+		end if	
+		
+
+		if OpenBook == 0
+
+			CheckTouchRect(128, 64, 158, 96)
+			if checkResult > -1
+				temp1 = screen.xcenter
+				temp1 -= 77
+				temp2 = screen.ycenter
+				temp2 -= 48
+				DrawSpriteScreenXY(37, temp1, temp2)
+				if OpenBook == 0
+					OpenBook = 1
+				end if
+
+			PlaySfx(SfxName[Score Add], 0)				
+			end if
+
 		end if
 
 
@@ -363,7 +386,7 @@ event ObjectStartup
 	SpriteFrame(-82, -82, 176, 166, 1, 513)	//36	Crafting UI
 	SpriteFrame(0, 0, 20, 18, 178, 580)	//37	buton
 	SpriteFrame(0, 0, 0, 0, 0, 0)	//38
-	SpriteFrame(0, 0, 12, 21, 245, 1)	//39
+	SpriteFrame(-240, -82, 147, 166, 199, 513)	//39	Reciepe UI
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//40
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//41
 	SpriteFrame(0, 0, 12, 21, 245, 1)	//42

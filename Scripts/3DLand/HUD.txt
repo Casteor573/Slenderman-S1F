@@ -232,34 +232,35 @@ function MainHUD
 
 
 		//BATTERY
-		temp3 = screen.xcenter
+	
+		temp3 = 210
+	
 		DrawSpriteScreenXY(17, temp3, screen.ycenter)
 
 		//
 		if FlashBattery > 4000
-			DrawSpriteScreenXY(18, screen.xcenter, screen.ycenter)
+			DrawSpriteScreenXY(18, temp3, screen.ycenter)
 		end if
 
 		if FlashBattery > 3000
-			DrawSpriteScreenXY(19, screen.xcenter, screen.ycenter)
+			DrawSpriteScreenXY(19, temp3, screen.ycenter)
 		end if	
 
 		if FlashBattery > 2000
-			DrawSpriteScreenXY(20, screen.xcenter, screen.ycenter)
+			DrawSpriteScreenXY(20, temp3, screen.ycenter)
 		end if		
 
 		if FlashBattery > 1000
-			DrawSpriteScreenXY(21, screen.xcenter, screen.ycenter)
+			DrawSpriteScreenXY(21, temp3, screen.ycenter)
 		end if	
 
 		if FlashBattery > 0
-			DrawSpriteScreenXY(22, screen.xcenter, screen.ycenter)
+			DrawSpriteScreenXY(22, temp3, screen.ycenter)
 		end if	
 
 		//HEALTH
 
-		temp1 = screen.xcenter
-		temp1 -= 0x90
+		temp1 = 65
 		temp2 = screen.ycenter
 		temp2 -= 0x50
 
@@ -288,8 +289,7 @@ function MainHUD
 
 
 		// Find the initial X Position to draw the HUD elements
-		temp1 = Screen.xcenter
-		temp1 -= 108
+		temp1 = 95
 		
 		// Draw the "UFO" graphic
 		DrawSpriteScreenXY(10, temp1, 20)

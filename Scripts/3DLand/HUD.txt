@@ -18,6 +18,7 @@ public value FlashBattery = 5000;
 public value HUDEnabled = 0;
 public value IsCrafting = 0;
 public value Crafting.State = 0;
+public value HasChainSaw = 0;
 
 private alias Object.Value0 : Object.PageCount 
 private alias object.value2 : Object.Timer
@@ -49,8 +50,18 @@ function CraftingUI
 		case 1
 			object.timer++
 			if object.timer == 270
-				object.timer = 0
-				crafting.state++
+				CheckEqual(screen.xsize, 426)
+				temp0 = checkResult
+				if temp0 == 1
+					object.timer = 0
+					crafting.state++
+				else
+					HasChainSaw = 1
+					StopMusic()
+					object.timer = 0
+					PlaySfx(SfxName[sans], 0)
+					crafting.state = 7
+				end if
 			end if
 		break
 		case 2	//first open
@@ -65,7 +76,6 @@ function CraftingUI
 				temp2 -= 48
 				DrawSpriteScreenXY(37, temp1, temp2)
 				Crafting.State++
-
 			PlaySfx(SfxName[Score Add], 0)				
 			end if
 
@@ -111,6 +121,7 @@ function CraftingUI
 			CheckTouchRect(202, 170, 234, 202)
 			if checkResult > -1
 				PlaySfx(SfxName[Score Add], 0)	
+				HasChainSaw = 1	
 				crafting.state++
 			end if		
 
@@ -127,8 +138,10 @@ function CraftingUI
 
 			DrawSpriteScreenXY(44, temp3, screen.ycenter)//recipe
 
-			temp3 -= 72
-			DrawSpriteScreenXY(45, temp3, screen.ycenter)//recipe
+			temp3 -= 74
+			temp4 = screen.ycenter
+			temp4 += 60
+			DrawSpriteScreenXY(45, temp3, temp4)//recipe
 
 
 
@@ -136,8 +149,24 @@ function CraftingUI
 			if object.timer == 100
 				object.timer = 0
 				StopMusic()
+				PlaySfx(SfxName[sans], 0)
+				HasChainSaw = 1
 				crafting.state++
 			end if
+
+		break
+		case 7
+			DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 255)
+			object.timer++
+			if object.timer == 50
+				object.timer = 0
+				HasChainSaw = 1 //amkng sure
+				PlaySfx(SfxName[sans], 0)
+				MouseEnabled = 0 
+				crafting.state++
+			end if			
+		break
+		case 8
 
 		break
 		end switch

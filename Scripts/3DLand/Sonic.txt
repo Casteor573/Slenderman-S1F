@@ -162,7 +162,7 @@ private alias 1 : STAGEFINISH_T_STONEOBTAINED
 
 
 public value PlayerHealth = 3;
-
+public value HasChainSaw = 0;
 public value IsCrafting = 0;
 
 
@@ -1650,20 +1650,27 @@ event ObjectDraw
 // Just draw Sonic's sprite, nothing special needed here
 	temp0 /= 8
 	if object.visible == 1
+		//flash hand
 		DrawSpriteScreenXY(2, Screen.xcenter, temp0)	
 
-		switch stage.playerlistpos
-		case 1
-			temp1 = 4
-		break
-		case 2
-			temp1 = 5
-		break				
-		default
-			temp1 = 3
-		break			
-		end switch	
-		DrawSpriteScreenXY(temp1, Screen.xcenter, temp0)		
+
+		if HasChainSaw == 0
+
+			switch stage.playerlistpos
+			case 1
+				temp1 = 4
+			break
+			case 2
+				temp1 = 5
+			break				
+			default
+				temp1 = 3
+			break			
+			end switch	
+			DrawSpriteScreenXY(temp1, Screen.xcenter, temp0)		
+		else
+			DrawSpriteScreenXY(7, Screen.xcenter, temp0)		
+		end if	
 	end if
 
 end event
@@ -1724,17 +1731,22 @@ event ObjectStartup
 	SpriteFrame(-20, -48, 40, 48, 1, 197)
 
 	// 2 - flash hand
-	SpriteFrame(80, 140, 96, 96, 1, 415)	
+	SpriteFrame(-180, 140, 96, 96, 1, 415)	
 
-	// 3 - flash hand
-	SpriteFrame(-160, 140, 96, 97, 98, 415)	
+	// 3 - sonic hand
+	SpriteFrame(80, 140, 96, 97, 98, 415)	
 
 	// 4 tails hand
-	SpriteFrame(-160, 140, 96, 97, 1, 317)	
+	SpriteFrame(80, 140, 96, 97, 1, 317)	
 
 	// 5 knux
-	SpriteFrame(-160, 130, 96, 109, 98, 305)	
+	SpriteFrame(80, 130, 96, 109, 98, 305)	
 
+	// 5 knux
+	SpriteFrame(80, 130, 96, 109, 98, 305)	
+
+	// 7 knux
+	SpriteFrame(40, 130, 170, 128, 0, 176)		
 
 end event
 

@@ -25,74 +25,84 @@ function TextDrawing
 
 	LoadTextFile(1, "Data/Game/Tutorial.txt")
 
-	temp1 = object.charamount
-	while temp1 > 0
+	// Get how long the target text line is
+	//temp1 is how many letters there are
+	//what menu your on, doesnt really matter here
+	//not sure/forgot
+	//what line of text is loaded
+	//offset
+	GetTextInfo(object.charamount, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
+	
+	// Loop through all the characters in the message
+	while object.charamount > 0
+	
 	// Get the actual character at the current char pos
 	GetTextInfo(object.letter, 1, TEXTINFO_TEXTDATA, Object.Index, ArrayPos0)
 
-	Object.Frame = 0
-	
-	// Take uppercase letters and turn them into a matching Sprite Frame
-	if object.letter > 64
-		if object.letter < 91
-			Object.Frame  = object.letter
-			Object.Frame -= 64
+		Object.Frame = 0
+		
+		// Take uppercase letters and turn them into a matching Sprite Frame
+		if object.letter > 64
+			if object.letter < 91
+				Object.Frame  = object.letter
+				Object.Frame -= 64
+			end if
 		end if
-	end if
-	
-	// Take lowercase letters and turn them into a matching Sprite Frame
-	if object.letter > 96
-		if object.letter < 123
-			Object.Frame  = object.letter
-			Object.Frame -= 96
+		
+		// Take lowercase letters and turn them into a matching Sprite Frame
+		if object.letter > 96
+			if object.letter < 123
+				Object.Frame  = object.letter
+				Object.Frame -= 96
+			end if
 		end if
-	end if
 
-		//ASCII Table required!
-		switch object.letter
-			case 42
+			//ASCII Table required!
+			switch object.letter
+				case 42
+					// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
+					
+
+					DrawSpriteScreenFX(27, FX_INK, object.drawX, object.drawY)
+					
+
+					// Move to the next letter
+					ArrayPos0++
+					
+					// And decrease the remaining letter count, as well
+					object.charamount--
+					
+					// Each letter should be spaced 8 pixels apart
+					object.drawX += 0x8
+					break
+				case 64	//@	LINE SKIPPER
+					object.drawY += 16
+					object.drawX -= 200
+
+					// Move to the next letter
+					ArrayPos0++
+					
+					// And decrease the remaining letter count, as well
+					object.charamount--
+				break
+				default
 				// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
 				
 
-				DrawSpriteScreenFX(27, FX_INK, object.drawX, object.drawY)
-				
+				DrawSpriteScreenFX(Object.Frame, FX_INK, object.drawX, object.drawY)
 
 				// Move to the next letter
 				ArrayPos0++
 				
 				// And decrease the remaining letter count, as well
-				temp1--
+				object.charamount--
 				
 				// Each letter should be spaced 8 pixels apart
 				object.drawX += 0x8
 				break
-			case 64	//@	LINE SKIPPER
-				object.drawY += 16
-				temp0 = 74
-				object.drawX = temp0
+			end switch
 
-				// Move to the next letter
-				ArrayPos0++
-				
-				// And decrease the remaining letter count, as well
-				temp1--
-			break
-			default
-			// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
-			
 
-			DrawSpriteScreenFX(Object.Frame, FX_INK, object.drawX, object.drawY)
-
-			// Move to the next letter
-			ArrayPos0++
-			
-			// And decrease the remaining letter count, as well
-			temp1--
-			
-			// Each letter should be spaced 8 pixels apart
-			object.drawX += 0x8
-			break
-		end switch
 	loop
 end function
 
@@ -112,68 +122,52 @@ event ObjectMain
 		HUDEnabled = 0
 		object.alpha += 8
 		object.timer++
-		object.charamount = 0
-		if object.timer == 30
+		if object.timer == 100
 			object.alpha = 255
 			object.timer = 0
 			object.state++
 		end if
 	break
 	case 2
-		GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
-		if object.charamount == temp0
-			object.timer++
-			if object.timer == 150
-				object.timer = 0
-				object.state++
-			end if
-		else
-			object.charamount++
-			PlaySfx(SfxName[Text], false)
-		end if
-	break
-	case 3
-		object.charamount = 0
 		if object.alpha > -1
 			object.alpha -= 8
 		else
-			object.alpha = 0 			
-		end if	
+			object.alpha = 0	
+		end if
 
 		if crafting.state == 1
-			object.alpha = 255
-			object.index++
 			object.state++
 		end if
 	break
-	case 4
-	if crafting.state == 1
-		GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
-		if object.charamount == temp0
-			
-		else
-			object.charamount++
-			PlaySfx(SfxName[Text], false)
+	case 3
+		object.timer++
+		object.alpha += 8
+		Object.index = 1
+
+		if object.timer == 120
+			object.timer = 0
+			object.state = 4
 		end if
-	else
-		object.alpha = 0	
-		object.charamount = 0
+	break
+	case 4	//fade 
+		if object.alpha > -1
+			object.alpha -= 8
+		else
+			object.alpha = 0	
+		end if
+
 		if crafting.state == 8
-			object.index++
-			BoxPositionY = 1
-			CharacterTalking = 1
-			object.alpha = 255
+			object.alpha = 0	
 			object.state++
 		end if
-	end if	
 	break
 	case 5
-		GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
-		if object.charamount == temp0
-			
-		else
-			object.charamount++
-			PlaySfx(SfxName[Text], false)
+		object.index = 2
+		CharacterTalking = 1
+		BoxPositionY = 1
+		object.timer++
+		if object.timer >= 50
+			object.alpha += 8
 		end if
 	break
 	end switch
@@ -186,7 +180,9 @@ event ObjectDraw
 
 
 
-
+	temp3 = screen.xcenter
+	temp3 -= 138
+	object.drawX = temp3
 
 	if BoxPositionY == 0
 	
@@ -225,15 +221,8 @@ event ObjectDraw
 
 	end if
 
-	if CharacterTalking == 1
-		temp3 = screen.xcenter
-		temp3 -= 64
-		object.drawX = temp3
-	else
-		temp3 = screen.xcenter
-		temp3 -= 138
-		object.drawX = temp3
-	end if
+
+
 
 	CallFunction(TextDrawing)
 

@@ -18,6 +18,8 @@ private alias object.value6 : object.boxYpos
 
 public value BoxPositionY = 0;
 public value CharacterTalking = 0;
+public value TextActive = 0;
+public value CutsceneActive = 0;
 
 reserve function TextDrawing
 
@@ -103,6 +105,7 @@ event ObjectMain
 	case 0	//activation
 		object.alpha = 0
 		Object.Index = 0
+		TextActive = 1
 		if object[4].value0 == 0
 			StopMusic()
 			object.state++
@@ -168,14 +171,26 @@ event ObjectMain
 	end if	
 	break
 	case 5
+	if object.index < 8
 		GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
 		if object.charamount == temp0
-			
+			if inputpress[2].start == 1
+				object.index++
+				object.charamount = 0
+			end if
 		else
 			object.charamount++
 			PlaySfx(SfxName[Text], false)
 		end if
+	else
+		TextActive = 0
+		CutsceneActive = 0
+		object.charamount = 0
+		object.state++
+	end if
 	break
+	case 6
+	break	
 	end switch
 end event
 
@@ -186,7 +201,7 @@ event ObjectDraw
 
 
 
-
+if TextActive == 1
 
 	if BoxPositionY == 0
 	
@@ -236,6 +251,7 @@ event ObjectDraw
 	end if
 
 	CallFunction(TextDrawing)
+end if	
 
 end event
 
@@ -266,7 +282,7 @@ event ObjectStartup
 	SpriteFrame(-3, -6, 8, 16, 513, 100) //27
 
 	//undertale
-	SpriteFrame(-28, -6, 65, 51, 513, 117) //28
+	SpriteFrame(-26, -6, 65, 51, 513, 117) //28
 	
 	
 	// Place the HUD object into reserved object slot 4 and initialise its values

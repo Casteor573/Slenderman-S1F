@@ -42,6 +42,7 @@ private alias 1 : PRIORITY_ACTIVE
 
 public value PlayerHealth = 3;
 public value Crafting.State = 0;
+public value SlenderHealth = 1;
 
 event ObjectMain
 

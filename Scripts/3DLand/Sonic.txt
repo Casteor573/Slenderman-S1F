@@ -55,6 +55,7 @@ private alias 11 : SSSONIC_SPRING
 private alias 12 : SSONIC_IDLE
 private alias 13 : SSONIC_DEAD
 private alias 14 : SSSONIC_HURT
+private alias 15 : SSSONIC_CUTSCENE
 
 // Animation aliases
 // Most are divided into three parts where there's the animation's start, its loop point, and its end
@@ -163,7 +164,7 @@ private alias 1 : STAGEFINISH_T_STONEOBTAINED
 
 public value PlayerHealth = 3;
 public value HasChainSaw = 0;
-public value IsCrafting = 0;
+public value CutsceneActive = 0;
 
 
 function Sonic_ProcessPlayer
@@ -972,11 +973,25 @@ event ObjectMain
 	end if
 
 
-	if IsCrafting == 1
-		SSSonic.State = SSSONIC_INTROPOSE
+	if CutsceneActive == 1
+		SSSonic.State = SSSONIC_CUTSCENE
 	end if
 
 	switch SSSonic.State
+	case SSSONIC_CUTSCENE
+		temp0=screen.xsize
+		temp0-=90
+		CheckTouchRect(temp0, 0, screen.xsize, 40)
+		if checkResult > -1
+			inputpress[1].Start = true
+		end if
+
+	if CutsceneActive == 0
+		object[2].controlmode = 0
+		SSSonic.State = SSONIC_IDLE
+	end if
+
+		break
 	case SSSONIC_INTROPOSE
 		CallFunction(Sonic_ProcessAnimation)
 		SSSonic.Timer++
@@ -994,7 +1009,6 @@ event ObjectMain
 			SSSonic.AnimationSpeed = 20
 		end if
 		break
-		
 	case SSSONIC_INTROTURNAROUND
 		CallFunction(Sonic_ProcessAnimation)
 		SSSonic.Timer++
@@ -1054,7 +1068,6 @@ event ObjectMain
 		// Touched the ground?
 		if SSSonic.YPos < 0
 			SSSonic.YPos = 0
-			
 		end if
 		
 

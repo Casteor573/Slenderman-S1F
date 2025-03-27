@@ -16,7 +16,7 @@ public value UseFlashlight = 0;
 public value MouseEnabled = 0;
 public value FlashBattery = 5000;
 public value HUDEnabled = 0;
-public value IsCrafting = 0;
+public value CutsceneActive = 0;
 public value OpenBook = 0;
 
 private alias Object.Value0 : Object.PageCount 
@@ -293,7 +293,7 @@ if HUDEnabled == 1
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 224)
 	end if
 else
-	if IsCrafting == 1
+	if CutsceneActive == 1
 		CallFunction(CraftingUI)
 	else
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)

@@ -41,7 +41,7 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
-public value IsCrafting = 0;
+public value CutsceneActive = 0;
 
 event ObjectMain
 if Object[4].value0 == 0	//no more pages?	
@@ -89,7 +89,7 @@ if Object[4].value0 == 0	//no more pages?
 							object[2].controlMode = -1
 							object[2].speed = 0
 							MouseEnabled = 1
-							IsCrafting = 1
+							CutsceneActive = 1
 						end if
 					end if
 				end if

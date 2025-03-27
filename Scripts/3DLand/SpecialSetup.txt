@@ -149,7 +149,8 @@ event ObjectStartup
 	SetMusicTrack("ambience.ogg", 0, 1)
 	SetMusicTrack("RobloxHorror.ogg", 1, false)
 	SetMusicTrack("ThisIsA.ogg", 2, 1)
-
+	SetMusicTrack("BossIntro.ogg", 3, 1)
+	
 	Stage.PauseEnabled = false
 	
 	// Origins changed this up a bit - before, Time would always be disabled, but Origins makes it enabled for standard play

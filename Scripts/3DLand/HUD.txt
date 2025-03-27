@@ -16,7 +16,7 @@ public value UseFlashlight = 0;
 public value MouseEnabled = 0;
 public value FlashBattery = 5000;
 public value HUDEnabled = 0;
-public value IsCrafting = 0;
+public value CutsceneActive = 0;
 public value Crafting.State = 0;
 public value HasChainSaw = 0;
 
@@ -163,6 +163,7 @@ function CraftingUI
 				HasChainSaw = 1 //amkng sure
 				PlaySfx(SfxName[sans], 0)
 				MouseEnabled = 0 
+				PlayMusic(3)
 				crafting.state++
 			end if			
 		break
@@ -394,7 +395,7 @@ if HUDEnabled == 1
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 224)
 	end if
 else
-	if IsCrafting == 1
+	if CutsceneActive == 1
 		CallFunction(CraftingUI)
 	else
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
@@ -415,6 +416,10 @@ end if
 		DrawSpriteScreenXY(16, touchscreen[0].xpos, touchscreen[0].ypos)
 	end if
 
+	if object[2].state == 15
+		
+
+	end if
 
 
 end event

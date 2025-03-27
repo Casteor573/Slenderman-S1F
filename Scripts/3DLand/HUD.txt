@@ -50,25 +50,20 @@ function CraftingUI
 		case 1
 			object.timer++
 			if object.timer == 270
-				CheckEqual(screen.xsize, 426)
-				temp0 = checkResult
-				if temp0 == 1
+			
 					object.timer = 0
 					crafting.state++
-				else
-					HasChainSaw = 1
-					StopMusic()
-					object.timer = 0
-					PlaySfx(SfxName[sans], 0)
-					crafting.state = 7
-				end if
+				
 			end if
 		break
 		case 2	//first open
 			temp3 = screen.xcenter
 			DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
 
-			CheckTouchRect(128, 64, 160, 96)
+
+			temp0=screen.xcenter
+			temp0-=88
+			CheckTouchRect(temp0, 64, 160, 96)
 			if checkResult > -1
 				temp1 = screen.xcenter
 				temp1 -= 77
@@ -85,6 +80,7 @@ function CraftingUI
 			temp3 += 72
 			DrawSpriteScreenXY(36, temp3, screen.ycenter)//the board
 			DrawSpriteScreenXY(39, temp3, screen.ycenter)//the reciepe book open
+
 
 			CheckTouchRect(52, 72, 82, 96)
 			if checkResult > -1

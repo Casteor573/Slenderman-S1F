@@ -72,7 +72,8 @@ event ObjectDraw
 
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 255)
 		
-	
+		object[2].controlMode = CONTROLMODE_NONE
+		
 		break
 		
 	case TITLECARD_SLIDEIN
@@ -128,7 +129,7 @@ event ObjectDraw
 
 		SetClassicFade(0, 0, 0, Object.Timer)
 		Object.Timer -= 8
-
+		
 		if Object.TextPos < 408
 		
 			// Move the text to the right, and...

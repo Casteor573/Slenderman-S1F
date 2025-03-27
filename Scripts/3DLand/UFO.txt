@@ -193,6 +193,9 @@ case 1	//blank
 	end if
 break
 case 2
+
+	//force position
+
 	temp0 = 1984	//sonlvl positions work
 	temp0 <<= 16
 	Abs(temp0)
@@ -204,6 +207,25 @@ case 2
 	Abs(temp1)
 
 	Object.ZPos = temp1
+
+
+		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
+		if Object.ScreenDepth < 0x8C8
+			if Object.ScreenDepth > 0x094
+
+				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
+
+						if object[2].value13 <= 0
+							object[2].state = 14
+						end if
+
+					end if
+				end if
+			end if
+		end if
+
 break
 end switch
 

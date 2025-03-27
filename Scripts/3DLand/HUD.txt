@@ -44,16 +44,24 @@ function CraftingUI
 		//THE BOOKS
 		switch Crafting.State
 		case 0
-			PlayMusic(2)
 			crafting.state++
 		break
 		case 1
 			object.timer++
 			if object.timer == 270
-			
+				CheckEqual(screen.xsize, 426)
+				temp0 = checkResult
+				if temp0 == 1
+					PlayMusic(2)
 					object.timer = 0
 					crafting.state++
-				
+				else
+					HasChainSaw = 1
+					StopMusic()
+					object.timer = 0
+					PlaySfx(SfxName[sans], 0)
+					crafting.state = 7
+				end if
 			end if
 		break
 		case 2	//first open

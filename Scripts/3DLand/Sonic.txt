@@ -56,6 +56,7 @@ private alias 12 : SSONIC_IDLE
 private alias 13 : SSONIC_DEAD
 private alias 14 : SSSONIC_HURT
 private alias 15 : SSSONIC_CUTSCENE
+private alias 16 : SSSONIC_KNOCKBACK
 
 // Animation aliases
 // Most are divided into three parts where there's the animation's start, its loop point, and its end
@@ -986,12 +987,61 @@ event ObjectMain
 			inputpress[1].Start = true
 		end if
 
-	if CutsceneActive == 0
-		object[2].controlmode = 0
-		SSSonic.State = SSONIC_IDLE
-	end if
+		if CutsceneActive == 0
+			object[2].controlmode = 0
+			SSSonic.State = SSONIC_IDLE
+		end if
 
 		break
+	case SSSONIC_KNOCKBACK
+		CallFunction(Sonic_ProcessPlayer)
+
+		if object.JumpHold == false
+			if SSSonic.YVelocity > 0x2A000
+				SSSonic.YVelocity = 0x2A000
+			end if
+		end if
+
+		SSonic.invulnerable = 90
+
+		if SSSonic.Speed > -0x42000
+			SSSonic.Speed -= 0x1500
+		else
+			SSSonic.Speed = -0x42000
+		end if
+
+		CallFunction(Sonic_HandleMovement)
+		CallFunction(Sonic_ProcessAnimation)
+		
+		// Gravity of 0.125 per frame
+		SSSonic.YVelocity -= 0x1800
+		
+		SSSonic.YPos += SSSonic.YVelocity
+		
+		// Touched the ground?
+		if SSSonic.YPos < 0
+			SSSonic.YPos = 0
+			
+			if HUD[4].SpeedShoes == 0
+				SSSonic.State     = SSSONIC_WALKING
+				
+				SSSonic.Frame     = ANI_WALKING_START
+				SSSonic.FrameLoop = ANI_WALKING_LOOP
+				SSSonic.FrameEnd  = ANI_WALKING_END
+				
+				SSSonic.FrameTimer = 0
+			else
+				SSSonic.State     = SSSONIC_SPEEDSHOESRUN
+				
+				SSSonic.Frame     = ANI_RUN_START
+				SSSonic.FrameLoop = ANI_RUN_LOOP
+				SSSonic.FrameEnd  = ANI_RUN_END
+				
+				SSSonic.AnimationSpeed = 80
+				SSSonic.FrameTimer = 0
+			end if
+		end if
+	break	
 	case SSSONIC_INTROPOSE
 		CallFunction(Sonic_ProcessAnimation)
 		SSSonic.Timer++

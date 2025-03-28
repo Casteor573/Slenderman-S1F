@@ -97,11 +97,12 @@ end event
 
 
 event ObjectDraw
+if object.outofbounds == 1
 	if Object.ScreenDepth > 256 // Don't draw if the UFO is too close to the screen
 		
 		// Do some maths to find the position & scale the UFO should be at
 		
-		Object.Scale = 0x2000000
+		Object.Scale = 0x3000000
 		Object.Scale /= Object.ScreenDepth
 		
 		temp0 = 768
@@ -144,7 +145,7 @@ event ObjectDraw
 		DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
 		
 	end if
-	
+end if
 end event
 
 

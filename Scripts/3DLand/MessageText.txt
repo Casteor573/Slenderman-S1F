@@ -26,7 +26,7 @@ reserve function TextDrawing
 function TextDrawing
 
 	LoadTextFile(1, "Data/Game/Tutorial.txt")
-
+	temp0 = object.drawX
 	temp1 = object.charamount
 	while temp1 > 0
 	// Get the actual character at the current char pos
@@ -71,11 +71,11 @@ function TextDrawing
 			case 64	//@	LINE SKIPPER
 				object.drawY += 16
 				if CharacterTalking == 0
-					temp0 = 74
+					object.drawX = temp0
 				else
-					temp0 = 156
+					temp0 += 8
+					object.drawX = temp0
 				end if
-				object.drawX = temp0
 
 				// Move to the next letter
 				ArrayPos0++
@@ -215,8 +215,10 @@ if TextActive == 1
 	if BoxPositionY == 0
 	
 		object.drawY = 35
+		
+		temp1 = screen.xcenter
 
-		DrawSpriteScreenFX(36, FX_INK, 96, object.drawY)
+		DrawSpriteScreenFX(36, FX_INK, temp1, object.drawY)
 
 	else
 
@@ -225,10 +227,12 @@ if TextActive == 1
 		object.boxYpos = object.drawY
 		object.boxYpos -= 25
 
-		DrawSpriteScreenFX(36, FX_INK, 96, object.drawY)
+		temp1 = screen.xcenter
+		DrawSpriteScreenFX(36, FX_INK, temp1, object.drawY)
 
 		if CharacterTalking == 1
-			DrawSpriteScreenFX(35, FX_INK, 96, object.drawY)
+			temp1 += 36
+			DrawSpriteScreenFX(35, FX_INK, temp1, object.drawY)
 		end if	
 
 	end if
@@ -275,9 +279,9 @@ event ObjectStartup
 	SpriteFrame(-3, -6, 8, 16, 513, 100) //27
 
 	//undertale
-	SpriteFrame(-26, -6, 65, 51, 513, 117) //28slender man icon
+	SpriteFrame(-180, -6, 65, 51, 513, 117) //28slender man icon
 
-	SpriteFrame(-40, -22, 320, 80, 26, 683) //29 slender man icon	
+	SpriteFrame(-160, -22, 320, 80, 26, 683) //29 slender man icon	
 	
 	
 	// Place the HUD object into reserved object slot 4 and initialise its values

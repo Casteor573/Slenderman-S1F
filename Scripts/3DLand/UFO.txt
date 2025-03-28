@@ -192,7 +192,7 @@ case 1	//blank
 		object.state++
 	end if
 break
-case 2
+case 2	//boss start up
 
 	//force position
 
@@ -218,6 +218,7 @@ case 2
 					if Object.ScreenXPos < 0x2000
 
 						if object[2].value13 <= 0
+							object[2].yvel = 0x2A000
 							object[2].state = 16
 						end if
 

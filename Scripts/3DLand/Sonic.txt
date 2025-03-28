@@ -996,19 +996,11 @@ event ObjectMain
 	case SSSONIC_KNOCKBACK
 		CallFunction(Sonic_ProcessPlayer)
 
-		if object.JumpHold == false
-			if SSSonic.YVelocity > 0x2A000
-				SSSonic.YVelocity = 0x2A000
-			end if
-		end if
 
 		SSonic.invulnerable = 90
 
-		if SSSonic.Speed > -0x42000
-			SSSonic.Speed -= 0x1500
-		else
-			SSSonic.Speed = -0x42000
-		end if
+		SSSonic.Speed = -0x24000
+		
 
 		CallFunction(Sonic_HandleMovement)
 		CallFunction(Sonic_ProcessAnimation)

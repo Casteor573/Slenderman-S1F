@@ -956,6 +956,7 @@ event ObjectMain
 		Object[6].state = 1
 	end if	
 
+
 	if PlayerHealth == 0
 		
 		SSSonic.State = SSONIC_DEAD

@@ -17,6 +17,7 @@
     <soundfx name="sans" path="Global/snd_noise.wav" />
     <soundfx name="Blast" path="Global/Blast.wav" />    
     <soundfx name="BossHit" path="Global/BossHit.wav" />        
+    <soundfx name="Warning" path="Global/snd_b.wav" />         
   </sounds>
   <players />
   <presentationStages />

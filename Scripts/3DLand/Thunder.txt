@@ -102,15 +102,15 @@ event ObjectMain
 		if object.timer == 1
 		playsfx(SfxName[Thunder], 0)
 		end if
-		if object.timer >= 10
+		if object.timer >= 15
 			object.type = TypeName[Blank Object]
 		end if
 
 		// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 		foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 			// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
-			if Object.ScreenDepth < 0x18C8
-				if Object.ScreenDepth > 0x1094
+			if Object.ScreenDepth < 0x8C8
+				if Object.ScreenDepth > 0x094
 
 					// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 					if Object.ScreenXPos > -0x2000

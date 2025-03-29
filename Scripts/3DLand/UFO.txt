@@ -42,9 +42,10 @@ private alias 1 : PRIORITY_ACTIVE
 
 public value PlayerHealth = 6;
 public value Crafting.State = 0;
-public value SlenderHealth = 1;
+public value SlenderHealth = 6;
 public value BossActive = 0;
 public value ShieldActive = 0;
+public value NextAttack = 0;
 
 // States
 private alias 0 : SLENDERHUNT
@@ -250,6 +251,7 @@ case SLENDERBOSSBUILDUP
 		Object.ZVelocity = 0
 		ShieldActive = 1
 		PlaySfx(SfxName[Blue Shield], 0)
+		NextAttack = 0
 		object.state++
 	end if
 break
@@ -355,7 +357,14 @@ case SLENDERBOSS_MOVE
 		Object.XVelocity = 0
 		Object.ZVelocity = 0	
 		ShieldActive = 2	
-		object.state++
+		switch NextAttack
+			case 0
+				object.state++
+			break
+			case 1
+				object.state = 7
+			break
+		end switch
 	end if
 break
 case 5	//summon plasma
@@ -369,8 +378,6 @@ case 5	//summon plasma
 		CreateTempObject(TypeName[Plasma], 0, object.xpos, Object.Value0)
 		object.timer = 0
 	end if
-
-
 
 
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
@@ -388,7 +395,8 @@ case 5	//summon plasma
 						PlaySfx(SfxName[Thud], 0)
 						object.timer = 0
 						ShieldActive = 1
-						SlenderHealth--
+						SlenderHealth -= 1
+						NextAttack = 1
 						object.state++
 					end if
 				end if
@@ -396,14 +404,56 @@ case 5	//summon plasma
 		end if
 	next
 break
-case 6
+case 6	//recover
 	object.timer++
 	if object.timer == 100
 		object.timer = 0
 		object.state = 4
 	end if
 break
+case 7	//lighitnbg
+
+	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
+	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
+		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
+		if Object.ScreenDepth < 0x8C8
+			if Object.ScreenDepth > 0x094
+
+				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
+						object[2].yvel = 0x2A000
+						object[2].state = 16
+						PlaySfx(SfxName[BossHit], 0)
+						PlaySfx(SfxName[Thud], 0)
+						object.timer = 0
+						ShieldActive = 1
+						SlenderHealth--
+						NextAttack = 0
+						object.state = 6
+					end if
+				end if
+			end if
+		end if
+	next
+
+
+	object.timer++
+	if object.timer == 60
+		PlaySfx(SfxName[Blast], 0)
+		CreateTempObject(TypeName[Thunder], 0, object[2].xpos, Object[2].Value0)
+		object.timer = 0
+	end if
+
+break
 end switch
+
+if SlenderHealth <= 0	
+	PlaySfx(SfxName[Explosion], 0)
+	object.state = 99
+	Object.XVelocity = 0
+	Object.ZVelocity = 0	
+end if
 end event
 
 

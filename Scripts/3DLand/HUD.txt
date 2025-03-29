@@ -482,7 +482,12 @@ end if
 	//slenderman state
 	DrawNumbers(0, 8, 25, object[6].state, 3, 8, 0)
 	//slenderman timer
-	DrawNumbers(0, 32, 48, object[6].value3, 3, 8, 0)
+	DrawNumbers(0, 16, 48, object[6].value3, 3, 8, 0)
+
+	DrawNumbers(0, 16, 72, SlenderHealth, 3, 8, 0)
+
+	DrawNumbers(0, 16, 96, NextAttack, 3, 8, 0)
+
 
 end event
 

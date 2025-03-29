@@ -41,6 +41,8 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
+public value HasChainSaw = 0;
+
 
 event ObjectMain
 	

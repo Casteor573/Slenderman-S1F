@@ -72,7 +72,7 @@ event ObjectMain
 	case MENU_LOGOMOVEIN	//logo move in
 		object.timer++
 		object.alpha += 8
-		if object.timer == 47
+		if object.timer == 150
 			object.timer = 0
 			Object.MenuChoose = 0
 			object.state++
@@ -173,7 +173,10 @@ event ObjectMain
 			object.alpha += 8		
 		end if
 		object.timer++
-		if object.timer == 44
+		temp0 = 8
+		temp0 += screen.xsize
+		temp0 /= 5
+		if object.timer == temp0
 			object.timer = 0
 			object.state = MENU_CHARASEL	
 		end if	
@@ -268,9 +271,14 @@ event ObjectDraw
 			object.extratarget = screen.xsize
 			object.extratarget += 20
 
-			temp3 = screen.xcenter	
 			temp3 = screen.xsize
+			temp3 += screen.xcenter
 			temp3 -= object.extraoffset
+			if screen.xsize < 426
+				temp3 /= 2
+			end if
+
+
 			//LOGO
 			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
 			//BUTTONS
@@ -281,6 +289,15 @@ event ObjectDraw
 		case MENU_MAINCARD
 		case MENU_FADEINTOMAINCARD
 		case 99	//exit
+
+			temp3 = screen.xsize
+			temp3 -= screen.xcenter
+			temp3 -= 20
+
+			if screen.xsize < 426
+				temp3 /= 2
+			end if
+
 			//dont move
 			object.extratarget = 0
 			//LOGO
@@ -311,10 +328,19 @@ event ObjectDraw
 						DrawSpriteScreenFX(5, FX_INK, temp3, temp4)							
 					break						
 				end switch
+			temp3 += 4	
 			
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)		
 			break
 		case MENU_GOTOCHARSEL
+
+			temp3 = screen.xsize
+			temp3 -= screen.xcenter
+			temp3 -= 20
+			if screen.xsize < 426
+				temp3 /= 2
+			end if			
+
 			object.extratarget = 0
 			//LOGO
 			DrawSpriteScreenFX(0, FX_INK, temp3, screen.ycenter)	
@@ -322,7 +348,7 @@ event ObjectDraw
 			DrawSpriteScreenFX(1, FX_INK, temp3, screen.ycenter)	
 			//render
 
-			temp3 -= 20
+			temp3 -= 16	
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)	
 		break		
 		case MENU_FADEINTOCHARSEL
@@ -331,8 +357,8 @@ event ObjectDraw
 			object.extratarget = screen.xsize
 			object.extratarget += 20
 
-			temp3 = screen.xcenter	
 			temp3 = screen.xsize
+			temp3 += screen.xcenter
 			temp3 -= object.extraoffset
 
 			DrawSpriteScreenFX(8, FX_INK, temp3, screen.ycenter)	
@@ -343,7 +369,8 @@ event ObjectDraw
 		
 			DrawSpriteScreenFX(7, FX_INK, screen.xcenter, screen.ycenter)	
 
-			temp3 = screen.xcenter	
+			temp3 = screen.xsize
+			temp3 -= screen.xcenter
 		
 			switch Object.PlayerSelection
 			case 0	//Sonic!
@@ -414,7 +441,7 @@ event ObjectStartup
 	LoadSpriteSheet("3D_Test/Objects2.gif")
 	
 	//logo
-	SpriteFrame(16, -96, 184, 57, 327, 1)	//0
+	SpriteFrame(32, -96, 184, 57, 327, 1)	//0
 	//buttons
 	SpriteFrame(128, 0, 67, 57, 376, 59)		//1
 

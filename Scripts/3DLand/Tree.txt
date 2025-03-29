@@ -74,7 +74,8 @@ event ObjectMain
 	Object.ScreenDepth += temp3
 	Object.ScreenDepth >>= 9
 
-
+	switch object.state
+	case 0
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
 		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
@@ -84,15 +85,23 @@ event ObjectMain
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 				if Object.ScreenXPos > -0x2000
 					if Object.ScreenXPos < 0x2000
-						object[2].speed = 20000
-						object[6].speed = 40000	//slow the slender down!
+						if HasChainSaw == 0
+							object[2].speed /= 2
+							object[6].speed = 40000	//slow the slender down!
+						else
+							PlaySfx(SfxName[Thud], 0)
+							object.state++
+						end if
 					end if
 				end if
 			end if
 		end if
 	next
+	break
+	case 1
 
-
+	break
+	end switch
 end event
 
 
@@ -139,10 +148,14 @@ if object.outofbounds == 1
 		temp1 /= Object.ScreenDepth
 		temp1 += 128
 		
+	
 		DrawSpriteScreenFX(3, FX_SCALE, temp0, temp1)
 		
-
-		DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
+		if object.state == 0
+			DrawSpriteScreenFX(0, FX_SCALE, temp0, temp1)
+		else
+			DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+		end if
 		
 	end if
 end if
@@ -159,7 +172,8 @@ event ObjectStartup
 	SpriteFrame(-40, -110, 80, 112, 258, 1)
 	
 	// 1 - Speed Shoes Variant
-	SpriteFrame(-40, -28, 80, 56, 82, 1)
+	SpriteFrame(-40, -110, 80, 112, 687, 1)
+
 	
 	// 2 - Extra Time Variant
 	SpriteFrame(-40, -28, 80, 56, 163, 1)

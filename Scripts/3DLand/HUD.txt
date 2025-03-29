@@ -19,6 +19,8 @@ public value HUDEnabled = 0;
 public value CutsceneActive = 0;
 public value Crafting.State = 0;
 public value HasChainSaw = 0;
+public value TextActive = 0;
+public value CharacterTalking = 0;
 
 private alias Object.Value0 : Object.PageCount 
 private alias object.value2 : Object.Timer
@@ -351,7 +353,8 @@ function TouchControls
 	temp0 -= 39
 
 	DrawSpriteScreenXY(56, 0, temp0, 8) //pause
-
+	
+	
 	//movement
 	
 	temp0 -= 10
@@ -376,16 +379,23 @@ function TouchControls
 		DrawSpriteScreenXY(54,  temp0, 163)
 	endif
 
-	temp0 -= 50
-	//flashlight
-	if inputDown.buttonY==1
-		DrawSpriteScreenXY(58,  temp0, 54)	
-	else
-		DrawSpriteScreenXY(57,  temp0, 54)
-	endif	
+	if UseFlashlight == 1
+		temp0 -= 50
+		//flashlight
+		if inputDown.buttonY==1
+			DrawSpriteScreenXY(58,  temp0, 54)	
+		else
+			DrawSpriteScreenXY(57,  temp0, 54)
+		endif	
+	end if
 
 	temp0 += 80
-	DrawSpriteScreenXY(59,  temp0, 6)
+
+	if CharacterTalking == 1
+		DrawSpriteScreenXY(60,  temp0, 12)
+	else
+		DrawSpriteScreenXY(59,  temp0, 12)
+	end if
 end function
 
 
@@ -419,11 +429,6 @@ end if
 
 	if MouseEnabled == 1
 		DrawSpriteScreenXY(16, touchscreen[0].xpos, touchscreen[0].ypos)
-	end if
-
-	if object[2].state == 15
-		
-
 	end if
 
 if object[6].state > 3
@@ -555,8 +560,8 @@ event ObjectStartup
 	SpriteFrame(0,0,33,33,89,325) // 58 Super Button - Mobile
 
 	SpriteFrame(0,0,16,16,174,325) // 59 Pause Button again
-	
 
+	SpriteFrame(0,0,34,34,165,360) // 60 Pause Button
 end event
 
 

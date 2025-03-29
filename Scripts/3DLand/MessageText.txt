@@ -323,6 +323,8 @@ event ObjectStartup
 		temp1 += 17
 	loop
 
+	TextActive = 0
+
 	//undertale
 	SpriteFrame(-3, -6, 8, 16, 513, 100) //27
 

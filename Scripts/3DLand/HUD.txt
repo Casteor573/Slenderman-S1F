@@ -23,6 +23,7 @@ public value HasChainSaw = 0;
 private alias Object.Value0 : Object.PageCount 
 private alias object.value2 : Object.Timer
 private alias object.value2 : bg.scroll
+private alias object.value3 : object.deathtimer
 
 public alias saveRAM[295]: saved.mobile
 public alias saveRAM[296]: saved.transmobile
@@ -39,7 +40,7 @@ reserve function TouchControls
 reserve function CraftingUI
 
 function CraftingUI
-		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
+		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 160)
 
 		//THE BOOKS
 		switch Crafting.State
@@ -402,7 +403,7 @@ else
 	if CutsceneActive == 1
 		CallFunction(CraftingUI)
 	else
-		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
+		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 160)
 	end if
 end if
 
@@ -424,6 +425,15 @@ end if
 		
 
 	end if
+
+if object[6].state > 3
+	if object[2].state == 13
+		object.deathtimer++
+		if object.deathtimer == 2
+			PlayMusic(5)
+		end if	
+	end if
+end if
 
 
 end event

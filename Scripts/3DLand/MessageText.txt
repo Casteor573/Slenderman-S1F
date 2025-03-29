@@ -52,6 +52,24 @@ function TextDrawing
 
 		//ASCII Table required!
 		switch object.letter
+			case 33	//!
+				DrawSpriteScreenFX(37, FX_INK, object.drawX, object.drawY)
+				ArrayPos0++
+				temp1--
+				object.drawX += 0x8
+				break		
+			case 63	//?
+				DrawSpriteScreenFX(38, FX_INK, object.drawX, object.drawY)
+				ArrayPos0++
+				temp1--
+				object.drawX += 0x8
+				break					
+			case 42
+				DrawSpriteScreenFX(27, FX_INK, object.drawX, object.drawY)
+				ArrayPos0++
+				temp1--
+				object.drawX += 0x8
+				break
 			case 42
 				// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
 				
@@ -199,7 +217,37 @@ event ObjectMain
 	end if
 	break
 	case 6
+		if object[6].state == 3
+			TextActive = 1
+			object.charamount = 0		
+			object.state++
+		end if
 	break	
+	case 7	//boss text
+	if object.index < 10
+		GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
+		if object.charamount == temp0
+			object.timer++
+			if object.timer == 160
+				object.index++
+				object.timer = 0
+				object.charamount = 0
+			end if
+		else
+			object.timer++
+			if object.timer == 2
+				object.charamount++
+				PlaySfx(SfxName[Text], false)
+				object.timer = 0
+			end if
+		end if
+	else
+		TextActive = 0
+		CutsceneActive = 0
+		object.charamount = 0
+		object.state++
+	end if
+	break
 	end switch
 end event
 
@@ -279,11 +327,17 @@ event ObjectStartup
 	SpriteFrame(-3, -6, 8, 16, 513, 100) //27
 
 	//undertale
-	SpriteFrame(-180, -6, 65, 51, 513, 117) //28slender man icon
+	SpriteFrame(-180, -6, 65, 51, 513, 117) //35 slender man icon
 
-	SpriteFrame(-160, -22, 320, 80, 26, 683) //29 slender man icon	
+	SpriteFrame(-160, -22, 320, 80, 26, 683) //36 slender man icon	
+	
+	//undertale
+	SpriteFrame(-3, -6, 8, 16, 522, 100) //37
 	
 	
+	//undertale
+	SpriteFrame(-3, -6, 8, 16, 531, 100) //37
+
 	// Place the HUD object into reserved object slot 4 and initialise its values
 	Object[8].Type = TypeName[Message Text]
 	

@@ -220,6 +220,9 @@ case 2	//boss start up
 						if object[2].value13 <= 0
 							object[2].yvel = 0x2A000
 							object[2].state = 16
+							PlayMusic(4)
+							PlaySfx(SfxName[Thud], 0)
+							object.state++
 						end if
 
 					end if
@@ -228,10 +231,113 @@ case 2	//boss start up
 		end if
 
 break
+case 3
+	object.timer++
+	if object.timer == 480
+		object.timer = 0
+		Object.XVelocity = 0
+		Object.ZVelocity = 0
+		
+		object.state++
+	end if
+break
+case 4
+	//fight
+
+	Object.XPos += Object.XVelocity
+	Object.ZPos += Object.ZVelocity
+	Object.YPos += Object.Yvel
+
+	// Long list of checks for the hitbox detection
+
+	
+	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
+	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
+
+		//if player isnt hurt
+		if object[2].state != 14
+
+			CheckGreater(object.xpos, object[arrayPos2].xpos)
+			temp0 = checkResult
+			if temp0 == 1		//right
+				if Object.XVelocity > 0
+					Object.XVelocity -= 0x3000	//right
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
+					end if
+				else
+					Object.XVelocity -= 0x1500	//left?? i have no clue
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
+					end if			
+				end if
+			else	//left
+				if Object.XVelocity < 0
+					Object.XVelocity += 0x3000
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
+					end if		
+				else
+					Object.XVelocity += 0x1500
+					if Object.XVelocity > 0x26000
+					Object.XVelocity = 0x26000
+					end if								
+				end if
+			end if
+
+			CheckGreater(object.ZPos, object[arrayPos2].Value0)
+			temp0 = checkResult
+			if temp0 == 1		//right
+				if Object.ZVelocity > 0
+					Object.ZVelocity -= 0x3000	//right
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
+					end if
+				else
+					Object.ZVelocity -= 0x1500	//left?? i have no clue
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
+					end if			
+				end if
+			else	//left
+				if Object.ZVelocity < 0
+					Object.ZVelocity += 0x3000
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
+					end if		
+				else
+					Object.ZVelocity += 0x1500
+					if Object.ZVelocity > 0x26000
+					Object.ZVelocity = 0x26000
+					end if								
+				end if
+			end if
+		else
+			Object.ZVelocity = 0x1500
+			Object.XVelocity = 0x1500
+		end if
+
+		
+		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
+		if Object.ScreenDepth < 0x8C8
+			if Object.ScreenDepth > 0x094
+
+				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
+
+						if object[2].value13 <= 0
+							object[2].state = 14
+						end if
+
+					end if
+				end if
+			end if
+		end if
+	next
+
+break
 end switch
-
-
-
 end event
 
 

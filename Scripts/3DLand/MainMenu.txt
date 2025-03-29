@@ -241,9 +241,6 @@ event ObjectMain
 	TileLayer[0].YPos /= 3
 	TileLayer[0].YPos += 0x1280000	
 
-	
-
-
 end event
 
 

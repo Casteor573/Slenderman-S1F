@@ -40,11 +40,18 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
-public value PlayerHealth = 3;
+public value PlayerHealth = 6;
 public value Crafting.State = 0;
 public value SlenderHealth = 1;
 public value BossActive = 0;
 public value ShieldActive = 0;
+
+// States
+private alias 0 : SLENDERHUNT
+private alias 1 : SLENDERVANISH
+private alias 2 : SLENDERPREBOSS
+private alias 3 : SLENDERBOSSBUILDUP
+private alias 4 : SLENDERBOSS_MOVE
 
 
 event ObjectMain
@@ -88,7 +95,7 @@ event ObjectMain
 
 
 switch object.state
-case 0	//Page Collecting
+case SLENDERHUNT	//Page Collecting
 if Object[4].Value0 != 0
 	//title card gone?
 	if Object[20].Type == TypeName[Blank Object]	
@@ -190,12 +197,12 @@ else
 	object.state++
 end if
 break
-case 1	//blank
+case SLENDERVANISH	//blank
 	if crafting.state >= 7
 		object.state++
 	end if
 break
-case 2	//boss start up
+case SLENDERPREBOSS	//boss start up
 	BossActive = 1
 	//force position
 
@@ -235,7 +242,7 @@ case 2	//boss start up
 		end if
 
 break
-case 3
+case SLENDERBOSSBUILDUP
 	object.timer++
 	if object.timer == 480
 		object.timer = 0
@@ -246,7 +253,7 @@ case 3
 		object.state++
 	end if
 break
-case 4
+case SLENDERBOSS_MOVE
 	//fight
 
 	Object.XPos += Object.XVelocity
@@ -346,21 +353,55 @@ case 4
 	if object.timer == 1000
 		Object.Timer = 0
 		Object.XVelocity = 0
-		Object.ZVelocity = 0		
+		Object.ZVelocity = 0	
+		ShieldActive = 2	
 		object.state++
 	end if
 break
-case 5
+case 5	//summon plasma
 
 	Object.XVelocity = 0
 	Object.ZVelocity = 0
 
 	object.timer++
-	if object.timer == 50
+	if object.timer == 100
+		PlaySfx(SfxName[Blast], 0)
+		CreateTempObject(TypeName[Plasma], 0, object.xpos, Object.Value0)
 		object.timer = 0
-		
 	end if
 
+
+
+
+	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
+	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
+		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
+		if Object.ScreenDepth < 0x8C8
+			if Object.ScreenDepth > 0x094
+
+				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+				if Object.ScreenXPos > -0x2000
+					if Object.ScreenXPos < 0x2000
+						object[2].yvel = 0x2A000
+						object[2].state = 16
+						PlaySfx(SfxName[BossHit], 0)
+						PlaySfx(SfxName[Thud], 0)
+						object.timer = 0
+						ShieldActive = 1
+						SlenderHealth--
+						object.state++
+					end if
+				end if
+			end if
+		end if
+	next
+break
+case 6
+	object.timer++
+	if object.timer == 100
+		object.timer = 0
+		object.state = 4
+	end if
 break
 end switch
 end event
@@ -412,10 +453,16 @@ if object.state != 1
 		// Draw the shadow on the ground
 		DrawSpriteScreenFX(3, FX_SCALE, temp0, temp1)
 		
-		if ShieldActive == 1
-			// Draw the UFO now
+		switch ShieldActive
+		case 1
+			//grey
 			DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
-		end if
+		break
+		case 2	//bluey
+			DrawSpriteScreenFX(2, FX_SCALE, temp0, temp1)
+		break
+
+		end switch
 	end if
 
 
@@ -439,7 +486,7 @@ event ObjectStartup
 	SpriteFrame(-46, -102, 90, 96, 671, 211)
 	
 	// 2 - Extra Time Variant
-	SpriteFrame(-40, -28, 80, 56, 163, 1)
+	SpriteFrame(-46, -102, 90, 96, 671, 114)
 	
 	// 3 - UFO Shadow Frame
 	SpriteFrame(-40, -8, 80, 16, 1, 117)

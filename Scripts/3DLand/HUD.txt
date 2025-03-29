@@ -41,6 +41,37 @@ private alias object.value34 : buttonoffset
 reserve function MainHUD
 reserve function TouchControls
 reserve function CraftingUI
+reserve function PlayerHPStandalone
+
+function PlayerHPStandalone
+
+		temp1 = 65
+		temp2 = screen.ycenter
+		temp2 -= 0x50
+
+		DrawSpriteScreenXY(35, temp1, temp2)
+
+		if PlayerHealth >= 3
+			DrawSpriteScreenXY(34, temp1, temp2)
+		end if
+
+		temp1 += 0x18
+
+		DrawSpriteScreenXY(35, temp1, temp2)
+
+		if PlayerHealth >= 2
+			DrawSpriteScreenXY(34, temp1, temp2)
+		end if
+
+		temp1 += 0x18
+
+		DrawSpriteScreenXY(35, temp1, temp2)
+
+		if PlayerHealth >= 1
+			DrawSpriteScreenXY(34, temp1, temp2)
+		end if
+
+end function
 
 function CraftingUI
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 180)
@@ -48,6 +79,8 @@ function CraftingUI
 		//THE BOOKS
 		switch Crafting.State
 		case 0
+			//if it isnt already
+			PlayerHealth = 3
 			crafting.state++
 		break
 		case 1
@@ -416,6 +449,10 @@ else
 		CallFunction(CraftingUI)
 	else
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 180)
+		//not dead
+		if object[2].state != 13
+			CallFunction(PlayerHPStandalone)
+		end if
 	end if
 end if
 
@@ -433,14 +470,14 @@ end if
 		DrawSpriteScreenXY(16, touchscreen[0].xpos, touchscreen[0].ypos)
 	end if
 
-if object[6].state > 3
-	if object[2].state == 13
-		object.deathtimer++
-		if object.deathtimer == 2
-			PlayMusic(5)
-		end if	
+	if object[6].state > 3
+		if object[2].state == 13
+			object.deathtimer++
+			if object.deathtimer == 1
+				PlayMusic(5)
+			end if	
+		end if
 	end if
-end if
 
 	//slenderman state
 	DrawNumbers(0, 8, 25, object[6].state, 3, 8, 0)

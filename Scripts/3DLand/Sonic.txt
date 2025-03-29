@@ -1090,18 +1090,18 @@ event ObjectMain
 			end if	//else slow down
 		else
 			if inputdown.up == 1	//if holding up, move
-				if SSSonic.Speed < 0x47000
+				if SSSonic.Speed < 0x46000
 					SSSonic.Speed += 0x2000
 				else
-					SSSonic.Speed = 0x47000
+					SSSonic.Speed = 0x46000
 				end if
 			end if	//else slow down
 
 			if inputdown.down == 1	//if holding up, move
-				if SSSonic.Speed > -0x47000
+				if SSSonic.Speed > -0x46000
 					SSSonic.Speed -= 0x2000
 				else
-					SSSonic.Speed = -0x47000
+					SSSonic.Speed = -0x46000
 				end if
 			end if	//else slow down
 		end if

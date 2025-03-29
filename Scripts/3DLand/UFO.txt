@@ -43,6 +43,7 @@ private alias 1 : PRIORITY_ACTIVE
 public value PlayerHealth = 3;
 public value Crafting.State = 0;
 public value SlenderHealth = 1;
+public value BossActive = 0;
 
 event ObjectMain
 
@@ -193,7 +194,7 @@ case 1	//blank
 	end if
 break
 case 2	//boss start up
-
+	BossActive = 1
 	//force position
 
 	temp0 = 1984	//sonlvl positions work

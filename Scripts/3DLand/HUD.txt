@@ -22,6 +22,7 @@ public value HasChainSaw = 0;
 public value TextActive = 0;
 public value CharacterTalking = 0;
 
+
 private alias Object.Value0 : Object.PageCount 
 private alias object.value2 : Object.Timer
 private alias object.value2 : bg.scroll

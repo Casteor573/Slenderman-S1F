@@ -449,7 +449,7 @@ else
 		CallFunction(CraftingUI)
 	else
 		DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 180)
-		//not dead
+		//not dead	
 		if object[2].state != 13
 			CallFunction(PlayerHPStandalone)
 		end if

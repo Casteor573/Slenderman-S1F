@@ -956,6 +956,9 @@ event ObjectMain
 		Object[6].state = 1
 	end if	
 
+	if inputPress.buttonY == 1
+		SlenderHealth = 1
+	end if	
 
 	if PlayerHealth == 0
 		

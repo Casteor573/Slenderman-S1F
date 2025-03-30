@@ -150,6 +150,8 @@ event ObjectStartup
 	SetMusicTrack("BossIntro.ogg", 3, 1)
 	SetMusicTrack("ForeverTrouble.ogg", 4, 376200)
 	SetMusicTrack("ForeverLose.ogg", 5, 0)
+	SetMusicTrack("victory.ogg", 6, 0)
+
 
 	Stage.PauseEnabled = false
 	

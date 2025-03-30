@@ -268,7 +268,6 @@ event ObjectMain
 			CutsceneActive = 1
 		end if	
 
-
 		if object.index < 15
 			GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
 			if object.charamount == temp0
@@ -292,6 +291,58 @@ event ObjectMain
 			object.state++
 		end if
 	break	
+	case 10
+		if object[6].state == 23
+			TextActive = 1
+			object.timer = 0
+			object.index = 15
+			object.state++
+		end if
+	break
+	case 11
+		if object.index < 17
+			GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
+			if object.charamount == temp0
+				object.timer++
+				if object.timer == 150
+					object.timer = 0
+					object.index++
+					object.charamount = 0
+				end if
+			else
+				object.timer++
+				if object.timer == 2
+					object.charamount++
+					PlaySfx(SfxName[Text], false)
+					object.timer = 0
+				end if
+			end if
+		else
+			TextActive = 0
+			CutsceneActive = 0
+			object.charamount = 0
+			object.state++
+		end if
+	break
+	case 12
+		object.timer++
+		if object.timer == 200
+			object.timer = 0
+			object[2].controlmode = -1
+			PlayMusic(6)
+			object.state++
+		end if
+	break
+	case 13
+		object.timer++
+		if object.timer == 300
+
+			stage.activeList = PRESENTATION_STAGE
+			stage.listPos = 6
+			LoadStage()						
+		
+		end if
+	break
 	end switch
 end event
 
@@ -302,45 +353,56 @@ event ObjectDraw
 
 
 
-if TextActive == 1
+	if TextActive == 1
 
-	if BoxPositionY == 0
-	
-		object.drawY = 35
+		if BoxPositionY == 0
 		
-		temp1 = screen.xcenter
+			object.drawY = 35
+			
+			temp1 = screen.xcenter
 
-		DrawSpriteScreenFX(36, FX_INK, temp1, object.drawY)
+			DrawSpriteScreenFX(36, FX_INK, temp1, object.drawY)
 
-	else
+		else
 
-		object.drawY = 180
+			object.drawY = 180
 
-		object.boxYpos = object.drawY
-		object.boxYpos -= 25
+			object.boxYpos = object.drawY
+			object.boxYpos -= 25
 
-		temp1 = screen.xcenter
-		DrawSpriteScreenFX(36, FX_INK, temp1, object.drawY)
+			temp1 = screen.xcenter
+			DrawSpriteScreenFX(36, FX_INK, temp1, object.drawY)
+
+			if CharacterTalking == 1
+				temp1 += 36
+				DrawSpriteScreenFX(35, FX_INK, temp1, object.drawY)
+			end if	
+
+		end if
 
 		if CharacterTalking == 1
-			temp1 += 36
-			DrawSpriteScreenFX(35, FX_INK, temp1, object.drawY)
-		end if	
+			temp3 = screen.xcenter
+			temp3 -= 64
+			object.drawX = temp3
+		else
+			temp3 = screen.xcenter
+			temp3 -= 138
+			object.drawX = temp3
+		end if
+
+		CallFunction(TextDrawing)
+	end if	
+
+	if object.state >= 13
+		DrawRect(0, 0, screen.xsize, screen.ysize, color7, color7, color7, 255)
+
+		temp1 = screen.xcenter
+
+		DrawSpriteScreenFX(39, FX_INK, temp1, screen.ycenter)
 
 	end if
 
-	if CharacterTalking == 1
-		temp3 = screen.xcenter
-		temp3 -= 64
-		object.drawX = temp3
-	else
-		temp3 = screen.xcenter
-		temp3 -= 138
-		object.drawX = temp3
-	end if
 
-	CallFunction(TextDrawing)
-end if	
 
 end event
 
@@ -382,7 +444,10 @@ event ObjectStartup
 	
 	
 	//undertale
-	SpriteFrame(-3, -6, 8, 16, 531, 100) //37
+	SpriteFrame(-3, -6, 8, 16, 531, 100) //38
+
+	//undertale
+	SpriteFrame(-130, -128, 256, 256, 2, 766) //39
 
 	// Place the HUD object into reserved object slot 4 and initialise its values
 	Object[8].Type = TypeName[Message Text]

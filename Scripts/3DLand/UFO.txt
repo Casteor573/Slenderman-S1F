@@ -545,8 +545,7 @@ case 20
 
 	Object.XVelocity = 0
 	Object.ZVelocity = 0	
-	object[2].yvel = 0x2A000
-	object[2].state = 16	
+
 	object.state++
 break
 case 21
@@ -557,7 +556,7 @@ break
 end switch
 
 if SlenderHealth == 0
-	StopMusic()
+	StopMusic()	
 	object.state = 20
 end if
 

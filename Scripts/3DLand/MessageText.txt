@@ -252,7 +252,10 @@ event ObjectMain
 		if object[6].state == 20
 
 			TextActive = 1
-			CutsceneActive = 1
+			PlayerHealth = 3
+			object[2].yvel = 0x2A000
+			object[2].state = 16
+
 			object.index = 10	
 			object.charamount = 0
 
@@ -260,6 +263,12 @@ event ObjectMain
 		end if
 	break
 	case 9
+
+		if object[2].ypos == 0
+			CutsceneActive = 1
+		end if	
+
+
 		if object.index < 15
 			GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
 			if object.charamount == temp0

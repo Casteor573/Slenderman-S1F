@@ -957,7 +957,7 @@ event ObjectMain
 	end if	
 
 	if inputPress.buttonY == 1
-		SlenderHealth = 0
+		SlenderHealth = 1
 	end if	
 
 	if PlayerHealth == 0
@@ -999,7 +999,6 @@ event ObjectMain
 		break
 	case SSSONIC_KNOCKBACK
 		CallFunction(Sonic_ProcessPlayer)
-
 
 		SSonic.invulnerable = 90
 

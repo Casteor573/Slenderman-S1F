@@ -446,6 +446,7 @@ case 5	//summon plasma
 	if Object.BoredTimer == 800
 		ShieldActive = 1
 		Object.BoredTimer = 0
+		NextAttack = 0
 		object.timer = 0
 		object.state = 4	
 	end if
@@ -491,6 +492,7 @@ case 7	//lighitnbg
 	if Object.BoredTimer == 800
 		ShieldActive = 1
 		Object.BoredTimer = 0
+		NextAttack = 0
 		object.timer = 0
 		object.state = 4	
 	end if
@@ -512,6 +514,7 @@ case 7	//lighitnbg
 						object.timer = 0
 						ShieldActive = 1
 						SlenderHealth--
+						Object.BoredTimer = 0
 						NextAttack = 0
 						object.state = 6
 					end if

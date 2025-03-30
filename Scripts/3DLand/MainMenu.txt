@@ -80,7 +80,6 @@ event ObjectMain
 	break
 	case MENU_MAINCARD
 	//Controls
-		
 		if inputpress.down == 1
 			if Object.MenuChoose > 1
 				Object.MenuChoose = 0

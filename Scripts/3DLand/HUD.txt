@@ -244,7 +244,7 @@ function MainHUD
 				if FlashBattery > 0	//battery greater then 0?
 					if object[2].controlmode != -1	//can the player move?
 						if inputdown[2].buttonY == 0	//if your holding the button
-							DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
+							DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 205)
 						else
 						
 							if inputpress[2].buttonY == 1
@@ -274,10 +274,10 @@ function MainHUD
 							temp4=temp3
 							temp4+=temp5
 
-							DrawRect(0, 0, temp1, screen.ysize, 0x00, 0x00, 0x00, 192)
-							DrawRect(temp2, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)
-							DrawRect(temp1, 0, temp5, temp3, 0x00, 0x00, 0x00, 192)
-							DrawRect(temp1, temp4, temp5, screen.ysize, 0x00, 0x00, 0x00, 192)
+							DrawRect(0, 0, temp1, screen.ysize, 0x00, 0x00, 0x00, 205)
+							DrawRect(temp2, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 205)
+							DrawRect(temp1, 0, temp5, temp3, 0x00, 0x00, 0x00, 205)
+							DrawRect(temp1, temp4, temp5, screen.ysize, 0x00, 0x00, 0x00, 205)
 							
 							temp6 = screen.xsize
 							temp6 -= screen.xcenter
@@ -287,7 +287,7 @@ function MainHUD
 							object.alpha = 200
 						end if		
 					else
-						DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 192)	
+						DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 205)	
 					end if	
 				else	//out of power ur cooked
 					DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 224)
@@ -478,6 +478,9 @@ end if
 			end if	
 		end if
 	end if
+
+
+	//debugging
 
 	//slenderman state
 	DrawNumbers(0, 8, 25, object[6].state, 3, 8, 0)

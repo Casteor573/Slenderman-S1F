@@ -270,6 +270,7 @@ event ObjectMain
 			object.alpha += 8			
 		end if
 
+		if object.value32 == 1
 		if inputpress.right == 1
 			if Object.PlayerSelection > 2
 				Object.PlayerSelection = 0
@@ -286,6 +287,7 @@ event ObjectMain
 				Object.PlayerSelection--
 			end if
 			PlaySfx(SfxName[Score Add], 0)			
+		end if
 		end if
 
 		if inputpress.start == 1

@@ -486,7 +486,17 @@ event ObjectDraw
 				end switch
 			temp3 += 4	
 			
+
 			DrawSpriteScreenFX(6, FX_INK, temp3, screen.ycenter)		
+
+			if saveRAM[6900] == 1
+
+			temp3 += 380
+			temp4 = screen.ycenter
+			temp4 += 90
+			DrawSpriteScreenFX(18, FX_INK, temp3, temp4)		
+
+			end if
 			break
 		case MENU_GOTOCHARSEL
 
@@ -647,7 +657,7 @@ event ObjectStartup
 	SpriteFrame(-26, -72, 57, 11, 454, 201)		//17	
 	
 	// 18 - battery bar
-	SpriteFrame(-194, -22, 24, 8, 322, 116)
+	SpriteFrame(-194, -22, 18, 32, 344, 153)
 	SpriteFrame(-194, -12, 24, 8, 322, 126)//19
 	SpriteFrame(-194, -2, 24, 8, 322, 136)	//20
 	SpriteFrame(-194,  8, 24, 8, 322, 146)	//21

@@ -955,6 +955,7 @@ event ObjectMain
 
 		if inputPress.buttonX == 1
 			Object[4].Value0 = 0
+			SlenderHealth = 1
 			Object[6].state = 1
 		end if
 

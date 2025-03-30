@@ -298,7 +298,7 @@ function MainHUD
 				end if		
 			end if		
 		else
-			DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 96)	
+			DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 160)	
 		end if	
 
 

@@ -335,8 +335,12 @@ event ObjectMain
 	break
 	case 13
 		object.timer++
+		saveRAM[6900] = 1
+
+
 		if object.timer == 300
 
+			WriteSaveRAM()
 			stage.activeList = PRESENTATION_STAGE
 			stage.listPos = 6
 			LoadStage()						

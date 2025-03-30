@@ -534,6 +534,9 @@ case 7	//lighitnbg
 	if object.timer == temp0
 		PlaySfx(SfxName[Blast], 0)
 		CreateTempObject(TypeName[Thunder], 0, object[2].xpos, Object[2].Value0)
+		if SlenderHealth < 4
+			CreateTempObject(TypeName[Plasma], 0, object.xpos, Object.Value0)
+		end if
 		object.timer = 0
 	end if
 	

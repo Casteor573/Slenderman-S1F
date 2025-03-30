@@ -203,7 +203,6 @@ event ObjectStartup
 		
 			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
 			
-		
 		end if
 		
 		ArrayPos0++

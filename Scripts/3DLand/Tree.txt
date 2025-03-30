@@ -89,7 +89,7 @@ event ObjectMain
 					if Object.ScreenXPos < 0x2000
 						if HasChainSaw == 0
 							object[2].speed /= 2
-							object[6].speed = 40000	//slow the slender down!
+							object[2].speed *= 1
 						else
 							PlaySfx(SfxName[Thud], 0)
 							object.state++

@@ -10,6 +10,7 @@ private alias Object.Value3 : Object.Timer
 private alias Object.Value4 : Object.ScreenXPos // Difference from the center of the camera (which is where Sonic is always located)
 private alias Object.Value5 : Object.ScreenDepth
 private alias Object.Value6 : Object.PositionZ
+private alias Object.Value7 : Object.BoredTimer
 
 // HUD Alias
 private alias Object.Value0 : HUD.UFOsCount       // Initially set via a loop in the UFO script
@@ -40,7 +41,6 @@ private alias 2 : UFO_CONTENTS_TIME
 // Priority
 private alias 1 : PRIORITY_ACTIVE
 
-public value PlayerHealth = 6;
 public value Crafting.State = 0;
 public value SlenderHealth = 6;
 public value BossActive = 0;
@@ -57,7 +57,7 @@ private alias 4 : SLENDERBOSS_MOVE
 
 event ObjectMain
 
-	if PlayerHealth == 0
+	if object[2].state == 13
 		object.type = TypeName[Blank Object]
 	end if
 	
@@ -270,62 +270,119 @@ case SLENDERBOSS_MOVE
 
 		//if player isnt hurt
 		if object[2].state != 14
+			if SlenderHealth < 4
+						CheckGreater(object.xpos, object[arrayPos2].xpos)
+						temp0 = checkResult
+						if temp0 == 1		//right
+							if Object.XVelocity > 0
+								Object.XVelocity -= 0x4000	//right
+								if Object.XVelocity > 0x26000
+								Object.XVelocity = 0x26000
+								end if
+							else
+								Object.XVelocity -= 0x2000	//left?? i have no clue
+								if Object.XVelocity > 0x26000
+								Object.XVelocity = 0x26000
+								end if			
+							end if
+						else	//left
+							if Object.XVelocity < 0
+								Object.XVelocity += 0x4000
+								if Object.XVelocity > 0x26000
+								Object.XVelocity = 0x26000
+								end if		
+							else
+								Object.XVelocity += 0x2000
+								if Object.XVelocity > 0x26000
+								Object.XVelocity = 0x26000
+								end if								
+							end if
+						end if
 
-			CheckGreater(object.xpos, object[arrayPos2].xpos)
-			temp0 = checkResult
-			if temp0 == 1		//right
-				if Object.XVelocity > 0
-					Object.XVelocity -= 0x3000	//right
-					if Object.XVelocity > 0x26000
-					Object.XVelocity = 0x26000
+						CheckGreater(object.ZPos, object[arrayPos2].Value0)
+						temp0 = checkResult
+						if temp0 == 1		//right
+							if Object.ZVelocity > 0
+								Object.ZVelocity -= 0x4000	//right
+								if Object.ZVelocity > 0x26000
+								Object.ZVelocity = 0x26000
+								end if
+							else
+								Object.ZVelocity -= 0x2000	//left?? i have no clue
+								if Object.ZVelocity > 0x26000
+								Object.ZVelocity = 0x26000
+								end if			
+							end if
+						else	//left
+							if Object.ZVelocity < 0
+								Object.ZVelocity += 0x4000
+								if Object.ZVelocity > 0x26000
+								Object.ZVelocity = 0x26000
+								end if		
+							else
+								Object.ZVelocity += 0x2000
+								if Object.ZVelocity > 0x26000
+								Object.ZVelocity = 0x26000
+								end if								
+							end if
+						end if
+			else
+					CheckGreater(object.xpos, object[arrayPos2].xpos)
+					temp0 = checkResult
+					if temp0 == 1		//right
+						if Object.XVelocity > 0
+							Object.XVelocity -= 0x3000	//right
+							if Object.XVelocity > 0x26000
+							Object.XVelocity = 0x26000
+							end if
+						else
+							Object.XVelocity -= 0x1500	//left?? i have no clue
+							if Object.XVelocity > 0x26000
+							Object.XVelocity = 0x26000
+							end if			
+						end if
+					else	//left
+						if Object.XVelocity < 0
+							Object.XVelocity += 0x3000
+							if Object.XVelocity > 0x26000
+							Object.XVelocity = 0x26000
+							end if		
+						else
+							Object.XVelocity += 0x1500
+							if Object.XVelocity > 0x26000
+							Object.XVelocity = 0x26000
+							end if								
+						end if
 					end if
-				else
-					Object.XVelocity -= 0x1500	//left?? i have no clue
-					if Object.XVelocity > 0x26000
-					Object.XVelocity = 0x26000
-					end if			
-				end if
-			else	//left
-				if Object.XVelocity < 0
-					Object.XVelocity += 0x3000
-					if Object.XVelocity > 0x26000
-					Object.XVelocity = 0x26000
-					end if		
-				else
-					Object.XVelocity += 0x1500
-					if Object.XVelocity > 0x26000
-					Object.XVelocity = 0x26000
-					end if								
-				end if
-			end if
 
-			CheckGreater(object.ZPos, object[arrayPos2].Value0)
-			temp0 = checkResult
-			if temp0 == 1		//right
-				if Object.ZVelocity > 0
-					Object.ZVelocity -= 0x3000	//right
-					if Object.ZVelocity > 0x26000
-					Object.ZVelocity = 0x26000
+					CheckGreater(object.ZPos, object[arrayPos2].Value0)
+					temp0 = checkResult
+					if temp0 == 1		//right
+						if Object.ZVelocity > 0
+							Object.ZVelocity -= 0x3000	//right
+							if Object.ZVelocity > 0x26000
+							Object.ZVelocity = 0x26000
+							end if
+						else
+							Object.ZVelocity -= 0x1500	//left?? i have no clue
+							if Object.ZVelocity > 0x26000
+							Object.ZVelocity = 0x26000
+							end if			
+						end if
+					else	//left
+						if Object.ZVelocity < 0
+							Object.ZVelocity += 0x3000
+							if Object.ZVelocity > 0x26000
+							Object.ZVelocity = 0x26000
+							end if		
+						else
+							Object.ZVelocity += 0x1500
+							if Object.ZVelocity > 0x26000
+							Object.ZVelocity = 0x26000
+							end if								
+						end if
 					end if
-				else
-					Object.ZVelocity -= 0x1500	//left?? i have no clue
-					if Object.ZVelocity > 0x26000
-					Object.ZVelocity = 0x26000
-					end if			
-				end if
-			else	//left
-				if Object.ZVelocity < 0
-					Object.ZVelocity += 0x3000
-					if Object.ZVelocity > 0x26000
-					Object.ZVelocity = 0x26000
-					end if		
-				else
-					Object.ZVelocity += 0x1500
-					if Object.ZVelocity > 0x26000
-					Object.ZVelocity = 0x26000
-					end if								
-				end if
-			end if
+			end if	
 		else
 			Object.ZVelocity = 0x500
 			Object.XVelocity = 0x500
@@ -373,11 +430,27 @@ case 5	//summon plasma
 	Object.ZVelocity = 0
 
 	object.timer++
-	if object.timer == 100
+
+	if SlenderHealth < 4
+		temp0 = 50
+	else
+		temp0 = 75
+	end if
+	if object.timer == temp0
 		PlaySfx(SfxName[Blast], 0)
 		CreateTempObject(TypeName[Plasma], 0, object.xpos, Object.Value0)
 		object.timer = 0
 	end if
+
+
+	Object.BoredTimer++
+	if Object.BoredTimer == 800
+		ShieldActive = 1
+		Object.BoredTimer = 0
+		object.timer = 0
+		object.state = 4	
+	end if
+
 
 
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
@@ -395,6 +468,7 @@ case 5	//summon plasma
 						PlaySfx(SfxName[Thud], 0)
 						object.timer = 0
 						ShieldActive = 1
+						Object.BoredTimer = 0
 						SlenderHealth -= 1
 						NextAttack = 1
 						object.state++
@@ -413,8 +487,18 @@ case 6	//recover
 break
 case 7	//lighitnbg
 
+
+	Object.BoredTimer++
+	if Object.BoredTimer == 800
+		ShieldActive = 1
+		Object.BoredTimer = 0
+		object.timer = 0
+		object.state = 4	
+	end if
+
 	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
+	
 		// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
 		if Object.ScreenDepth < 0x8C8
 			if Object.ScreenDepth > 0x094
@@ -437,19 +521,26 @@ case 7	//lighitnbg
 		end if
 	next
 
-
 	object.timer++
-	if object.timer == 60
+
+	//summon faster if lower hp
+	if SlenderHealth < 4
+		temp0 = 50
+	else
+		temp0 = 75	
+	end if	
+	if object.timer == temp0
 		PlaySfx(SfxName[Blast], 0)
 		CreateTempObject(TypeName[Thunder], 0, object[2].xpos, Object[2].Value0)
 		object.timer = 0
 	end if
-
+	
 break
 end switch
 
 if SlenderHealth <= 0	
 	PlaySfx(SfxName[Explosion], 0)
+	ShieldActive = 0
 	object.state = 99
 	Object.XVelocity = 0
 	Object.ZVelocity = 0	
@@ -509,7 +600,7 @@ if object.state != 1
 			DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
 		break
 		case 2	//bluey
-			DrawSpriteScreenFX(2, FX_SCALE, temp0, temp1)
+		//nv
 		break
 
 		end switch

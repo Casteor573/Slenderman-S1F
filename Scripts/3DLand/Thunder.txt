@@ -92,7 +92,7 @@ event ObjectMain
 			playsfx(SfxName[Warning], 0)
 		end if
 
-		if object.timer == 30
+		if object.timer == 40
 			object.timer = 0
 			object.state++
 		end if
@@ -102,7 +102,7 @@ event ObjectMain
 		if object.timer == 1
 		playsfx(SfxName[Thunder], 0)
 		end if
-		if object.timer >= 15
+		if object.timer >= 20
 			object.type = TypeName[Blank Object]
 		end if
 

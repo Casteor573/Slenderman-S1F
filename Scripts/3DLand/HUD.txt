@@ -486,7 +486,7 @@ end if
 
 	DrawNumbers(0, 16, 72, SlenderHealth, 3, 8, 0)
 
-	DrawNumbers(0, 16, 96, NextAttack, 3, 8, 0)
+	DrawNumbers(0, 16, 96, object[6].value7, 3, 8, 0)
 
 
 end event

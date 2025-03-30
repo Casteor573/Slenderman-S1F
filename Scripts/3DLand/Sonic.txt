@@ -951,14 +951,14 @@ event ObjectMain
 		end if
 	end if
 
-	if inputPress.buttonX == 1
-		Object[4].Value0 = 0
-		Object[6].state = 1
-	end if	
+	if stage.debugmode == 1
 
-	if inputPress.buttonY == 1
-		SlenderHealth = 1
-	end if	
+		if inputPress.buttonX == 1
+			Object[4].Value0 = 0
+			Object[6].state = 1
+		end if
+
+	end if
 
 	if PlayerHealth == 0
 		

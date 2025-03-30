@@ -77,6 +77,8 @@ event ObjectMain
 	Object.ScreenDepth += temp3
 	Object.ScreenDepth >>= 9
 
+switch object.state
+case 0
 
 	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
 
@@ -87,15 +89,39 @@ event ObjectMain
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 				if Object.ScreenXPos > -0x2000
 					if Object.ScreenXPos < 0x2000
-						Object[4].Value0--
+						if options.gamemode == 0
+							Object[4].Value0--
+						else
+							Object[4].Value0++
+							FlashBattery += 200
+						end if
 						playsfx(SfxName[Page Collect], 0)
-						object.type = TypeName[Blank Object]
+						if options.gamemode == 0
+							object.type = TypeName[Blank Object]
+						else
+							object.visible = 0
+							object.state++
+						end if	
 					end if
 				end if
 			end if
 		end if
 	next
-
+break
+case 1
+	object.timer++
+	CheckEqual(object.timer, 600)
+	temp0 = checkResult
+	CheckEqual(Object[4].Value0, 1)
+	temp0 |= checkResult	
+	if temp0 == 1
+		object.timer = 0
+		playsfx(SfxName[respawn], 0)
+		object.visible = 1
+		object.state = 0
+	end if
+break
+end switch
 
 
 
@@ -144,10 +170,15 @@ event ObjectDraw
 		temp1 /= Object.ScreenDepth
 		temp1 += 128
 		
+
+		if object.visible == 1
+
 		DrawSpriteScreenFX(3, FX_SCALE, temp0, temp1)
 		
 
 		DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+
+		end if
 		
 	end if
 	
@@ -155,7 +186,7 @@ end event
 
 
 event ObjectStartup
-	
+
 	LoadSpriteSheet("3D_Test/Objects.gif")
 	
 	// UFO Frames
@@ -180,18 +211,16 @@ event ObjectStartup
 			// Set the UFO to always be active
 			Object[ArrayPos0].Priority = PRIORITY_ACTIVE
 			
-			Object[4].Value0++
+
+			if options.gamemode == 0
+
+				Object[4].Value0++
+			else
+
+				Object[4].Value0 = 1
 	
-			if options.gameMode == 1
-				if Object[4].Value0 >= 6
-					rand(checkResult, 2)
-					if checkResult <= 0
-						object[ArrayPos0].type = TypeName[Blank Object]
-						Object[4].Value0--
-					end if
-				end if	
 			end if
-			
+
 		
 		end if
 		

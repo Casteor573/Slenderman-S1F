@@ -105,6 +105,10 @@ event ObjectMain
 				object.timer = 0
 				object.state = MENU_GOTOCHARSEL
 			break		
+			case 1
+				object.timer = 0
+				object.state = 10			
+			break
 			case 2	//lol
 				object.state = 99
 			break
@@ -204,6 +208,22 @@ event ObjectMain
 			LoadStage()
 		end if
 
+	break
+
+	case 10
+
+		music.volume -= 32
+		object.timer += 8
+		SetClassicFade(0, 0, 0, Object.Timer)
+		if object.timer >= 255
+			music.volume = 0
+			StopMusic()
+			options.gamemode = 1			
+			stage.playerlistpos = 0
+			stage.activeList = BONUS_STAGE
+			stage.listPos = 2
+			LoadStage()				
+		end if
 	break
 
 

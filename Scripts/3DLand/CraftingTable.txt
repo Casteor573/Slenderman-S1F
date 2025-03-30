@@ -85,7 +85,7 @@ if Object[4].value0 == 0	//no more pages?
 				// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 				if Object.ScreenXPos > -0x2000
 					if Object.ScreenXPos < 0x2000
-						if inputpress[2].buttonZ == 1
+						if inputpress[2].buttonY == 1
 							object[2].controlMode = -1
 							object[2].speed = 0
 							MouseEnabled = 1
@@ -156,9 +156,11 @@ if Object[4].value0 == 0	//no more pages?
 					// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
 					if Object.ScreenXPos > -0x2000
 						if Object.ScreenXPos < 0x2000
-
-						DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
-
+							if saved.mobile == 1
+								DrawSpriteScreenFX(2, FX_SCALE, temp0, temp1)
+							else
+								DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)
+							end if	
 						end if
 					end if
 				end if
@@ -183,8 +185,8 @@ event ObjectStartup
 	// 1 - Speed Shoes Variant
 	SpriteFrame(-8, -84, 18, 18, 178, 513)
 	
-	// 2 - Extra Time Variant
-	SpriteFrame(-40, -28, 80, 56, 163, 1)
+	// 1 - Speed Shoes Variant
+	SpriteFrame(-10, -94, 33, 33, 123, 325)
 	
 	// 3 - UFO Shadow Frame
 	SpriteFrame(-40, -8, 80, 16, 1, 117)

@@ -129,8 +129,6 @@ event ObjectDraw
 		temp0++
 	loop
 
-	music.volume = 50
-	
 end event
 
 

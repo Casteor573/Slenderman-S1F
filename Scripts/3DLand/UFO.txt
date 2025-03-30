@@ -260,7 +260,6 @@ case SLENDERBOSS_MOVE
 
 	Object.XPos += Object.XVelocity
 	Object.ZPos += Object.ZVelocity
-	Object.YPos += Object.Yvel
 
 	// Long list of checks for the hitbox detection
 
@@ -536,15 +535,30 @@ case 7	//lighitnbg
 	end if
 	
 break
-end switch
+case 20
 
-if SlenderHealth <= 0	
-	PlaySfx(SfxName[Explosion], 0)
+
 	ShieldActive = 0
-	object.state = 99
+
 	Object.XVelocity = 0
 	Object.ZVelocity = 0	
+	object[2].yvel = 0x2A000
+	object[2].state = 16	
+	object.state++
+break
+case 21
+
+	Object.XVelocity = 0
+	Object.ZVelocity = 0	
+break
+end switch
+
+if SlenderHealth == 0
+	StopMusic()
+	object.state = 20
 end if
+
+
 end event
 
 

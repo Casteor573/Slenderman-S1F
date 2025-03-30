@@ -248,6 +248,41 @@ event ObjectMain
 		object.state++
 	end if
 	break
+	case 8
+		if object[6].state == 20
+
+			TextActive = 1
+			CutsceneActive = 1
+			object.index = 10	
+			object.charamount = 0
+
+			object.state++
+		end if
+	break
+	case 9
+		if object.index < 15
+			GetTextInfo(temp0, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
+			if object.charamount == temp0
+				object.timer = 0
+				if inputpress[2].start == 1
+					object.index++
+					object.charamount = 0
+				end if
+			else
+				object.timer++
+				if object.timer == 2
+					object.charamount++
+					PlaySfx(SfxName[Text], false)
+					object.timer = 0
+				end if
+			end if
+		else
+			TextActive = 0
+			CutsceneActive = 0
+			object.charamount = 0
+			object.state++
+		end if
+	break	
 	end switch
 end event
 

@@ -133,8 +133,8 @@ function modes.load
 				LoadStage()
 				break
 			case 3 //secrets
-				stage.activeList = PRESENTATION_STAGE
-				stage.listPos = 12
+				stage.activeList = BONUS_STAGE
+				stage.listPos = 3
 				LoadStage()
 				break				
 		end switch

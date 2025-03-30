@@ -46,9 +46,135 @@ private alias 7 : MENU_FADEINTOCHARSEL	//wow what good ordering
 private alias 8 : MENU_FADEINTOMAINCARD
 private alias 9 : MENU_STARTGAME
 
+reserve function TouchControls
+
+function TouchControls
+	object.inkEffect = INK_ALPHA
+
+	temp0 = screen.xsize
+	temp0 -= 44
+	DrawSpriteScreenXY(49,  26,1 49) //dpad
+	temp0 -= 39
+
+	DrawSpriteScreenXY(56, 0, temp0, 8) //pause
+	
+	
+	//movement
+	
+	temp0 -= 10
+	if inputDown.Left==1
+		DrawSpriteScreenXY(52,  26, 151)
+	endif
+	if inputDown.Down==1
+		DrawSpriteScreenXY(51,  26, 189)
+	end if
+	if inputDown.Right==1
+		DrawSpriteScreenXY(53,  64, 151)
+	endif
+	if inputDown.Up==1
+		DrawSpriteScreenXY(50,  26, 151)
+	endif
+	
+	temp0 += 15	
+	//jump
+	if inputDown.buttonA==1
+		DrawSpriteScreenXY(55,  temp0, 163)	
+	else
+		DrawSpriteScreenXY(54,  temp0, 163)
+	endif
+
+		temp0 -= 50
+		//flashlight
+		if inputDown.buttonB==1
+			DrawSpriteScreenXY(58,  temp0, 54)	
+		else
+			DrawSpriteScreenXY(57,  temp0, 54)
+		endif	
+
+
+end function
 
 
 event ObjectMain
+
+
+
+
+
+	CheckTouchRect(0, 96, screen.xcenter, screen.ysize)
+	if checkResult > -1
+		arrayPos0 = checkResult
+		temp0 = touchscreen[arrayPos0].xpos
+		temp0 -= 56
+		temp1 = touchscreen[arrayPos0].ypos
+		temp1 -= 184
+		ATan2(temp2, temp0, temp1)
+		temp2 += 16
+		temp2 &= 255
+		temp2 >>= 5
+		switch temp2
+		case 0
+			inputDown.right = true
+			break
+		case 1
+			inputDown.right = true
+			inputDown.down = true
+			break
+		case 2
+			inputDown.down = true
+			break
+		case 3
+			inputDown.down = true
+			inputDown.left = true
+			break
+		case 4
+			inputDown.left = true
+			break
+		case 5
+			inputDown.left = true
+			inputDown.up = true
+			break
+		case 6
+			inputDown.up = true
+			break
+		case 7
+			inputDown.up = true
+			inputDown.right = true
+			break
+		end switch
+	end if
+	temp2 = screen.xsize
+	CheckTouchRect(screen.xcenter, 96, temp2, 240)
+	if checkResult > -1
+		inputDown.buttonA = 1
+	end if
+	if touchJump == 0
+		inputPress.buttonA |= inputDown.buttonA
+	end if
+	touchJump = inputDown.buttonA
+
+	temp0=screen.xsize
+	temp0-=90
+	CheckTouchRect(temp0, 0, screen.xsize, 40)
+	if checkResult > -1
+		inputpress[1].Start = true
+	end if
+	temp0 -= 37
+	temp1 = screen.xsize
+	temp1 -= 95
+	CheckTouchRect(temp0, 50, temp1, 90)				
+	if checkResult > -1
+		inputDown.buttonB = 1
+	end if
+	if touchMisc == 0
+		inputPress.buttonB |= inputDown.buttonB
+	end if
+	touchMisc = inputDown.buttonB
+
+	ProcessObjectControl()
+
+
+
 	switch object.state
 	case MENU_STARTUP	//setup
 		object.timer = 255
@@ -98,6 +224,12 @@ event ObjectMain
 			PlaySfx(SfxName[Score Add], 0)			
 		end if
 
+
+		if inputpress.buttonA == 1
+			inputPress.start = 1
+		end if
+
+
 		if inputPress.start == 1
 			PlaySfx(SfxName[Lamp Post], 0)
 			switch Object.MenuChoose
@@ -128,6 +260,12 @@ event ObjectMain
 		end if
 	break
 	case MENU_CHARASEL
+
+
+		if inputpress.buttonA == 1
+			inputPress.start = 1
+		end if
+
 		if object.alpha <= 255
 			object.alpha += 8			
 		end if
@@ -441,12 +579,15 @@ event ObjectDraw
 			end switch	
 		
 
-
 		break		
 		default
 			object.extratarget = 0
 			break
 	end switch
+
+	if saved.mobile == 1
+		CallFunction(TouchControls)
+	end if
 
 
 end event
@@ -482,11 +623,11 @@ event ObjectStartup
 	//Sonic Render
 	SpriteFrame(-56, -42, 103, 148, 1, 229)		//8
 	//Tails Render
-	SpriteFrame(-84, -32, 160, 116, 105, 247)		//9
+	SpriteFrame(-84, -32, 160, 116, 351, 246)		//9
 	//Knux Render
 	SpriteFrame(-64, -42, 129, 134, 0, 378)		//10
 	//Amy Render
-	SpriteFrame(-64, -44, 130, 149, 130, 363)		//11
+	SpriteFrame(-64, -44, 130, 149, 381, 363)		//11
 
 	//Arrow Left
 	SpriteFrame(-120, 0, 32, 32, 396, 153)		//12
@@ -503,6 +644,70 @@ event ObjectStartup
 	//Extreme
 	SpriteFrame(-26, -72, 57, 11, 454, 201)		//17	
 	
+	// 18 - battery bar
+	SpriteFrame(-194, -22, 24, 8, 322, 116)
+	SpriteFrame(-194, -12, 24, 8, 322, 126)//19
+	SpriteFrame(-194, -2, 24, 8, 322, 136)	//20
+	SpriteFrame(-194,  8, 24, 8, 322, 146)	//21
+	SpriteFrame(-194,  18, 24, 8, 322, 156)	//22
+
+
+
+	// 23 - SLENDERMAN!!
+	SpriteFrame(-30, -24, 63, 112, 339, 1)
+
+
+	SpriteFrame(-34, -30, 68, 30, 0, 412) //107 Static
+	SpriteFrame(-34, -30, 68, 30, 0, 442)//25
+	SpriteFrame(-34, -30, 68, 30, 0, 472)//26
+	SpriteFrame(-34, -30, 68, 30, 68, 412)//27
+	SpriteFrame(-34, -30, 68, 30, 68, 442)//28
+	SpriteFrame(-34, -30, 68, 30, 68, 472)//29
+	SpriteFrame(-34, -30, 68, 30, 136, 412)//30
+	SpriteFrame(-34, -30, 68, 30, 136, 442)//31
+	SpriteFrame(-34, -30, 68, 30, 136, 472)//32
+
+
+	SpriteFrame(-24, -30, 64, 64, 0, 413) //33
+
+
+	// lazy filler
+	SpriteFrame(-48, -24, 20, 24, 52, 59) //34 ring
+	SpriteFrame(-48, -23, 20, 22, 83, 180) //35 ring
+	SpriteFrame(-82, -82, 176, 166, 1, 513)	//36	Crafting UI
+	SpriteFrame(0, 0, 20, 18, 178, 580)	//37	buton
+	SpriteFrame(0, 0, 0, 0, 0, 0)	//38
+	SpriteFrame(-240, -82, 147, 166, 199, 513)	//39	Reciepe UI
+	SpriteFrame(0, 0, 18, 7, 178, 615)	//40 12x
+	SpriteFrame(0, 0, 18, 7, 178, 623)	//41 7x
+	SpriteFrame(-53, -66, 116, 54, 347, 513)	//42 the thing sob
+	SpriteFrame(0, 0, 18, 18, 464, 513)	//43 paper chainsaw
+	SpriteFrame(-53, -66, 116, 54, 347, 568)	//44 the thing sob
+	SpriteFrame(0, 0, 16, 16, 8, 680)	//45 chainsaw slotted
+	SpriteFrame(0, 0, 12, 21, 245, 1)	//46
+	SpriteFrame(0, 0, 12, 21, 245, 1)	//47
+	SpriteFrame(0, 0, 12, 21, 245, 1)	//48	
+
+	SpriteFrame(0,0,64,66,126,257) //49 DPAD
+	SpriteFrame(26,0,12,25,242,321) //50 DPAD up press
+	SpriteFrame(26,0,12,26,242,359) //51 DPAD down press
+	SpriteFrame(0,25,26,13,215,358) //52 DPAD left press
+	SpriteFrame(0,25,26,13,215,372) //53 DPAD right press
+	SpriteFrame(0,0,48,48,191,257) //54 A button
+	SpriteFrame(0,0,48,48,191,306) //55 A button down
+
+	SpriteFrame(32,0,16,16,174,325) // 56 Pause Button
+
+	SpriteFrame(-8,-8,48,48,240,223) // 57 Super Button - Mobile
+
+	SpriteFrame(-8,-8,48,48,240,272) // 58 Super Button - Mobile
+
+	SpriteFrame(0,0,16,16,174,325) // 59 Pause Button again
+
+	SpriteFrame(0,0,34,34,165,360) // 60 Pause Button
+
+
+
 	SetMusicTrack("SlenderMenu.ogg", 0, 1)
 
 	// Place the HUD object into reserved object slot 4 and initialise its values

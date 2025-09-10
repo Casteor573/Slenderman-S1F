@@ -951,15 +951,15 @@ event ObjectMain
 		end if
 	end if
 
-//	if stage.debugmode == 1
-//
-//		if inputPress.buttonX == 1
-//			Object[4].Value0 = 0
-//			SlenderHealth = 1
-//			Object[6].state = 1
-//		end if
-//
-//	end if
+	if stage.debugmode == 1
+
+		if inputPress.buttonX == 1
+			Object[4].Value0 = 0
+		//	SlenderHealth = 1
+			Object[6].state = 1
+		end if
+
+	end if
 
 	if PlayerHealth == 0
 		
@@ -1557,9 +1557,16 @@ event ObjectMain
 
 		CallFunction(Sonic_ProcessPlayer)
 		//back frame, and dont animate anytyhing
-		SSSonic.Frame = ANI_STANDING_START
-		SSSonic.Timer = 0
-		SSSonic.Speed = 0
+
+		SSSonic.timer++
+		if SSSonic.timer > 100
+			SSSonic.Frame = ANI_INTROPOSE_START
+		else
+			SSSonic.Frame = ANI_STANDING_START
+			SSSonic.Timer = 0
+			SSSonic.Speed = 0	
+		end if
+
 
 		CallFunction(Sonic_HandleMovement)
 
